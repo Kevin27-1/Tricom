@@ -1,0 +1,36 @@
+# Sensitive Keys & Credentials (CRITICAL)
+serviceAccountKey.json
+*.pem
+*.key
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+preview-server.log
+preview-server-error.log
+npm-debug.log*
+yarn-debug.log*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+
+# System / OS
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDE & Editor files
+.vscode/
+.idea/
+*.swp
+*.swo

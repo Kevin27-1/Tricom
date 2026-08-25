@@ -1,0 +1,421 @@
+./index-DOJs24PE.js
+&&n.indexOf(e)===t).join(
+).trim(),i=e=>e.replace(/([a-z0-9])([A-Z])/g,
+0 0 24 24
+none
+currentColor
+round
+round
+aria-
+role
+title
+currentColor
+,children:o,iconNode:u,...d},f)=>(0,l.createElement)(
+,{ref:f,...s,width:t,height:t,stroke:e,strokeWidth:i?Number(n)*24/Number(t):n,className:r(
+,a),...!o&&!c(d)&&{"aria-hidden":
+},...d},[...u.map(([e,t])=>(0,l.createElement)(e,t)),...Array.isArray(o)?o:[o]])),d=(e,t)=>{let n=(0,l.forwardRef)(({className:n,...a},s)=>(0,l.createElement)(u,{ref:s,iconNode:t,className:r(
+,n),...a}));return n.displayName=o(e),n},f=d(
+,{d:
+,key:
+}],[
+,{d:
+,key:
+}]]),p=d(
+,{d:
+,key:
+}]]),m=d(
+,{cx:
+,cy:
+,key:
+}],[
+,{d:
+,key:
+}]]),h=d(
+,{cx:
+,cy:
+,key:
+}],[
+,{d:
+,key:
+}]]),g=d(
+,{d:
+,key:
+}],[
+,{x:
+,width:
+,height:
+,rx:
+,key:
+}]]),_=d(
+,{d:
+,key:
+}],[
+,{d:
+,key:
+}],[
+,{d:
+,key:
+}]]),v=d(
+,{d:
+,key:
+}],[
+,{d:
+,key:
+}]]),y=
+,x=[
+],S=[{label:
+,href:
+,blurb:
+},{label:
+,href:
+,blurb:
+},{label:
+,href:
+,blurb:
+},{label:
+,href:
+,blurb:
+},{label:
+,href:
+,blurb:
+},{label:
+,href:
+,blurb:
+},{label:
+,href:
+,blurb:
+},{label:
+,href:
+,blurb:
+}],C=[{date:
+,time:
+,title:
+,excerpt:
+},{date:
+,time:
+,title:
+,excerpt:
+},{date:
+,time:
+,title:
+,excerpt:
+}],w=[{title:
+,excerpt:
+},{title:
+,excerpt:
+},{title:
+,excerpt:
+},{title:
+,excerpt:
+}],T=[{days:
+,time:
+},{days:
+,time:
+},{days:
+,time:
+}],E=[{title:
+,body:
+},{title:
+,body:
+},{title:
+,body:
+},{title:
+,body:
+},{title:
+,body:
+},{title:
+,body:
+}],D=[{title:
+,body:
+},{title:
+,body:
+},{title:
+,body:
+},{title:
+,body:
+}],O=[
+],k=n();function A({className:e,title:t}){return(0,k.jsxs)(
+,{viewBox:
+,fill:
+,"aria-hidden":!t||void 0,role:t?
+:void 0,className:e,children:[t?(0,k.jsx)(
+,{children:t}):null,(0,k.jsx)(
+,{d:
+}),(0,k.jsx)(
+,{d:
+,transform:
+}),(0,k.jsx)(
+,{d:
+,transform:
+})]})}function j(){let[e,t]=(0,l.useState)(!1),[n,r]=(0,l.useState)(!1);(0,l.useEffect)(()=>(document.body.style.overflow=e?
+,()=>{document.body.style.overflow=
+}),[e]);let i=S.slice(0,4);return(0,k.jsxs)(k.Fragment,{children:[(0,k.jsxs)(
+,{className:
+,children:[(0,k.jsxs)(
+,{className:
+,children:[(0,k.jsxs)(
+,{href:
+,className:
+,children:[(0,k.jsx)(A,{className:
+,title:
+}),(0,k.jsxs)(
+,{className:
+,children:[
+,(0,k.jsx)(
+,{className:
+,children:
+})]})]}),(0,k.jsxs)(
+,{className:
+,children:[i.map(e=>(0,k.jsx)(
+,{href:e.href,className:
+,children:e.label},e.href)),(0,k.jsxs)(
+,{type:
+,onClick:()=>r(e=>!e),"aria-expanded":n,className:
+,children:[
+,(0,k.jsx)(p,{className:
+rotate-180
+aria-hidden
+#contact
+ml-2 rounded-md bg-lawn px-4 py-2 text-sm font-bold text-accent-foreground transition-colors hover:bg-lawn-deep
+Contact
+button
+button
+aria-label
+Open menu
+flex h-11 w-11 items-center justify-center rounded-md border border-border text-bin-blue-deep lg:hidden
+h-6 w-6
+aria-hidden
+hidden border-t border-border bg-card lg:block
+mx-auto grid max-w-6xl grid-cols-3 gap-2 px-6 py-6
+rounded-lg border border-transparent p-3 transition-colors hover:border-border hover:bg-cream
+span
+block font-display text-sm font-bold text-bin-blue-deep
+span
+mt-1 block text-sm text-muted-foreground
+fixed inset-0 z-50 flex flex-col bg-cream lg:hidden
+flex items-center justify-between border-b border-border px-4 py-3
+span
+font-display text-lg font-extrabold text-bin-blue-deep
+Menu
+button
+button
+aria-label
+Close menu
+flex h-11 w-11 items-center justify-center rounded-md border border-border text-bin-blue-deep
+h-6 w-6
+aria-hidden
+flex flex-1 flex-col gap-1 overflow-y-auto px-4 py-4
+flex min-h-[56px] items-center rounded-lg border-b border-border px-2 font-display text-lg font-bold text-ink
+#contact
+mt-4 flex min-h-[52px] items-center justify-center rounded-lg bg-lawn px-4 font-bold text-accent-foreground
+Contact Tri-Com
+section
+border-b border-border bg-cream
+mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:py-20
+font-display text-xs font-bold uppercase tracking-[0.18em] text-lawn-deep
+Regional recycling depot
+mt-4 max-w-3xl text-[clamp(2rem,7vw,4.25rem)] font-extrabold leading-[1.05] text-bin-blue-deep
+Recycling that actually gets recycled.
+mt-5 max-w-2xl text-base text-ink-muted sm:text-lg
+Tri-Com sorts, bales and moves the region's material — household drop-off to commercial contracts, handled on one yard.
+mt-8 flex flex-wrap gap-3
+#accept
+inline-flex min-h-[48px] items-center rounded-lg bg-bin-blue px-6 font-bold text-primary-foreground transition-colors hover:bg-bin-blue-deep
+What we accept
+#hours
+inline-flex min-h-[48px] items-center rounded-lg border-2 border-bin-blue px-6 font-bold text-bin-blue-deep transition-colors hover:bg-sky-soft
+Hours & location
+section
+aria-labelledby
+frequently-used
+border-b border-border bg-sky-soft/50
+mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:py-12
+frequently-used
+font-display text-xs font-bold uppercase tracking-[0.18em] text-bin-blue-deep
+Frequently used
+mt-5 grid gap-4 md:grid-cols-3
+rounded-xl border border-border bg-card p-5
+flex items-center gap-2
+h-5 w-5 shrink-0 text-bin-blue
+span
+inline-flex items-center gap-1.5 rounded-full bg-lawn/15 px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-lawn-deep
+h-3.5 w-3.5
+aria-hidden
+Open now
+mt-3 font-display text-lg font-bold text-ink
+Drop-off status
+mt-1 text-sm text-ink-muted
+The public drop-off yard is accepting material today.
+rounded-xl border border-border bg-card p-5
+h-5 w-5 text-bin-blue
+aria-hidden
+mt-3 font-display text-lg font-bold text-ink
+Hours at a glance
+mt-1 text-sm text-ink-muted
+Weekdays 8–5, Saturday 9–2, closed Sundays and holidays.
+#hours
+mt-3 inline-flex min-h-[44px] items-center text-sm font-bold text-bin-blue underline underline-offset-4
+See full schedule
+rounded-xl border border-border bg-card p-5
+h-5 w-5 text-bin-blue
+aria-hidden
+mt-3 font-display text-lg font-bold text-ink
+Talk to us
+mt-1 text-sm text-ink-muted
+Questions about a load, a bin or a contract?
+mailto:${y}
+mt-3 inline-flex min-h-[44px] items-center break-all text-sm font-bold text-bin-blue underline underline-offset-4
+section
+about
+relative overflow-hidden border-b border-border bg-cream
+mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:py-20
+relative
+pointer-events-none absolute -left-6 -top-16 h-56 w-56 text-bin-blue/[0.06] sm:h-72 sm:w-72
+relative max-w-3xl
+font-display text-xs font-bold uppercase tracking-[0.18em] text-lawn-deep
+About Tri-Com
+mt-3 text-[clamp(1.75rem,4.5vw,2.75rem)] font-extrabold leading-tight text-bin-blue-deep
+A working yard, not a waiting room.
+mt-5 text-base text-ink-muted sm:text-lg
+Tri-Com Recycling receives, sorts and bales material for households, municipalities and commercial haulers across the region. Everything that comes across the scale is graded, baled and shipped to end markets — nothing is quietly landfilled.
+mt-8 flex items-start gap-3 rounded-xl border border-border bg-card p-5
+mt-0.5 h-8 w-8 shrink-0 text-bin-blue
+text-base font-medium text-ink
+Every bin that goes out comes back — sorted, recovered, and back in the loop. That's the circle of recycle.
+section
+accept
+border-b border-border bg-card
+mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:py-20
+text-[clamp(1.6rem,4vw,2.5rem)] font-extrabold text-bin-blue-deep
+What we accept
+mt-3 max-w-2xl text-ink-muted
+Sorted loads move faster and pay better. Here's what belongs on the tipping floor.
+mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3
+rounded-xl border border-border bg-cream p-5
+font-display text-base font-bold text-ink
+mt-1.5 text-sm text-ink-muted
+section
+stewardship
+border-b border-border bg-cream
+mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:py-20
+text-[clamp(1.6rem,4vw,2.5rem)] font-extrabold text-bin-blue-deep
+Stewardship programs
+mt-3 max-w-2xl text-ink-muted
+Registered take-back streams handled under provincial producer-responsibility rules.
+mt-8 grid gap-4 sm:grid-cols-2
+rounded-xl border-l-4 border-l-lawn border-y border-r border-border bg-card p-5
+font-display text-base font-bold text-ink
+mt-1.5 text-sm text-ink-muted
+section
+hours
+border-b border-border bg-bin-blue text-primary-foreground
+mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-2 lg:py-20
+text-[clamp(1.6rem,4vw,2.5rem)] font-extrabold
+Hours & location
+mt-6 divide-y divide-primary-foreground/20 border-y border-primary-foreground/20
+flex flex-wrap justify-between gap-2 py-3
+font-semibold
+text-primary-foreground/85
+rounded-xl bg-primary-foreground/10 p-6
+font-display text-lg font-bold
+Yard address
+address
+mt-3 not-italic leading-relaxed text-primary-foreground/85
+span
+block
+mt-4 text-sm text-primary-foreground/70
+Address and phone number are pending confirmation and will be published once verified.
+section
+safety
+border-b border-border bg-card
+mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:py-20
+text-[clamp(1.6rem,4vw,2.5rem)] font-extrabold text-bin-blue-deep
+Safety & compliance
+mt-8 space-y-3
+flex gap-3 rounded-lg border border-border bg-cream p-4 text-sm text-ink sm:text-base
+span
+mt-2 h-2 w-2 shrink-0 rounded-full bg-lawn
+aria-hidden
+span
+section
+updates
+border-b border-border bg-cream
+mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:py-20
+text-[clamp(1.6rem,4vw,2.5rem)] font-extrabold text-bin-blue-deep
+Events & updates
+mt-8 space-y-4
+rounded-xl border border-border bg-card p-5 sm:flex sm:items-center sm:gap-6
+shrink-0 sm:w-44
+span
+block font-display text-sm font-bold uppercase tracking-wide text-lawn-deep
+span
+block text-sm text-ink-muted
+mt-3 min-w-0 flex-1 sm:mt-0
+font-display text-lg font-bold text-ink
+mt-1 text-sm text-ink-muted
+#contact
+mt-4 inline-flex min-h-[44px] shrink-0 items-center gap-1.5 text-sm font-bold text-bin-blue underline underline-offset-4 sm:mt-0
+Get more information
+h-4 w-4
+aria-hidden
+section
+news
+border-b border-border bg-card
+mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:py-20
+text-[clamp(1.6rem,4vw,2.5rem)] font-extrabold text-bin-blue-deep
+News
+mt-8 grid gap-4 sm:grid-cols-2
+article
+rounded-xl border border-border bg-cream p-5
+font-display text-lg font-bold text-ink
+mt-2 text-sm text-ink-muted
+#news
+mt-3 inline-flex min-h-[44px] items-center text-sm font-bold text-bin-blue underline underline-offset-4
+Read more
+#news
+mt-8 inline-flex min-h-[48px] items-center rounded-lg border-2 border-bin-blue px-5 font-bold text-bin-blue-deep transition-colors hover:bg-sky-soft
+Read all news
+footer
+contact
+bg-bin-blue-deep text-primary-foreground
+mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:py-16
+grid gap-10 lg:grid-cols-3
+flex items-center gap-2.5
+h-9 w-9 shrink-0 text-sky
+span
+font-display text-xl font-extrabold
+Tri-Com Recycling
+address
+mt-4 not-italic leading-relaxed text-primary-foreground/80
+span
+block
+font-display text-sm font-bold uppercase tracking-[0.18em] text-sky
+Get in touch
+mt-4 text-primary-foreground/80
+mailto:${y}
+mt-2 inline-flex min-h-[44px] items-center break-all font-semibold underline underline-offset-4
+font-display text-sm font-bold uppercase tracking-[0.18em] text-sky
+Keep in touch
+mt-4 text-sm text-primary-foreground/80
+Depot closures, event days and program changes — a few times a year.
+form
+mt-4 flex flex-col gap-3 sm:flex-row
+label
+newsletter-email
+sr-only
+Email address
+input
+newsletter-email
+email
+you@example.com
+min-h-[48px] w-full rounded-lg border border-primary-foreground/25 bg-primary-foreground/10 px-4 text-primary-foreground placeholder:text-primary-foreground/50 focus:outline-none focus:ring-2 focus:ring-sky
+button
+submit
+min-h-[48px] shrink-0 rounded-lg bg-lawn px-5 font-bold text-accent-foreground transition-colors hover:bg-lawn-deep
+Sign up
+mt-12 flex items-center gap-2 border-t border-primary-foreground/15 pt-6 text-sm text-primary-foreground/70
+h-5 w-5 shrink-0 text-sky
+span
+Tri-Com Recycling. All rights reserved.
+min-h-screen bg-cream
+main
