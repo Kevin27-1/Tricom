@@ -938,24 +938,66 @@
       document.getElementById('event-modal').classList.remove('active');
     }
 
-    const FIRESTORE_MESSAGES_ENDPOINT = 'http://localhost:8086/api/messages';
-    const FIRESTORE_NEWS_ENDPOINT = 'http://localhost:8086/api/news';
+    const API_BASE = 'http://localhost:8086/api';
 
-    async function sendToFirestoreREST(url, fieldsData) {
+    async function syncBackendData() {
+      // Sync messages from backend
       try {
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(fieldsData)
-        });
-        const result = await response.json();
-        console.log('Saved directly to Cloud Firestore tricom-recycling project:', result);
+        const res = await fetch(`${API_BASE}/messages`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.documents && Array.isArray(data.documents)) {
+            const cloudMsgs = data.documents.map(doc => {
+              const f = doc.fields || {};
+              return {
+                id: doc.name.split('/').pop(),
+                name: f.name ? f.name.stringValue : 'Visitor',
+                email: f.email ? f.email.stringValue : '',
+                message: f.message ? f.message.stringValue : '',
+                date: f.date ? f.date.stringValue : '',
+                read: f.read ? (f.read.booleanValue || false) : false,
+                timestamp: f.timestamp ? parseInt(f.timestamp.integerValue || '0', 10) : 0
+              };
+            }).sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+
+            if (cloudMsgs.length > 0) {
+              localStorage.setItem(STORAGE_KEY_MESSAGES, JSON.stringify(cloudMsgs));
+              renderDashboard();
+            }
+          }
+        }
       } catch (err) {
-        console.log('Firestore REST notice:', err);
+        // Backend offline or local fallback
       }
+
+      // Sync news from backend
+      try {
+        const res = await fetch(`${API_BASE}/news`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.documents && Array.isArray(data.documents)) {
+            const cloudNews = data.documents.map(doc => {
+              const f = doc.fields || {};
+              return {
+                id: doc.name.split('/').pop(),
+                title: f.title ? f.title.stringValue : '',
+                badge: f.badge ? f.badge.stringValue : 'NOTICE',
+                date: f.date ? f.date.stringValue : '',
+                excerpt: f.excerpt ? f.excerpt.stringValue : '',
+                image: f.image ? f.image.stringValue : ''
+              };
+            });
+
+            if (cloudNews.length > 0) {
+              localStorage.setItem(STORAGE_KEY_NEWS, JSON.stringify(cloudNews));
+              renderDashboard();
+            }
+          }
+        }
+      } catch (err) {}
     }
 
-    function saveNewsEvent(e) {
+    async function saveNewsEvent(e) {
       e.preventDefault();
       const id = document.getElementById('event-id').value || 'post-' + Date.now();
       const title = document.getElementById('event-title').value.trim();
@@ -966,23 +1008,18 @@
 
       const postData = { id, title, badge, date, excerpt, image };
 
-      // 1. Direct Cloud Firestore REST Save to tricom-recycling project
-      sendToFirestoreREST(FIRESTORE_NEWS_ENDPOINT, {
-        title,
-        badge,
-        date,
-        excerpt,
-        image
-      });
-
-      // 2. Firebase SDK Write
-      if (db) {
-        try {
-          db.collection('news').add(postData);
-        } catch(err) {}
+      // 1. Send to Backend API
+      try {
+        await fetch(`${API_BASE}/news`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(postData)
+        });
+      } catch (err) {
+        console.log('Backend sync notice:', err);
       }
 
-      // 3. LocalStorage Persistence
+      // 2. LocalStorage Persistence
       const newsList = getStoredNews();
       const existingIndex = newsList.findIndex(n => n.id === id);
 
@@ -1017,7 +1054,11 @@
     let pendingDeleteFn = null;
 
     function deleteNewsEvent(id) {
-      pendingDeleteFn = () => {
+      pendingDeleteFn = async () => {
+        try {
+          await fetch(`${API_BASE}/news/${id}`, { method: 'DELETE' });
+        } catch (e) {}
+
         let newsList = getStoredNews();
         newsList = newsList.filter(n => n.id !== id);
         saveStoredNews(newsList);
@@ -1029,13 +1070,21 @@
     }
 
     // Message Actions
-    function viewMessage(id) {
+    async function viewMessage(id) {
       const messages = getStoredMessages();
       const msg = messages.find(m => m.id === id);
       if (!msg) return;
 
       msg.read = true;
       saveStoredMessages(messages);
+
+      try {
+        await fetch(`${API_BASE}/messages/${id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ read: true })
+        });
+      } catch(e) {}
 
       document.getElementById('msg-view-name').innerText = msg.name;
       document.getElementById('msg-view-email').innerText = msg.email;
@@ -1051,7 +1100,11 @@
     }
 
     function deleteMessage(id) {
-      pendingDeleteFn = () => {
+      pendingDeleteFn = async () => {
+        try {
+          await fetch(`${API_BASE}/messages/${id}`, { method: 'DELETE' });
+        } catch(e) {}
+
         let messages = getStoredMessages();
         messages = messages.filter(m => m.id !== id);
         saveStoredMessages(messages);
@@ -1091,6 +1144,7 @@
       const loginOverlay = document.getElementById('login-overlay');
       if (isAuth) {
         if (loginOverlay) loginOverlay.style.display = 'none';
+        syncBackendData();
       } else {
         if (loginOverlay) loginOverlay.style.display = 'flex';
       }
@@ -1107,6 +1161,7 @@
         if (errorEl) errorEl.style.display = 'none';
         document.getElementById('login-overlay').style.display = 'none';
         renderDashboard();
+        syncBackendData();
       } else {
         if (errorEl) errorEl.style.display = 'block';
       }
@@ -1118,44 +1173,12 @@
       document.getElementById('login-overlay').style.display = 'flex';
     }
 
-    // Initialize Auth Guard & Dashboard
+    // Initialize Auth Guard, Dashboard, and Sync
     checkAuth();
     renderDashboard();
-  </script>
 
-  <!-- Firebase Cloud Firestore SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyBIIC32UDlvaiSYv17CFTBeET0EXdYs7r0",
-      authDomain: "turf-d68e9.firebaseapp.com",
-      projectId: "turf-d68e9",
-      storageBucket: "turf-d68e9.firebasestorage.app",
-      messagingSenderId: "665361792688",
-      appId: "1:665361792688:web:2cb5d13e0f56a7d5ebc575"
-    };
-
-    let db = null;
-    try {
-      if (window.firebase) {
-        firebase.initializeApp(firebaseConfig);
-        db = firebase.firestore();
-        console.log('Admin connected to Firebase Cloud Firestore.');
-
-        // Real-time Firestore sync for incoming messages
-        db.collection('messages').orderBy('timestamp', 'desc').onSnapshot((snapshot) => {
-          const cloudMsgs = [];
-          snapshot.forEach(doc => {
-            cloudMsgs.push({ id: doc.id, ...doc.data() });
-          });
-          if (cloudMsgs.length > 0) {
-            localStorage.setItem(STORAGE_KEY_MESSAGES, JSON.stringify(cloudMsgs));
-            renderDashboard();
-          }
-        }, err => console.log('Firestore snapshot listener notice:', err));
-      }
-    } catch(e) {}
+    // Periodic Background Sync (every 10s)
+    setInterval(syncBackendData, 10000);
 
     // Window storage listener for instant cross-tab sync
     window.addEventListener('storage', (e) => {

@@ -505,7 +505,7 @@
     .reveal-delay-5 { transition-delay: 0.5s; }
 
     /* ═══════════════════════════════════════════
-       1. WHAT WE ACCEPT
+       1. WHAT WE ACCEPT (MATERIALS DIRECTORY)
        ═══════════════════════════════════════════ */
     .accept-section {
       background: #f5f5f7;
@@ -515,20 +515,108 @@
     .accept-section .section-eyebrow { color: var(--blue-mid); }
     .accept-section .section-title { color: #1d1d1f; }
 
+    /* Filter pills */
+    .material-filters {
+      display: flex;
+      gap: 8px;
+      margin-top: 24px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .material-filters::-webkit-scrollbar { display: none; }
+
+    .material-filter-btn {
+      flex-shrink: 0;
+      padding: 8px 15px;
+      border-radius: 9999px;
+      font-family: var(--font-system);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      background: var(--white);
+      color: #555558;
+      cursor: pointer;
+      transition: all 0.2s var(--ease-smooth);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .material-filter-btn.active {
+      background: var(--blue-deep);
+      color: var(--white);
+      border-color: var(--blue-deep);
+      box-shadow: 0 4px 12px rgba(26, 90, 138, 0.25);
+    }
+
+    .material-group {
+      margin-top: 28px;
+    }
+
+    .material-group-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .material-group-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #1d1d1f;
+    }
+
+    .material-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 9px;
+      border-radius: 9999px;
+      font-size: 0.63rem;
+      font-weight: 750;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .badge-green {
+      background: rgba(48, 209, 88, 0.15);
+      color: #1b8a3e;
+      border: 1px solid rgba(48, 209, 88, 0.35);
+    }
+
+    .badge-orange {
+      background: rgba(255, 149, 0, 0.15);
+      color: #b35900;
+      border: 1px solid rgba(255, 149, 0, 0.35);
+    }
+
+    .badge-red {
+      background: rgba(255, 59, 48, 0.15);
+      color: #c92a2a;
+      border: 1px solid rgba(255, 59, 48, 0.35);
+    }
+
+    /* 2-column Card Grid */
     .accept-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
-      margin-top: 32px;
+      margin-top: 14px;
     }
 
     .accept-card {
       position: relative;
-      padding: 20px 16px;
+      padding: 18px 14px;
       border-radius: 16px;
       background: var(--white);
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 8px 24px rgba(0, 0, 0, 0.04);
-      transition: transform 0.3s var(--ease-smooth), box-shadow 0.3s var(--ease-smooth);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 8px 24px rgba(0, 0, 0, 0.03);
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.25s var(--ease-smooth), box-shadow 0.25s var(--ease-smooth);
       -webkit-tap-highlight-color: transparent;
     }
 
@@ -537,13 +625,14 @@
     }
 
     .accept-card-icon {
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       border-radius: 10px;
       display: grid;
       place-items: center;
       margin-bottom: 12px;
-      font-size: 1.2rem;
+      font-size: 1.25rem;
+      flex-shrink: 0;
     }
 
     .accept-card-icon.paper { background: #e8f0fe; color: #1a73e8; }
@@ -551,6 +640,7 @@
     .accept-card-icon.metals { background: #fef7e0; color: #b06000; }
     .accept-card-icon.electronics { background: #f3e8fd; color: #7627bb; }
     .accept-card-icon.beverage { background: #e8f7fa; color: #0d7377; }
+    .accept-card-icon.hazardous { background: #fff3e0; color: #e65100; }
     .accept-card-icon.rejected { background: #fce8e6; color: #c5221f; }
 
     .accept-card-title {
@@ -563,20 +653,11 @@
 
     .accept-card-body {
       margin-top: 6px;
-      font-size: 0.76rem;
+      font-size: 0.74rem;
       font-weight: 500;
       line-height: 1.35;
       color: #86868b;
     }
-
-    .accept-card.full-width {
-      grid-column: 1 / -1;
-      background: #1d1d1f;
-      color: var(--white);
-    }
-
-    .accept-card.full-width .accept-card-title { color: var(--white); }
-    .accept-card.full-width .accept-card-body { color: rgba(255, 255, 255, 0.6); }
 
     /* ═══════════════════════════════════════════
        2. STEWARDSHIP
@@ -689,6 +770,15 @@
       border: 1px solid rgba(255, 255, 255, 0.12);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
+    }
+
+    .map-embed {
+      width: 100%;
+      height: 180px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      margin-bottom: 16px;
+      display: block;
     }
 
     .location-label {
@@ -1027,43 +1117,162 @@
   </main>
 
   <!-- ═══════════════════════════════════════════
-       1. WHAT WE ACCEPT
+       1. WHAT WE ACCEPT (MATERIALS DIRECTORY)
        ═══════════════════════════════════════════ -->
   <section class="section accept-section" id="accept">
-    <p class="section-eyebrow reveal">Materials</p>
+    <p class="section-eyebrow reveal">Materials Directory</p>
     <h2 class="section-title reveal reveal-delay-1">What we accept</h2>
-    <p class="section-subtitle reveal reveal-delay-2">Sorted loads move faster and pay better. Here's what belongs on the tipping floor.</p>
+    <p class="section-subtitle reveal reveal-delay-2">A complete guide to materials accepted in curbside recycling bins, at special drop-offs, or not accepted.</p>
 
-    <div class="accept-grid">
-      <div class="accept-card reveal reveal-delay-1">
-        <div class="accept-card-icon paper">📦</div>
-        <h3 class="accept-card-title">Paper & cardboard</h3>
-        <p class="accept-card-body">Flattened boxboard, corrugate, office paper, newsprint.</p>
+    <!-- Category Filter Tabs -->
+    <div class="material-filters reveal reveal-delay-3" role="tablist" aria-label="Material categories">
+      <button class="material-filter-btn active" data-filter="all" role="tab" aria-selected="true">All (21)</button>
+      <button class="material-filter-btn" data-filter="curbside" role="tab" aria-selected="false">Curbside (13)</button>
+      <button class="material-filter-btn" data-filter="dropoff" role="tab" aria-selected="false">Drop-off (5)</button>
+      <button class="material-filter-btn" data-filter="notaccepted" role="tab" aria-selected="false">Not Accepted (3)</button>
+    </div>
+
+    <!-- Category 1: What you can recycle (Curbside) -->
+    <div class="material-group reveal reveal-delay-3" data-category="curbside">
+      <div class="material-group-header">
+        <h3 class="material-group-title">What you can recycle</h3>
+        <span class="material-badge badge-green">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          ACCEPTED CURBSIDE
+        </span>
       </div>
-      <div class="accept-card reveal reveal-delay-2">
-        <div class="accept-card-icon containers">🫙</div>
-        <h3 class="accept-card-title">Containers</h3>
-        <p class="accept-card-body">Rinsed plastics #1–#5, aluminium, steel cans, glass jars.</p>
+      <div class="accept-grid">
+        <div class="accept-card">
+          <div class="accept-card-icon paper">📰</div>
+          <h4 class="accept-card-title">Newspaper</h4>
+          <p class="accept-card-body">Newspapers, newsprint inserts, and weekly papers.</p>
+        </div>
+        <div class="accept-card">
+          <div class="accept-card-icon paper">📄</div>
+          <h4 class="accept-card-title">Office Paper</h4>
+          <p class="accept-card-body">Printer paper, notebook paper, copy paper, and white documents.</p>
+        </div>
+        <div class="accept-card">
+          <div class="accept-card-icon paper">✉️</div>
+          <h4 class="accept-card-title">Flyers & Mail</h4>
+          <p class="accept-card-body">Unaddressed mail, advertising flyers, envelopes, and notices.</p>
+        </div>
+        <div class="accept-card">
+          <div class="accept-card-icon paper">📖</div>
+          <h4 class="accept-card-title">Magazines</h4>
+          <p class="accept-card-body">Glossy magazines, catalogs, and soft periodicals.</p>
+        </div>
+        <div class="accept-card">
+          <div class="accept-card-icon paper">📒</div>
+          <h4 class="accept-card-title">Phone Books</h4>
+          <p class="accept-card-body">Softcover phone directories and community books.</p>
+        </div>
+        <div class="accept-card">
+          <div class="accept-card-icon paper">📦</div>
+          <h4 class="accept-card-title">Cardboard</h4>
+          <p class="accept-card-body">Flattened corrugated boxes with tape and packing removed.</p>
+        </div>
+        <div class="accept-card">
+          <div class="accept-card-icon paper">🥣</div>
+          <h4 class="accept-card-title">Boxboard</h4>
+          <p class="accept-card-body">Cereal boxes, shoe boxes, and tissue boxes flattened.</p>
+        </div>
+        <div class="accept-card">
+          <div class="accept-card-icon containers">🧴</div>
+          <h4 class="accept-card-title">Plastic Containers</h4>
+          <p class="accept-card-body">Rinsed food tubs, bottles, and jugs (#1–#5).</p>
+        </div>
+        <div class="accept-card">
+          <div class="accept-card-icon metals">🥫</div>
+          <h4 class="accept-card-title">Aluminum Cans</h4>
+          <p class="accept-card-body">Clean aluminum beverage cans and drink tins.</p>
+        </div>
+        <div class="accept-card">
+          <div class="accept-card-icon metals">⚙️</div>
+          <h4 class="accept-card-title">Steel & Tin Cans</h4>
+          <p class="accept-card-body">Clean soup cans, pet food cans, and food tins.</p>
+        </div>
+        <div class="accept-card">
+          <div class="accept-card-icon beverage">🍾</div>
+          <h4 class="accept-card-title">Glass Bottles</h4>
+          <p class="accept-card-body">Unbroken clear, green, and brown glass beverage bottles.</p>
+        </div>
+        <div class="accept-card">
+          <div class="accept-card-icon beverage">🫙</div>
+          <h4 class="accept-card-title">Glass Jars</h4>
+          <p class="accept-card-body">Rinsed clean unbroken glass food and sauce jars.</p>
+        </div>
+        <div class="accept-card">
+          <div class="accept-card-icon beverage">🧃</div>
+          <h4 class="accept-card-title">Milk & Cartons</h4>
+          <p class="accept-card-body">Paper cartons, milk cartons, and juice boxes rinsed.</p>
+        </div>
       </div>
-      <div class="accept-card reveal reveal-delay-3">
-        <div class="accept-card-icon metals">⚙️</div>
-        <h3 class="accept-card-title">Metals</h3>
-        <p class="accept-card-body">Household scrap, appliances with refrigerant tags removed.</p>
+    </div>
+
+    <!-- Category 2: Drop off (Special Drop-off) -->
+    <div class="material-group reveal reveal-delay-4" data-category="dropoff">
+      <div class="material-group-header">
+        <h3 class="material-group-title">Drop off</h3>
+        <span class="material-badge badge-orange">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          SPECIAL DROP-OFF
+        </span>
       </div>
-      <div class="accept-card reveal reveal-delay-4">
-        <div class="accept-card-icon electronics">🖥️</div>
-        <h3 class="accept-card-title">Electronics</h3>
-        <p class="accept-card-body">Screens, computers, small appliances and cabling.</p>
+      <div class="accept-grid">
+        <div class="accept-card">
+          <div class="accept-card-icon hazardous">🔋</div>
+          <h4 class="accept-card-title">Lead-Acid Batteries</h4>
+          <p class="accept-card-body">Vehicle and equipment batteries. Special hazardous drop-off.</p>
+        </div>
+        <div class="accept-card">
+          <div class="accept-card-icon electronics">🖥️</div>
+          <h4 class="accept-card-title">Electronic Waste</h4>
+          <p class="accept-card-body">Screens, computers, TVs, electronics, cabling, and cords.</p>
+        </div>
+        <div class="accept-card">
+          <div class="accept-card-icon hazardous">⚠️</div>
+          <h4 class="accept-card-title">Hazardous Waste</h4>
+          <p class="accept-card-body">Paints, solvents, pesticides, and household chemicals.</p>
+        </div>
+        <div class="accept-card">
+          <div class="accept-card-icon hazardous">🛢️</div>
+          <h4 class="accept-card-title">Propane Cylinders</h4>
+          <p class="accept-card-body">Pressurized fuel tanks. Explosion risk; return to vendors.</p>
+        </div>
+        <div class="accept-card">
+          <div class="accept-card-icon hazardous">💡</div>
+          <h4 class="accept-card-title">Fluorescent Bulbs</h4>
+          <p class="accept-card-body">Fluorescent tubes and CFL bulbs containing mercury.</p>
+        </div>
       </div>
-      <div class="accept-card reveal reveal-delay-5">
-        <div class="accept-card-icon beverage">🥤</div>
-        <h3 class="accept-card-title">Beverage containers</h3>
-        <p class="accept-card-body">Deposit-return containers sorted by material.</p>
+    </div>
+
+    <!-- Category 3: What can't go in the bin (Not Accepted) -->
+    <div class="material-group reveal reveal-delay-5" data-category="notaccepted">
+      <div class="material-group-header">
+        <h3 class="material-group-title">What can't go in the bin</h3>
+        <span class="material-badge badge-red">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+          NOT ACCEPTED
+        </span>
       </div>
-      <div class="accept-card full-width reveal reveal-delay-5">
-        <div class="accept-card-icon rejected">🚫</div>
-        <h3 class="accept-card-title">Not accepted</h3>
-        <p class="accept-card-body">Wet organics, medical sharps, asbestos, unlabelled drums.</p>
+      <div class="accept-grid">
+        <div class="accept-card">
+          <div class="accept-card-icon rejected">🚫</div>
+          <h4 class="accept-card-title">Styrofoam / Foam</h4>
+          <p class="accept-card-body">Foam packaging, cups, and takeout containers not accepted.</p>
+        </div>
+        <div class="accept-card">
+          <div class="accept-card-icon rejected">🚫</div>
+          <h4 class="accept-card-title">Black Plastic</h4>
+          <p class="accept-card-body">Optical sorting cannot read black carbon pigment. Place in garbage.</p>
+        </div>
+        <div class="accept-card">
+          <div class="accept-card-icon rejected">🚫</div>
+          <h4 class="accept-card-title">Scrap Metal</h4>
+          <p class="accept-card-body">Large metal objects, pots, pans, and hardware not accepted in bins.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -1118,26 +1327,34 @@
     <div class="hours-table reveal reveal-delay-2">
       <div class="hours-row">
         <span class="hours-day">Monday – Friday</span>
-        <span class="hours-time">8:00 AM – 5:00 PM</span>
+        <span class="hours-time">8:00 AM – 4:00 PM</span>
       </div>
       <div class="hours-row">
-        <span class="hours-day">Saturday</span>
-        <span class="hours-time">9:00 AM – 2:00 PM</span>
-      </div>
-      <div class="hours-row">
-        <span class="hours-day">Sunday & holidays</span>
+        <span class="hours-day">Saturday – Sunday</span>
         <span class="hours-time closed">Closed</span>
       </div>
     </div>
 
     <div class="location-card reveal reveal-delay-3">
-      <p class="location-label">Yard address</p>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <p class="location-label" style="margin-bottom: 0;">Yard address</p>
+        <a href="https://www.google.com/maps/place/Tri-Com+Recycling+Inc./@53.8457365,-101.2874258,17z/data=!3m1!4b1!4m6!3m5!1s0x52f9ecb0c92be5d1:0x79609f856c3173de!8m2!3d53.8457365!4d-101.2848509!16s%2Fg%2F1tfs0qvc?hl=en&entry=ttu&g_ep=EgoyMDI2MDgyNC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" style="font-size: 0.78rem; font-weight: 700; color: #a5d8ff; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+          <span>Open in Maps</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+        </a>
+      </div>
+      <iframe class="map-embed" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2347.382029519179!2d-101.28742582334714!3d53.8457364724395!2m3!1f0!f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x52f9ecb0c92be5d1%3A0x79609f856c3173de!2sTri-Com%20Recycling%20Inc.!5e0!3m2!1sen!2sca!4v1710000000000!5m2!1sen!2sca" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Tri-Com Recycling Inc. Facility Map"></iframe>
       <address class="location-address">
-        Tri-Com Recycling<br>
-        Street address — pending confirmation<br>
-        City, Province — pending confirmation
+        Tri-Com Recycling Inc.<br>
+        18 Meadows Road<br>
+        The Pas, MB R9A 1S3
       </address>
-      <p class="location-note">Address and phone number are pending confirmation and will be published once verified.</p>
+      <div style="margin-top: 14px;">
+        <a href="https://www.google.com/maps/place/Tri-Com+Recycling+Inc./@53.8457365,-101.2874258,17z/data=!3m1!4b1!4m6!3m5!1s0x52f9ecb0c92be5d1:0x79609f856c3173de!8m2!3d53.8457365!4d-101.2848509!16s%2Fg%2F1tfs0qvc?hl=en&entry=ttu&g_ep=EgoyMDI2MDgyNC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" style="width: 100%; justify-content: center; font-size: 0.84rem; font-weight: 700; padding: 12px 16px; border-radius: 12px; background: rgba(255, 255, 255, 0.16); border: 1px solid rgba(255, 255, 255, 0.22); color: #ffffff; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; box-sizing: border-box;">
+          <span>Get Directions on Google Maps</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+        </a>
+      </div>
     </div>
   </section>
 
@@ -1312,8 +1529,31 @@
       revealObserver.observe(el);
     });
 
+    // ─── Material Category Filter ───
+    const filterBtns = document.querySelectorAll('.material-filter-btn');
+    const materialGroups = document.querySelectorAll('.material-group');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.getAttribute('data-filter');
+        filterBtns.forEach(b => {
+          const isSelected = b === btn;
+          b.classList.toggle('active', isSelected);
+          b.setAttribute('aria-selected', String(isSelected));
+        });
+
+        materialGroups.forEach(group => {
+          if (filter === 'all' || group.getAttribute('data-category') === filter) {
+            group.style.display = 'block';
+          } else {
+            group.style.display = 'none';
+          }
+        });
+      });
+    });
+
     // ─── Haptic-style touch feedback ───
-    document.querySelectorAll('.btn, .menu-btn, .menu-close, .accept-card, .stewardship-card, .news-card, .contact-item').forEach(el => {
+    document.querySelectorAll('.btn, .menu-btn, .menu-close, .material-filter-btn, .accept-card, .stewardship-card, .news-card, .contact-item').forEach(el => {
       el.addEventListener('touchstart', () => {}, { passive: true });
     });
 

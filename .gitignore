@@ -34,3 +34,6 @@ Desktop.ini
 .idea/
 *.swp
 *.swo
+
+# Temporary scratch & optimization cache
+scratch/
