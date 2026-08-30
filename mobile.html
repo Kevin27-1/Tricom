@@ -18,6 +18,89 @@
       checkViewport();
       window.addEventListener('resize', checkViewport);
     })();
+  
+    // Mobile Stewardship Modal Controller
+    const MOBILE_STEWARDSHIP_DATA = {
+      'epra': {
+        tag: 'ELECTRONICS RECYCLING',
+        title: 'EPRA Manitoba',
+        overview: 'Official provincial take-back program (Recycle My Electronics). Safely recycles consumer computers, televisions, IT hardware, audio gear, and phones free of charge at Tri-Com depot.',
+        items: ['Computers, laptops & tablets', 'TVs & display monitors', 'Printers, scanners & fax copiers', 'Smartphones & chargers', 'Audio & stereo gear'],
+        link: 'https://www.recyclemyelectronics.ca/mb/'
+      },
+      'tire': {
+        tag: 'TIRE STEWARDSHIP',
+        title: 'Tire Stewardship Manitoba',
+        overview: 'Provincial program for responsible recycling of scrap tires into rubber molded products, playground surfaces, and engineering aggregate. Free drop-off at Tri-Com.',
+        items: ['Passenger car tires', 'Light truck tires', 'SUV & van tires', 'Off the rim only (no fee)'],
+        link: 'https://www.tirestewardshipmb.ca/'
+      },
+      'oil': {
+        tag: 'USED OIL & FLUIDS',
+        title: 'MARRC Manitoba',
+        overview: 'Manitoba Association for Resource Recovery Corp program for used lubricating oil, filters, antifreeze, and plastic oil containers.',
+        items: ['Used motor & lubricating oil', 'Oil filters & cartridges', 'Antifreeze & coolant fluids', 'Empty plastic oil containers'],
+        link: 'https://usedoilrecycling.com/manitoba/'
+      },
+      'product-care': {
+        tag: 'PAINT & CHEMICALS',
+        title: 'Product Care Manitoba',
+        overview: 'Household Hazardous Waste stewardship diverting paints, solvents, thinners, and flammable liquids from landfills and northern waterways.',
+        items: ['Latex & oil-based paints', 'Paint aerosols & thinners', 'Solvents, varsol & turpentine', 'Fluorescent tubes & CFL bulbs'],
+        link: 'https://www.productcare.org/province/manitoba/'
+      }
+    };
+
+    function initMobileStewardshipModal() {
+      const modal = document.getElementById('mobile-stewardship-modal');
+      const closeBtn = document.getElementById('mobile-modal-close');
+      const dismissBtn = document.getElementById('mobile-modal-dismiss');
+      const tagEl = document.getElementById('mobile-modal-tag');
+      const titleEl = document.getElementById('mobile-modal-title');
+      const overviewEl = document.getElementById('mobile-modal-overview');
+      const itemsEl = document.getElementById('mobile-modal-items');
+      const linkEl = document.getElementById('mobile-modal-link');
+
+      if (!modal) return;
+
+      function openModal(key) {
+        const d = MOBILE_STEWARDSHIP_DATA[key];
+        if (!d) return;
+        tagEl.textContent = d.tag;
+        titleEl.textContent = d.title;
+        overviewEl.textContent = d.overview;
+        itemsEl.innerHTML = d.items.map(i => `
+          <div class="mobile-modal-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>${i}</span>
+          </div>
+        `).join('');
+        linkEl.href = d.link;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeModal() {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      document.querySelectorAll('[data-stewardship]').forEach(card => {
+        card.addEventListener('click', () => {
+          const k = card.getAttribute('data-stewardship');
+          openModal(k);
+        });
+      });
+
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+      if (dismissBtn) dismissBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+      });
+    }
+
+    initMobileStewardshipModal();
+
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1041,6 +1124,179 @@
       }
       .reveal { opacity: 1; transform: none; }
     }
+  
+    /* Stewardship Modal (Mobile) */
+    .mobile-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      padding: 0;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .mobile-modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .mobile-modal-sheet {
+      background: #1c1c1e;
+      color: #ffffff;
+      border-top-left-radius: 24px;
+      border-top-right-radius: 24px;
+      width: 100%;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      transform: translateY(100%);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow: hidden;
+    }
+
+    .mobile-modal-overlay.active .mobile-modal-sheet {
+      transform: translateY(0);
+    }
+
+    .mobile-modal-handle {
+      width: 36px;
+      height: 4px;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.3);
+      margin: 12px auto 6px auto;
+      flex-shrink: 0;
+    }
+
+    .mobile-modal-header {
+      padding: 14px 20px 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .mobile-modal-tag {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent-green);
+      background: rgba(48, 209, 88, 0.12);
+      padding: 3px 10px;
+      border-radius: 9999px;
+      display: inline-block;
+      margin-bottom: 6px;
+    }
+
+    .mobile-modal-title {
+      font-size: 1.25rem;
+      font-weight: 750;
+      color: #ffffff;
+      margin: 0;
+    }
+
+    .mobile-modal-close {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 255, 255, 0.7);
+      cursor: pointer;
+    }
+
+    .mobile-modal-body {
+      padding: 18px 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .mobile-modal-overview {
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .mobile-modal-items {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .mobile-modal-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.03);
+      padding: 8px 10px;
+      border-radius: 8px;
+    }
+
+    .mobile-modal-item svg {
+      color: var(--accent-green);
+      flex-shrink: 0;
+    }
+
+    .mobile-modal-footer {
+      padding: 14px 20px 24px 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      background: #18181a;
+      display: flex;
+      gap: 10px;
+    }
+
+    .mobile-modal-btn-link {
+      flex: 1;
+      background: var(--accent-blue);
+      color: #ffffff;
+      font-size: 0.88rem;
+      font-weight: 650;
+      padding: 12px 14px;
+      border-radius: 12px;
+      text-align: center;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .mobile-modal-btn-close {
+      background: rgba(255, 255, 255, 0.08);
+      border: none;
+      color: #ffffff;
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 12px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
   </style>
 </head>
 <body>
@@ -1286,31 +1542,31 @@
     <p class="section-subtitle reveal reveal-delay-2">Registered take-back streams handled under provincial producer-responsibility rules.</p>
 
     <div class="stewardship-list">
-      <div class="stewardship-card reveal reveal-delay-1">
+      <div class="stewardship-card reveal reveal-delay-1" data-stewardship="epra" role="button" tabindex="0">
         <div class="stewardship-indicator"></div>
         <div>
-          <h3 class="stewardship-card-title">Electronics recycling</h3>
+          <h3 class="stewardship-card-title">Electronics recycling &rarr;</h3>
           <p class="stewardship-card-body">Registered depot for end-of-life consumer electronics.</p>
         </div>
       </div>
-      <div class="stewardship-card reveal reveal-delay-2">
+      <div class="stewardship-card reveal reveal-delay-2" data-stewardship="tire" role="button" tabindex="0">
         <div class="stewardship-indicator"></div>
         <div>
-          <h3 class="stewardship-card-title">Tire take-back</h3>
+          <h3 class="stewardship-card-title">Tire take-back &rarr;</h3>
           <p class="stewardship-card-body">Passenger and light-truck tires, off the rim, no charge.</p>
         </div>
       </div>
-      <div class="stewardship-card reveal reveal-delay-3">
+      <div class="stewardship-card reveal reveal-delay-3" data-stewardship="oil" role="button" tabindex="0">
         <div class="stewardship-indicator"></div>
         <div>
-          <h3 class="stewardship-card-title">Used oil & antifreeze</h3>
+          <h3 class="stewardship-card-title">Used oil &amp; antifreeze &rarr;</h3>
           <p class="stewardship-card-body">Containers, filters and fluids handled under program rules.</p>
         </div>
       </div>
-      <div class="stewardship-card reveal reveal-delay-4">
+      <div class="stewardship-card reveal reveal-delay-4" data-stewardship="product-care" role="button" tabindex="0">
         <div class="stewardship-indicator"></div>
         <div>
-          <h3 class="stewardship-card-title">Paint & solvents</h3>
+          <h3 class="stewardship-card-title">Paint &amp; solvents &rarr;</h3>
           <p class="stewardship-card-body">Collected on hazardous-waste event days.</p>
         </div>
       </div>
@@ -1567,7 +1823,119 @@
         }
       });
     });
+  
+    // Mobile Stewardship Modal Controller
+    const MOBILE_STEWARDSHIP_DATA = {
+      'epra': {
+        tag: 'ELECTRONICS RECYCLING',
+        title: 'EPRA Manitoba',
+        overview: 'Official provincial take-back program (Recycle My Electronics). Safely recycles consumer computers, televisions, IT hardware, audio gear, and phones free of charge at Tri-Com depot.',
+        items: ['Computers, laptops & tablets', 'TVs & display monitors', 'Printers, scanners & fax copiers', 'Smartphones & chargers', 'Audio & stereo gear'],
+        link: 'https://www.recyclemyelectronics.ca/mb/'
+      },
+      'tire': {
+        tag: 'TIRE STEWARDSHIP',
+        title: 'Tire Stewardship Manitoba',
+        overview: 'Provincial program for responsible recycling of scrap tires into rubber molded products, playground surfaces, and engineering aggregate. Free drop-off at Tri-Com.',
+        items: ['Passenger car tires', 'Light truck tires', 'SUV & van tires', 'Off the rim only (no fee)'],
+        link: 'https://www.tirestewardshipmb.ca/'
+      },
+      'oil': {
+        tag: 'USED OIL & FLUIDS',
+        title: 'MARRC Manitoba',
+        overview: 'Manitoba Association for Resource Recovery Corp program for used lubricating oil, filters, antifreeze, and plastic oil containers.',
+        items: ['Used motor & lubricating oil', 'Oil filters & cartridges', 'Antifreeze & coolant fluids', 'Empty plastic oil containers'],
+        link: 'https://usedoilrecycling.com/manitoba/'
+      },
+      'product-care': {
+        tag: 'PAINT & CHEMICALS',
+        title: 'Product Care Manitoba',
+        overview: 'Household Hazardous Waste stewardship diverting paints, solvents, thinners, and flammable liquids from landfills and northern waterways.',
+        items: ['Latex & oil-based paints', 'Paint aerosols & thinners', 'Solvents, varsol & turpentine', 'Fluorescent tubes & CFL bulbs'],
+        link: 'https://www.productcare.org/province/manitoba/'
+      }
+    };
+
+    function initMobileStewardshipModal() {
+      const modal = document.getElementById('mobile-stewardship-modal');
+      const closeBtn = document.getElementById('mobile-modal-close');
+      const dismissBtn = document.getElementById('mobile-modal-dismiss');
+      const tagEl = document.getElementById('mobile-modal-tag');
+      const titleEl = document.getElementById('mobile-modal-title');
+      const overviewEl = document.getElementById('mobile-modal-overview');
+      const itemsEl = document.getElementById('mobile-modal-items');
+      const linkEl = document.getElementById('mobile-modal-link');
+
+      if (!modal) return;
+
+      function openModal(key) {
+        const d = MOBILE_STEWARDSHIP_DATA[key];
+        if (!d) return;
+        tagEl.textContent = d.tag;
+        titleEl.textContent = d.title;
+        overviewEl.textContent = d.overview;
+        itemsEl.innerHTML = d.items.map(i => `
+          <div class="mobile-modal-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>${i}</span>
+          </div>
+        `).join('');
+        linkEl.href = d.link;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeModal() {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      document.querySelectorAll('[data-stewardship]').forEach(card => {
+        card.addEventListener('click', () => {
+          const k = card.getAttribute('data-stewardship');
+          openModal(k);
+        });
+      });
+
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+      if (dismissBtn) dismissBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+      });
+    }
+
+    initMobileStewardshipModal();
+
   </script>
+  <!-- Mobile Stewardship Modal Sheet -->
+  <div id="mobile-stewardship-modal" class="mobile-modal-overlay" role="dialog" aria-modal="true">
+    <div class="mobile-modal-sheet">
+      <div class="mobile-modal-handle"></div>
+      <div class="mobile-modal-header">
+        <div>
+          <span id="mobile-modal-tag" class="mobile-modal-tag">ELECTRONICS</span>
+          <h3 id="mobile-modal-title" class="mobile-modal-title">EPRA Manitoba</h3>
+        </div>
+        <button type="button" id="mobile-modal-close" class="mobile-modal-close" aria-label="Close dialog">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="mobile-modal-body">
+        <div id="mobile-modal-overview" class="mobile-modal-overview"></div>
+        <div>
+          <h4 style="font-size: 0.85rem; font-weight: 700; margin: 0 0 8px 0; color: rgba(255,255,255,0.9);">Covered Materials</h4>
+          <div id="mobile-modal-items" class="mobile-modal-items"></div>
+        </div>
+      </div>
+      <div class="mobile-modal-footer">
+        <a id="mobile-modal-link" href="#" target="_blank" rel="noopener noreferrer" class="mobile-modal-btn-link">
+          Official Site &rarr;
+        </a>
+        <button type="button" id="mobile-modal-dismiss" class="mobile-modal-btn-close">Close</button>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
 

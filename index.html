@@ -654,7 +654,264 @@
       transition: gap 0.25s var(--ease-apple);
     }
 
-    .stewardship-link:hover {
+
+    /* Stewardship Detailed Popup Modal */
+    .stewardship-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.68);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      z-index: 10000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.32s var(--ease-apple), visibility 0.32s var(--ease-apple);
+    }
+
+    .stewardship-modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .stewardship-modal-card {
+      background: var(--apple-card-white);
+      color: var(--apple-text-dark);
+      border-radius: 28px;
+      width: 100%;
+      max-width: 660px;
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 35px 80px rgba(0, 0, 0, 0.38), 0 0 1px rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      position: relative;
+      transform: scale(0.93) translateY(24px);
+      transition: transform 0.35s var(--ease-apple);
+      overflow: hidden;
+    }
+
+    .stewardship-modal-overlay.active .stewardship-modal-card {
+      transform: scale(1) translateY(0);
+    }
+
+    .stewardship-modal-header {
+      padding: 28px 28px 18px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      background: linear-gradient(180deg, rgba(0, 113, 227, 0.04) 0%, rgba(255, 255, 255, 0) 100%);
+      position: relative;
+    }
+
+    .stewardship-modal-header-info {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding-right: 20px;
+    }
+
+    .stewardship-modal-tag {
+      align-self: flex-start;
+      font-family: var(--font-system);
+      font-size: 0.68rem;
+      font-weight: 750;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-apple-blue);
+      background: rgba(0, 113, 227, 0.1);
+      padding: 4px 12px;
+      border-radius: 9999px;
+    }
+
+    .stewardship-modal-title {
+      font-family: var(--font-display);
+      font-size: 1.55rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: var(--apple-text-dark);
+      margin: 0;
+      line-height: 1.25;
+    }
+
+    .stewardship-modal-subtitle {
+      font-family: var(--font-system);
+      font-size: 0.88rem;
+      color: var(--apple-text-secondary);
+      margin: 0;
+      line-height: 1.45;
+    }
+
+    .stewardship-modal-close-btn {
+      background: rgba(0, 0, 0, 0.05);
+      border: none;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--apple-text-secondary);
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    }
+
+    .stewardship-modal-close-btn:hover {
+      background: rgba(0, 0, 0, 0.1);
+      color: var(--apple-text-dark);
+      transform: scale(1.06);
+    }
+
+    .stewardship-modal-body {
+      padding: 24px 28px;
+      overflow-y: auto;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+    }
+
+    .stewardship-modal-callout {
+      background: rgba(0, 113, 227, 0.05);
+      border: 1px solid rgba(0, 113, 227, 0.14);
+      border-radius: 16px;
+      padding: 16px 18px;
+      font-size: 0.92rem;
+      line-height: 1.55;
+      color: #1a2a3a;
+    }
+
+    .stewardship-modal-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .stewardship-modal-section-title {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 750;
+      letter-spacing: -0.015em;
+      color: var(--apple-text-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0;
+    }
+
+    .stewardship-modal-items-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 8px 12px;
+    }
+
+    .stewardship-modal-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 0.86rem;
+      color: #333336;
+      line-height: 1.35;
+      background: #f8f8fa;
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(0, 0, 0, 0.04);
+    }
+
+    .stewardship-modal-item svg {
+      flex-shrink: 0;
+      color: var(--color-apple-blue);
+    }
+
+    .stewardship-modal-guidelines-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .stewardship-modal-guideline {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.86rem;
+      line-height: 1.5;
+      color: #3a3a3c;
+    }
+
+    .stewardship-modal-guideline svg {
+      flex-shrink: 0;
+      margin-top: 3px;
+      color: #34c759;
+    }
+
+    .stewardship-modal-footer {
+      padding: 18px 28px 24px 28px;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      background: #fafafc;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .stewardship-modal-link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--color-apple-blue);
+      color: #ffffff;
+      font-family: var(--font-system);
+      font-size: 0.9rem;
+      font-weight: 650;
+      padding: 10px 20px;
+      border-radius: 14px;
+      text-decoration: none;
+      transition: background 0.2s var(--ease-apple), transform 0.2s var(--ease-apple);
+    }
+
+    .stewardship-modal-link-btn:hover {
+      background: #0062c4;
+      transform: translateY(-1px);
+    }
+
+    .stewardship-modal-dismiss-btn {
+      background: transparent;
+      border: 1px solid rgba(0, 0, 0, 0.14);
+      color: var(--apple-text-dark);
+      font-family: var(--font-system);
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 10px 18px;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .stewardship-modal-dismiss-btn:hover {
+      background: rgba(0, 0, 0, 0.05);
+    }
+
+    .stewardship-card {
+      cursor: pointer;
+    }
+
+        .stewardship-link:hover {
       gap: 8px;
     }
 
@@ -1519,30 +1776,30 @@
 
             <div class="stewardship-grid">
               <!-- Sub-card 1: EPRA Manitoba -->
-              <div class="stewardship-card">
+              <div class="stewardship-card" data-stewardship="epra" role="button" tabindex="0" aria-label="Learn more about EPRA Manitoba Electronics Stewardship">
                 <span class="stewardship-tag">ELECTRONICS</span>
                 <h3 class="stewardship-card-title">EPRA Manitoba</h3>
                 <p class="stewardship-text">Recycle My Electronics program for safe take-back of computers, TVs, audio
                   gear, and IT devices.</p>
-                <a href="#epra" class="stewardship-link">Learn More &amp; Drop-offs &rarr;</a>
+                <button type="button" class="stewardship-link" data-stewardship="epra" aria-haspopup="dialog">Learn More &amp; Drop-offs &rarr;</button>
               </div>
 
               <!-- Sub-card 2: Product Care Manitoba -->
-              <div class="stewardship-card">
+              <div class="stewardship-card" data-stewardship="product-care" role="button" tabindex="0" aria-label="Learn more about Product Care Manitoba Hazardous Waste">
                 <span class="stewardship-tag">HAZARDOUS WASTE</span>
                 <h3 class="stewardship-card-title">Product Care MB</h3>
                 <p class="stewardship-text">Household hazardous waste program for paint, aerosols, solvents, and
                   household chemicals.</p>
-                <a href="#product-care" class="stewardship-link">Learn More &amp; Drop-offs &rarr;</a>
+                <button type="button" class="stewardship-link" data-stewardship="product-care" aria-haspopup="dialog">Learn More &amp; Drop-offs &rarr;</button>
               </div>
 
               <!-- Sub-card 3: MMSM -->
-              <div class="stewardship-card">
+              <div class="stewardship-card" data-stewardship="mmsm" role="button" tabindex="0" aria-label="Learn more about MMSM Packaging and Paper Stewardship">
                 <span class="stewardship-tag">PACKAGING &amp; PAPER</span>
                 <h3 class="stewardship-card-title">MMSM Stewardship</h3>
                 <p class="stewardship-text">Multi-Material Stewardship Manitoba — packaging stewardship and funding
                   partner of Tri-Com.</p>
-                <a href="#mmsm" class="stewardship-link">Learn More &amp; Drop-offs &rarr;</a>
+                <button type="button" class="stewardship-link" data-stewardship="mmsm" aria-haspopup="dialog">Learn More &amp; Drop-offs &rarr;</button>
               </div>
             </div>
           </div>
@@ -2777,7 +3034,167 @@
         .replace(/"/g, '&quot;');
     }
 
-    // Initial trigger
+
+    // Stewardship Programs Detail Data & Modal Controller
+    const STEWARDSHIP_PROGRAMS = {
+      'epra': {
+        tag: 'ELECTRONICS STEWARDSHIP',
+        title: 'EPRA Manitoba — Recycle My Electronics',
+        subtitle: 'Official regulated take-back program for consumer & commercial IT electronics',
+        overview: 'The Electronic Products Recycling Association (EPRA) Manitoba manages the provincial <strong>Recycle My Electronics</strong> program. Tri-Com Recycling serves as the designated regional collection depot for The Pas, OCN, and RM of Kelsey. End-of-life devices are diverted from municipal landfills to certified Canadian recyclers where toxic heavy metals (lead, mercury, cadmium) are securely recovered, and reusable commodities are cycled back into manufacturing.',
+        items: [
+          'Desktops, laptops, notebooks & tablets',
+          'Computer monitors & CRT / LCD displays',
+          'Televisions (flat screen, CRT, projection)',
+          'Desktop printers, scanners & fax copiers',
+          'Keyboards, computer mice, cables & drives',
+          'Home audio/video, speakers, DVD & stereo gear',
+          'Cell phones, smartphones & pagers',
+          'Non-cellular phones, answering machines & IT hubs'
+        ],
+        guidelines: [
+          '<strong>100% Free Drop-off:</strong> There is zero disposal fee for residents or businesses dropping off approved electronics (funded by provincial Environmental Handling Fees).',
+          '<strong>Data Security:</strong> Consumers are responsible for clearing all personal data, accounts, and passwords from computers and mobile devices prior to drop-off.',
+          '<strong>Depot Location:</strong> Hand in devices to Tri-Com scale attendants at Meadows Road during regular yard hours.'
+        ],
+        link: 'https://www.recyclemyelectronics.ca/mb/',
+        linkText: 'Visit EPRA Recycle My Electronics'
+      },
+      'product-care': {
+        tag: 'HAZARDOUS WASTE & PAINT',
+        title: 'Product Care Manitoba',
+        subtitle: 'Household Hazardous Waste (HHW) stewardship for paints, solvents & flammables',
+        overview: 'Product Care Association operates Manitoba\'s approved environmental stewardship program for <strong>Household Hazardous Waste (HHW)</strong> and leftover paint. Tri-Com coordinates collection to prevent toxic liquids, chemicals, and volatile solvents from contaminating local rivers, groundwater, and municipal disposal cells in northern Manitoba.',
+        items: [
+          'Interior & exterior architectural paint (latex & oil)',
+          'Wood stains, varnishes, sealers & lacquers',
+          'Paint aerosol spray cans',
+          'Flammable liquids, mineral spirits & thinners',
+          'Turpentine, varsol & paint strippers',
+          'Consumer pesticides with PCP registration numbers',
+          'Gasoline (must be in approved ULC fuel containers)',
+          'Fluorescent light tubes & compact fluorescent bulbs (CFLs)'
+        ],
+        guidelines: [
+          '<strong>Original Containers:</strong> All materials must be in their original, clearly labeled containers with tightly sealed lids.',
+          '<strong>Do Not Mix:</strong> Never combine different paints, chemicals, or solvents together in a single container.',
+          '<strong>Event & Yard Schedule:</strong> Accepted during regular yard hours and designated regional Hazardous Waste Event Days.'
+        ],
+        link: 'https://www.productcare.org/province/manitoba/',
+        linkText: 'Visit Product Care Manitoba'
+      },
+      'mmsm': {
+        tag: 'PACKAGING & PRINTED PAPER',
+        title: 'Multi-Material Stewardship Manitoba',
+        subtitle: 'Provincial packaging stewardship & operational funding partner of Tri-Com',
+        overview: 'Multi-Material Stewardship Manitoba (MMSM) is the industry-funded non-profit stewardship organization operating Manitoba\'s residential recycling framework (<strong>Simply Recycle</strong>). MMSM provides core funding, operational standards, and public education support to Tri-Com Recycling, ensuring household packaging and printed paper are recovered at industry-leading diversion rates.',
+        items: [
+          'Corrugated shipping boxes & clean pizza boxes',
+          'Boxboard (cereal, tissue, shoe & food boxes)',
+          'Newspapers, flyers, magazines & catalogs',
+          'Office paper, printer paper & correspondence',
+          'Plastic food containers, tubs, bottles & jugs (#1-#5)',
+          'Aluminum beverage cans & clean aluminum trays',
+          'Steel & tin soup cans, pet food cans & metal lids',
+          'Milk cartons, tetra paks, juice boxes & glass food jars'
+        ],
+        guidelines: [
+          '<strong>Rinse Clean:</strong> Lightly rinse all food containers, tubs, and jars before placing them in the bin.',
+          '<strong>Flatten Cardboard:</strong> Breakdown and flatten all boxes to optimize space in curbside blue bins and collection trucks.',
+          '<strong>Curbside & Depot:</strong> Collected directly through curbside residential routes across The Pas, OCN, and RM of Kelsey, and accepted in bulk at Tri-Com.'
+        ],
+        link: 'https://simplyrecycle.ca/',
+        linkText: 'Visit MMSM Simply Recycle'
+      }
+    };
+
+    function initStewardshipModal() {
+      const modalOverlay = document.getElementById('stewardship-modal-overlay');
+      const closeBtn = document.getElementById('stewardship-modal-close-btn');
+      const dismissBtn = document.getElementById('stewardship-modal-dismiss-btn');
+      const tagEl = document.getElementById('stewardship-modal-tag');
+      const titleEl = document.getElementById('stewardship-modal-title');
+      const subtitleEl = document.getElementById('stewardship-modal-subtitle');
+      const overviewEl = document.getElementById('stewardship-modal-overview');
+      const itemsEl = document.getElementById('stewardship-modal-items');
+      const guidelinesEl = document.getElementById('stewardship-modal-guidelines');
+      const linkEl = document.getElementById('stewardship-modal-link');
+
+      if (!modalOverlay) return;
+
+      function openModal(progKey) {
+        const data = STEWARDSHIP_PROGRAMS[progKey];
+        if (!data) return;
+
+        tagEl.textContent = data.tag;
+        titleEl.textContent = data.title;
+        subtitleEl.textContent = data.subtitle;
+        overviewEl.innerHTML = data.overview;
+
+        itemsEl.innerHTML = data.items.map(item => `
+          <div class="stewardship-modal-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>${escapeHtml(item)}</span>
+          </div>
+        `).join('');
+
+        guidelinesEl.innerHTML = data.guidelines.map(g => `
+          <li class="stewardship-modal-guideline">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            <span>${g}</span>
+          </li>
+        `).join('');
+
+        linkEl.href = data.link;
+        linkEl.innerHTML = `
+          ${escapeHtml(data.linkText)}
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+        `;
+
+        modalOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeModal() {
+        modalOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      // Card & button click listeners
+      document.querySelectorAll('[data-stewardship]').forEach(el => {
+        el.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const progKey = el.getAttribute('data-stewardship');
+          openModal(progKey);
+        });
+
+        el.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            const progKey = el.getAttribute('data-stewardship');
+            openModal(progKey);
+          }
+        });
+      });
+
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+      if (dismissBtn) dismissBtn.addEventListener('click', closeModal);
+
+      modalOverlay.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) {
+          closeModal();
+        }
+      });
+
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+          closeModal();
+        }
+      });
+    }
+
+        // Initial trigger
     renderItemButtons();
     resizeCanvas();
     onScroll();
@@ -2785,7 +3202,61 @@
     initScrollStack();
     initGooeyNav();
     renderLiveNewsPosts();
+    initStewardshipModal();
   </script>
+  <!-- Stewardship Detailed Popup Window / Modal -->
+  <div id="stewardship-modal-overlay" class="stewardship-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="stewardship-modal-title" aria-describedby="stewardship-modal-subtitle">
+    <div class="stewardship-modal-card" id="stewardship-modal-card">
+      <div class="stewardship-modal-header">
+        <div class="stewardship-modal-header-info">
+          <span id="stewardship-modal-tag" class="stewardship-modal-tag">ELECTRONICS</span>
+          <h2 id="stewardship-modal-title" class="stewardship-modal-title">EPRA Manitoba</h2>
+          <p id="stewardship-modal-subtitle" class="stewardship-modal-subtitle">Recycle My Electronics Program</p>
+        </div>
+        <button type="button" id="stewardship-modal-close-btn" class="stewardship-modal-close-btn" aria-label="Close dialog">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="stewardship-modal-body">
+        <div id="stewardship-modal-overview" class="stewardship-modal-callout">
+          <!-- Overview text -->
+        </div>
+
+        <div class="stewardship-modal-section">
+          <h3 class="stewardship-modal-section-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Accepted Materials &amp; Covered Streams
+          </h3>
+          <div id="stewardship-modal-items" class="stewardship-modal-items-grid">
+            <!-- Items populated via JS -->
+          </div>
+        </div>
+
+        <div class="stewardship-modal-section">
+          <h3 class="stewardship-modal-section-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            Drop-Off Guidelines &amp; Preparation
+          </h3>
+          <ul id="stewardship-modal-guidelines" class="stewardship-modal-guidelines-list">
+            <!-- Guidelines populated via JS -->
+          </ul>
+        </div>
+      </div>
+
+      <div class="stewardship-modal-footer">
+        <a id="stewardship-modal-link" href="#" target="_blank" rel="noopener noreferrer" class="stewardship-modal-link-btn">
+          Visit Official Program Website
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+        </a>
+        <button type="button" id="stewardship-modal-dismiss-btn" class="stewardship-modal-dismiss-btn">Close</button>
+      </div>
+    </div>
+  </div>
+
 </body>
 
 </html>
