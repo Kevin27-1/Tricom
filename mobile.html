@@ -18,89 +18,6 @@
       checkViewport();
       window.addEventListener('resize', checkViewport);
     })();
-  
-    // Mobile Stewardship Modal Controller
-    const MOBILE_STEWARDSHIP_DATA = {
-      'epra': {
-        tag: 'ELECTRONICS RECYCLING',
-        title: 'EPRA Manitoba',
-        overview: 'Official provincial take-back program (Recycle My Electronics). Safely recycles consumer computers, televisions, IT hardware, audio gear, and phones free of charge at Tri-Com depot.',
-        items: ['Computers, laptops & tablets', 'TVs & display monitors', 'Printers, scanners & fax copiers', 'Smartphones & chargers', 'Audio & stereo gear'],
-        link: 'https://www.recyclemyelectronics.ca/mb/'
-      },
-      'tire': {
-        tag: 'TIRE STEWARDSHIP',
-        title: 'Tire Stewardship Manitoba',
-        overview: 'Provincial program for responsible recycling of scrap tires into rubber molded products, playground surfaces, and engineering aggregate. Free drop-off at Tri-Com.',
-        items: ['Passenger car tires', 'Light truck tires', 'SUV & van tires', 'Off the rim only (no fee)'],
-        link: 'https://www.tirestewardshipmb.ca/'
-      },
-      'oil': {
-        tag: 'USED OIL & FLUIDS',
-        title: 'MARRC Manitoba',
-        overview: 'Manitoba Association for Resource Recovery Corp program for used lubricating oil, filters, antifreeze, and plastic oil containers.',
-        items: ['Used motor & lubricating oil', 'Oil filters & cartridges', 'Antifreeze & coolant fluids', 'Empty plastic oil containers'],
-        link: 'https://usedoilrecycling.com/manitoba/'
-      },
-      'product-care': {
-        tag: 'PAINT & CHEMICALS',
-        title: 'Product Care Manitoba',
-        overview: 'Household Hazardous Waste stewardship diverting paints, solvents, thinners, and flammable liquids from landfills and northern waterways.',
-        items: ['Latex & oil-based paints', 'Paint aerosols & thinners', 'Solvents, varsol & turpentine', 'Fluorescent tubes & CFL bulbs'],
-        link: 'https://www.productcare.org/province/manitoba/'
-      }
-    };
-
-    function initMobileStewardshipModal() {
-      const modal = document.getElementById('mobile-stewardship-modal');
-      const closeBtn = document.getElementById('mobile-modal-close');
-      const dismissBtn = document.getElementById('mobile-modal-dismiss');
-      const tagEl = document.getElementById('mobile-modal-tag');
-      const titleEl = document.getElementById('mobile-modal-title');
-      const overviewEl = document.getElementById('mobile-modal-overview');
-      const itemsEl = document.getElementById('mobile-modal-items');
-      const linkEl = document.getElementById('mobile-modal-link');
-
-      if (!modal) return;
-
-      function openModal(key) {
-        const d = MOBILE_STEWARDSHIP_DATA[key];
-        if (!d) return;
-        tagEl.textContent = d.tag;
-        titleEl.textContent = d.title;
-        overviewEl.textContent = d.overview;
-        itemsEl.innerHTML = d.items.map(i => `
-          <div class="mobile-modal-item">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            <span>${i}</span>
-          </div>
-        `).join('');
-        linkEl.href = d.link;
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-      }
-
-      function closeModal() {
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
-      }
-
-      document.querySelectorAll('[data-stewardship]').forEach(card => {
-        card.addEventListener('click', () => {
-          const k = card.getAttribute('data-stewardship');
-          openModal(k);
-        });
-      });
-
-      if (closeBtn) closeBtn.addEventListener('click', closeModal);
-      if (dismissBtn) dismissBtn.addEventListener('click', closeModal);
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal();
-      });
-    }
-
-    initMobileStewardshipModal();
-
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -571,21 +488,27 @@
 
     /* ─── Scroll Reveal ─── */
     .reveal {
-      opacity: 0;
-      transform: translateY(32px);
-      transition: opacity 0.7s var(--ease-smooth), transform 0.7s var(--ease-smooth);
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.6s var(--ease-smooth), transform 0.6s var(--ease-smooth);
+      will-change: opacity, transform;
     }
 
-    .reveal.visible {
+    .js-ready .reveal:not(.visible) {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+
+    .js-ready .reveal.visible {
       opacity: 1;
       transform: translateY(0);
     }
 
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
-    .reveal-delay-3 { transition-delay: 0.3s; }
-    .reveal-delay-4 { transition-delay: 0.4s; }
-    .reveal-delay-5 { transition-delay: 0.5s; }
+    .reveal-delay-1 { transition-delay: 0.08s; }
+    .reveal-delay-2 { transition-delay: 0.16s; }
+    .reveal-delay-3 { transition-delay: 0.24s; }
+    .reveal-delay-4 { transition-delay: 0.32s; }
+    .reveal-delay-5 { transition-delay: 0.40s; }
 
     /* ═══════════════════════════════════════════
        1. WHAT WE ACCEPT (MATERIALS DIRECTORY)
@@ -1570,6 +1493,11 @@
           <p class="stewardship-card-body">Collected on hazardous-waste event days.</p>
         </div>
       </div>
+          <div class="stewardship-card reveal reveal-delay-5" data-stewardship="mmsm" role="button" tabindex="0">
+        <div class="stewardship-indicator"></div>
+        <h3 class="stewardship-card-title">Packaging &amp; paper &rarr;</h3>
+        <p class="stewardship-card-body">MMSM Simply Recycle stewardship for residential blue bin packaging.</p>
+      </div>
     </div>
   </section>
 
@@ -1739,176 +1667,8 @@
     </div>
   </aside>
 
-  <script>
-    // ─── Menu Toggle ───
-    const menu = document.getElementById('menu');
-    const openBtn = document.getElementById('open-menu');
-    const closeBtn = document.getElementById('close-menu');
-
-    function setMenu(open) {
-      menu.classList.toggle('open', open);
-      menu.setAttribute('aria-hidden', String(!open));
-      openBtn.setAttribute('aria-expanded', String(open));
-      document.body.style.overflow = open ? 'hidden' : '';
-      if (open) {
-        closeBtn.focus();
-      } else {
-        openBtn.focus();
-      }
-    }
-
-    openBtn.addEventListener('click', () => setMenu(true));
-    closeBtn.addEventListener('click', () => setMenu(false));
-
-    menu.querySelectorAll('.menu-link').forEach(link => {
-      link.addEventListener('click', () => setMenu(false));
-    });
-
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') setMenu(false);
-    });
-
-    // ─── Scroll Reveal (IntersectionObserver) ───
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, {
-      threshold: 0.15,
-      rootMargin: '0px 0px -40px 0px'
-    });
-
-    document.querySelectorAll('.reveal').forEach(el => {
-      revealObserver.observe(el);
-    });
-
-    // ─── Material Category Filter ───
-    const filterBtns = document.querySelectorAll('.material-filter-btn');
-    const materialGroups = document.querySelectorAll('.material-group');
-
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const filter = btn.getAttribute('data-filter');
-        filterBtns.forEach(b => {
-          const isSelected = b === btn;
-          b.classList.toggle('active', isSelected);
-          b.setAttribute('aria-selected', String(isSelected));
-        });
-
-        materialGroups.forEach(group => {
-          if (filter === 'all' || group.getAttribute('data-category') === filter) {
-            group.style.display = 'block';
-          } else {
-            group.style.display = 'none';
-          }
-        });
-      });
-    });
-
-    // ─── Haptic-style touch feedback ───
-    document.querySelectorAll('.btn, .menu-btn, .menu-close, .material-filter-btn, .accept-card, .stewardship-card, .news-card, .contact-item').forEach(el => {
-      el.addEventListener('touchstart', () => {}, { passive: true });
-    });
-
-    // ─── Smooth scroll for anchor links ───
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          e.preventDefault();
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      });
-    });
-  
-    // Mobile Stewardship Modal Controller
-    const MOBILE_STEWARDSHIP_DATA = {
-      'epra': {
-        tag: 'ELECTRONICS RECYCLING',
-        title: 'EPRA Manitoba',
-        overview: 'Official provincial take-back program (Recycle My Electronics). Safely recycles consumer computers, televisions, IT hardware, audio gear, and phones free of charge at Tri-Com depot.',
-        items: ['Computers, laptops & tablets', 'TVs & display monitors', 'Printers, scanners & fax copiers', 'Smartphones & chargers', 'Audio & stereo gear'],
-        link: 'https://www.recyclemyelectronics.ca/mb/'
-      },
-      'tire': {
-        tag: 'TIRE STEWARDSHIP',
-        title: 'Tire Stewardship Manitoba',
-        overview: 'Provincial program for responsible recycling of scrap tires into rubber molded products, playground surfaces, and engineering aggregate. Free drop-off at Tri-Com.',
-        items: ['Passenger car tires', 'Light truck tires', 'SUV & van tires', 'Off the rim only (no fee)'],
-        link: 'https://www.tirestewardshipmb.ca/'
-      },
-      'oil': {
-        tag: 'USED OIL & FLUIDS',
-        title: 'MARRC Manitoba',
-        overview: 'Manitoba Association for Resource Recovery Corp program for used lubricating oil, filters, antifreeze, and plastic oil containers.',
-        items: ['Used motor & lubricating oil', 'Oil filters & cartridges', 'Antifreeze & coolant fluids', 'Empty plastic oil containers'],
-        link: 'https://usedoilrecycling.com/manitoba/'
-      },
-      'product-care': {
-        tag: 'PAINT & CHEMICALS',
-        title: 'Product Care Manitoba',
-        overview: 'Household Hazardous Waste stewardship diverting paints, solvents, thinners, and flammable liquids from landfills and northern waterways.',
-        items: ['Latex & oil-based paints', 'Paint aerosols & thinners', 'Solvents, varsol & turpentine', 'Fluorescent tubes & CFL bulbs'],
-        link: 'https://www.productcare.org/province/manitoba/'
-      }
-    };
-
-    function initMobileStewardshipModal() {
-      const modal = document.getElementById('mobile-stewardship-modal');
-      const closeBtn = document.getElementById('mobile-modal-close');
-      const dismissBtn = document.getElementById('mobile-modal-dismiss');
-      const tagEl = document.getElementById('mobile-modal-tag');
-      const titleEl = document.getElementById('mobile-modal-title');
-      const overviewEl = document.getElementById('mobile-modal-overview');
-      const itemsEl = document.getElementById('mobile-modal-items');
-      const linkEl = document.getElementById('mobile-modal-link');
-
-      if (!modal) return;
-
-      function openModal(key) {
-        const d = MOBILE_STEWARDSHIP_DATA[key];
-        if (!d) return;
-        tagEl.textContent = d.tag;
-        titleEl.textContent = d.title;
-        overviewEl.textContent = d.overview;
-        itemsEl.innerHTML = d.items.map(i => `
-          <div class="mobile-modal-item">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            <span>${i}</span>
-          </div>
-        `).join('');
-        linkEl.href = d.link;
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-      }
-
-      function closeModal() {
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
-      }
-
-      document.querySelectorAll('[data-stewardship]').forEach(card => {
-        card.addEventListener('click', () => {
-          const k = card.getAttribute('data-stewardship');
-          openModal(k);
-        });
-      });
-
-      if (closeBtn) closeBtn.addEventListener('click', closeModal);
-      if (dismissBtn) dismissBtn.addEventListener('click', closeModal);
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal();
-      });
-    }
-
-    initMobileStewardshipModal();
-
-  </script>
-  <!-- Mobile Stewardship Modal Sheet -->
-  <div id="mobile-stewardship-modal" class="mobile-modal-overlay" role="dialog" aria-modal="true">
+    <!-- Mobile Stewardship Modal Sheet -->
+  <div id="mobile-stewardship-modal" class="mobile-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="mobile-modal-title">
     <div class="mobile-modal-sheet">
       <div class="mobile-modal-handle"></div>
       <div class="mobile-modal-header">
@@ -1923,7 +1683,7 @@
       <div class="mobile-modal-body">
         <div id="mobile-modal-overview" class="mobile-modal-overview"></div>
         <div>
-          <h4 style="font-size: 0.85rem; font-weight: 700; margin: 0 0 8px 0; color: rgba(255,255,255,0.9);">Covered Materials</h4>
+          <h4 style="font-size: 0.85rem; font-weight: 700; margin: 0 0 8px 0; color: rgba(255,255,255,0.9);">Covered Materials &amp; Drop-Off Details</h4>
           <div id="mobile-modal-items" class="mobile-modal-items"></div>
         </div>
       </div>
@@ -1936,6 +1696,214 @@
     </div>
   </div>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Mark JS as ready for smooth reveals
+      document.documentElement.classList.add('js-ready');
+
+      // ─── Menu Toggle ───
+      const menu = document.getElementById('menu');
+      const openBtn = document.getElementById('open-menu');
+      const closeBtn = document.getElementById('close-menu');
+
+      function setMenu(open) {
+        if (!menu) return;
+        menu.classList.toggle('open', open);
+        menu.setAttribute('aria-hidden', String(!open));
+        if (openBtn) openBtn.setAttribute('aria-expanded', String(open));
+        document.body.style.overflow = open ? 'hidden' : '';
+        if (open && closeBtn) {
+          closeBtn.focus();
+        } else if (openBtn) {
+          openBtn.focus();
+        }
+      }
+
+      if (openBtn) openBtn.addEventListener('click', () => setMenu(true));
+      if (closeBtn) closeBtn.addEventListener('click', () => setMenu(false));
+
+      if (menu) {
+        menu.querySelectorAll('.menu-link').forEach(link => {
+          link.addEventListener('click', () => setMenu(false));
+        });
+      }
+
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') setMenu(false);
+      });
+
+      // ─── Scroll Reveal (IntersectionObserver with immediate fallback) ───
+      const revealElements = document.querySelectorAll('.reveal');
+
+      if ('IntersectionObserver' in window) {
+        const revealObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting || entry.intersectionRatio > 0) {
+              entry.target.classList.add('visible');
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: [0, 0.05, 0.1],
+          rootMargin: '100px 0px 50px 0px'
+        });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+      } else {
+        revealElements.forEach(el => el.classList.add('visible'));
+      }
+
+      // Safety fallback: ensure any element in or near view is visible
+      function checkRevealFallback() {
+        const winHeight = window.innerHeight;
+        revealElements.forEach(el => {
+          const rect = el.getBoundingClientRect();
+          if (rect.top < winHeight + 150 && rect.bottom > -50) {
+            el.classList.add('visible');
+          }
+        });
+      }
+
+      window.addEventListener('scroll', checkRevealFallback, { passive: true });
+      window.addEventListener('resize', checkRevealFallback, { passive: true });
+      checkRevealFallback();
+
+      // Ensure all items are made visible within 600ms so no page is ever blank
+      setTimeout(() => {
+        revealElements.forEach(el => el.classList.add('visible'));
+      }, 600);
+
+      // ─── Material Category Filter ───
+      const filterBtns = document.querySelectorAll('.material-filter-btn');
+      const materialGroups = document.querySelectorAll('.material-group');
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const filter = btn.getAttribute('data-filter');
+          filterBtns.forEach(b => {
+            const isSelected = b === btn;
+            b.classList.toggle('active', isSelected);
+            b.setAttribute('aria-selected', String(isSelected));
+          });
+
+          materialGroups.forEach(group => {
+            if (filter === 'all' || group.getAttribute('data-category') === filter) {
+              group.style.display = 'block';
+              group.classList.add('visible');
+            } else {
+              group.style.display = 'none';
+            }
+          });
+        });
+      });
+
+      // ─── Mobile Stewardship Modal Controller ───
+      const MOBILE_STEWARDSHIP_DATA = {
+        'epra': {
+          tag: 'ELECTRONICS RECYCLING',
+          title: 'EPRA Manitoba — Recycle My Electronics',
+          overview: 'Official provincial take-back program for end-of-life electronics. Diverts consumer computers, televisions, IT hardware, audio gear, and phones from northern landfills for certified recovery.',
+          items: ['Computers, laptops & tablets', 'TVs & display monitors', 'Printers, scanners & fax copiers', 'Smartphones, cellphones & chargers', 'Audio, video & stereo gear', 'Keyboards, mice & accessories'],
+          link: 'https://www.recyclemyelectronics.ca/mb/'
+        },
+        'product-care': {
+          tag: 'PAINT & HOUSEHOLD CHEMICALS',
+          title: 'Product Care Manitoba',
+          overview: 'Household Hazardous Waste (HHW) stewardship program diverting leftover paints, solvents, thinners, and flammable liquids safely from municipal disposal cells and local waterways.',
+          items: ['Latex & oil-based interior/exterior paints', 'Paint aerosols & spray primers', 'Solvents, varsol, turpentine & thinners', 'Fluorescent tubes & compact bulbs (CFLs)', 'Domestic registered pesticides'],
+          link: 'https://www.productcare.org/province/manitoba/'
+        },
+        'mmsm': {
+          tag: 'PACKAGING & PRINTED PAPER',
+          title: 'MMSM — Simply Recycle',
+          overview: 'Multi-Material Stewardship Manitoba industry-funded framework supporting residential blue bin recycling across The Pas, OCN, and RM of Kelsey.',
+          items: ['Corrugated cardboard & pizza boxes', 'Boxboard (cereal & food packaging)', 'Newspapers, flyers & magazines', 'Plastic tubs, bottles & jugs (#1-#5)', 'Aluminum beverage & steel soup cans', 'Milk cartons & glass jars'],
+          link: 'https://simplyrecycle.ca/'
+        },
+        'tire': {
+          tag: 'TIRE STEWARDSHIP',
+          title: 'Tire Stewardship Manitoba',
+          overview: 'Province-wide scrap tire collection program diverting passenger, truck, and implement tires off the rim into recycled rubber mats and playground surfacing with zero disposal fees.',
+          items: ['Passenger car & SUV tires', 'Light truck & commercial van tires', 'Tractor & agricultural tires', 'Off-rim drop-off (free for approved limits)'],
+          link: 'https://www.tirestewardshipmb.ca/'
+        },
+        'oil': {
+          tag: 'USED OIL & ANTIFREEZE',
+          title: 'MARRC — Used Oil & Fluids',
+          overview: 'Manitoba Association for Resource Recovery Corp. provincial stewardship for used automotive oil, oil filters, engine coolant/antifreeze, and plastic containers.',
+          items: ['Used motor oil, transmission & gear oil', 'Oil filters & filter cartridges', 'Used automotive antifreeze/coolant', 'Empty plastic lubricant containers (up to 50L)'],
+          link: 'https://usedoilrecycling.com/manitoba/'
+        }
+      };
+
+      const modal = document.getElementById('mobile-stewardship-modal');
+      const modalCloseBtn = document.getElementById('mobile-modal-close');
+      const modalDismissBtn = document.getElementById('mobile-modal-dismiss');
+      const tagEl = document.getElementById('mobile-modal-tag');
+      const titleEl = document.getElementById('mobile-modal-title');
+      const overviewEl = document.getElementById('mobile-modal-overview');
+      const itemsEl = document.getElementById('mobile-modal-items');
+      const linkEl = document.getElementById('mobile-modal-link');
+
+      function openStewardshipModal(key) {
+        if (!modal) return;
+        const d = MOBILE_STEWARDSHIP_DATA[key];
+        if (!d) return;
+        if (tagEl) tagEl.textContent = d.tag;
+        if (titleEl) titleEl.textContent = d.title;
+        if (overviewEl) overviewEl.textContent = d.overview;
+        if (itemsEl) {
+          itemsEl.innerHTML = d.items.map(i => `
+            <div class="mobile-modal-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>${i}</span>
+            </div>
+          `).join('');
+        }
+        if (linkEl) linkEl.href = d.link;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeStewardshipModal() {
+        if (!modal) return;
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      document.querySelectorAll('[data-stewardship]').forEach(card => {
+        card.addEventListener('click', () => {
+          const k = card.getAttribute('data-stewardship');
+          openStewardshipModal(k);
+        });
+      });
+
+      if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeStewardshipModal);
+      if (modalDismissBtn) modalDismissBtn.addEventListener('click', closeStewardshipModal);
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) closeStewardshipModal();
+        });
+      }
+
+      // ─── Smooth scroll for anchor links ───
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          const href = this.getAttribute('href');
+          if (href === '#' || href === '#home') {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
+          }
+          const target = document.querySelector(href);
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>
 

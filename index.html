@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tri-Com Recycling Depot</title>
+
   <script>
     (function () {
       function checkViewport() {
@@ -585,7 +586,7 @@
     /* Stewardship Programs Grid (Page 1) */
     .stewardship-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 20px;
       width: 100%;
       margin-top: 28px;
@@ -1779,8 +1780,7 @@
               <div class="stewardship-card" data-stewardship="epra" role="button" tabindex="0" aria-label="Learn more about EPRA Manitoba Electronics Stewardship">
                 <span class="stewardship-tag">ELECTRONICS</span>
                 <h3 class="stewardship-card-title">EPRA Manitoba</h3>
-                <p class="stewardship-text">Recycle My Electronics program for safe take-back of computers, TVs, audio
-                  gear, and IT devices.</p>
+                <p class="stewardship-text">Recycle My Electronics program for safe take-back of computers, TVs, audio gear, and IT devices.</p>
                 <button type="button" class="stewardship-link" data-stewardship="epra" aria-haspopup="dialog">Learn More &amp; Drop-offs &rarr;</button>
               </div>
 
@@ -1788,8 +1788,7 @@
               <div class="stewardship-card" data-stewardship="product-care" role="button" tabindex="0" aria-label="Learn more about Product Care Manitoba Hazardous Waste">
                 <span class="stewardship-tag">HAZARDOUS WASTE</span>
                 <h3 class="stewardship-card-title">Product Care MB</h3>
-                <p class="stewardship-text">Household hazardous waste program for paint, aerosols, solvents, and
-                  household chemicals.</p>
+                <p class="stewardship-text">Household hazardous waste program for paint, aerosols, solvents, and household chemicals.</p>
                 <button type="button" class="stewardship-link" data-stewardship="product-care" aria-haspopup="dialog">Learn More &amp; Drop-offs &rarr;</button>
               </div>
 
@@ -1797,9 +1796,24 @@
               <div class="stewardship-card" data-stewardship="mmsm" role="button" tabindex="0" aria-label="Learn more about MMSM Packaging and Paper Stewardship">
                 <span class="stewardship-tag">PACKAGING &amp; PAPER</span>
                 <h3 class="stewardship-card-title">MMSM Stewardship</h3>
-                <p class="stewardship-text">Multi-Material Stewardship Manitoba — packaging stewardship and funding
-                  partner of Tri-Com.</p>
+                <p class="stewardship-text">Multi-Material Stewardship Manitoba — residential packaging stewardship & operational funding partner.</p>
                 <button type="button" class="stewardship-link" data-stewardship="mmsm" aria-haspopup="dialog">Learn More &amp; Drop-offs &rarr;</button>
+              </div>
+
+              <!-- Sub-card 4: Tire Stewardship Manitoba -->
+              <div class="stewardship-card" data-stewardship="tire" role="button" tabindex="0" aria-label="Learn more about Tire Stewardship Manitoba">
+                <span class="stewardship-tag">TIRES</span>
+                <h3 class="stewardship-card-title">Tire Stewardship MB</h3>
+                <p class="stewardship-text">Provincial take-back for passenger, truck, and agricultural tires off the rim, recycled into molded rubber.</p>
+                <button type="button" class="stewardship-link" data-stewardship="tire" aria-haspopup="dialog">Learn More &amp; Drop-offs &rarr;</button>
+              </div>
+
+              <!-- Sub-card 5: MARRC Used Oil & Antifreeze -->
+              <div class="stewardship-card" data-stewardship="oil" role="button" tabindex="0" aria-label="Learn more about MARRC Used Oil and Antifreeze Stewardship">
+                <span class="stewardship-tag">USED OIL &amp; FLUIDS</span>
+                <h3 class="stewardship-card-title">MARRC Used Oil &amp; Fluids</h3>
+                <p class="stewardship-text">Designated northern collection depot for used lubricating oil, filters, antifreeze, and empty plastic containers.</p>
+                <button type="button" class="stewardship-link" data-stewardship="oil" aria-haspopup="dialog">Learn More &amp; Drop-offs &rarr;</button>
               </div>
             </div>
           </div>
@@ -3041,21 +3055,21 @@
         tag: 'ELECTRONICS STEWARDSHIP',
         title: 'EPRA Manitoba — Recycle My Electronics',
         subtitle: 'Official regulated take-back program for consumer & commercial IT electronics',
-        overview: 'The Electronic Products Recycling Association (EPRA) Manitoba manages the provincial <strong>Recycle My Electronics</strong> program. Tri-Com Recycling serves as the designated regional collection depot for The Pas, OCN, and RM of Kelsey. End-of-life devices are diverted from municipal landfills to certified Canadian recyclers where toxic heavy metals (lead, mercury, cadmium) are securely recovered, and reusable commodities are cycled back into manufacturing.',
+        overview: 'The Electronic Products Recycling Association (EPRA) Manitoba operates the provincial <strong>Recycle My Electronics</strong> program. Tri-Com Recycling serves as the designated regional drop-off depot for The Pas, Opaskwayak Cree Nation (OCN), and RM of Kelsey. End-of-life electronics are diverted from municipal landfill cells to audited Canadian processors where toxic heavy metals (lead, mercury, cadmium) are safely captured, and commodities (gold, copper, aluminum, engineered plastics) are returned to circular manufacturing.',
         items: [
           'Desktops, laptops, notebooks & tablets',
-          'Computer monitors & CRT / LCD displays',
-          'Televisions (flat screen, CRT, projection)',
-          'Desktop printers, scanners & fax copiers',
-          'Keyboards, computer mice, cables & drives',
-          'Home audio/video, speakers, DVD & stereo gear',
-          'Cell phones, smartphones & pagers',
-          'Non-cellular phones, answering machines & IT hubs'
+          'Computer monitors (LCD, LED, CRT displays)',
+          'Televisions (flat panel, CRT, projection TVs)',
+          'Printers, desktop scanners & fax machines',
+          'Keyboards, mice, webcams, cables & external drives',
+          'Home audio/video, speakers, amplifiers & stereos',
+          'Smartphones, cellular phones & wireless devices',
+          'Non-cellular phones, IT routers, modems & switches'
         ],
         guidelines: [
-          '<strong>100% Free Drop-off:</strong> There is zero disposal fee for residents or businesses dropping off approved electronics (funded by provincial Environmental Handling Fees).',
-          '<strong>Data Security:</strong> Consumers are responsible for clearing all personal data, accounts, and passwords from computers and mobile devices prior to drop-off.',
-          '<strong>Depot Location:</strong> Hand in devices to Tri-Com scale attendants at Meadows Road during regular yard hours.'
+          '<strong>100% Free Drop-off:</strong> Zero disposal or tipping fees for household residents or businesses (funded by provincial Environmental Handling Fees).',
+          '<strong>Data Security:</strong> Consumers are advised to erase all personal information, accounts, and passwords from drives and devices before drop-off.',
+          '<strong>Depot Hours:</strong> Deliver equipment to the Tri-Com scale attendant at Meadows Road during standard yard operating hours.'
         ],
         link: 'https://www.recyclemyelectronics.ca/mb/',
         linkText: 'Visit EPRA Recycle My Electronics'
@@ -3063,22 +3077,22 @@
       'product-care': {
         tag: 'HAZARDOUS WASTE & PAINT',
         title: 'Product Care Manitoba',
-        subtitle: 'Household Hazardous Waste (HHW) stewardship for paints, solvents & flammables',
-        overview: 'Product Care Association operates Manitoba\'s approved environmental stewardship program for <strong>Household Hazardous Waste (HHW)</strong> and leftover paint. Tri-Com coordinates collection to prevent toxic liquids, chemicals, and volatile solvents from contaminating local rivers, groundwater, and municipal disposal cells in northern Manitoba.',
+        subtitle: 'Household Hazardous Waste (HHW) stewardship for paints, solvents & lighting',
+        overview: 'Product Care Association coordinates Manitoba's regulated environmental stewardship program for <strong>Household Hazardous Waste (HHW)</strong>, leftover paints, and lighting products. Tri-Com provides dedicated safe collection to prevent flammable chemicals, corrosive solvents, and toxic vapors from contaminating northern waterways and municipal ground systems.',
         items: [
-          'Interior & exterior architectural paint (latex & oil)',
-          'Wood stains, varnishes, sealers & lacquers',
-          'Paint aerosol spray cans',
-          'Flammable liquids, mineral spirits & thinners',
-          'Turpentine, varsol & paint strippers',
-          'Consumer pesticides with PCP registration numbers',
-          'Gasoline (must be in approved ULC fuel containers)',
-          'Fluorescent light tubes & compact fluorescent bulbs (CFLs)'
+          'Architectural interior & exterior paint (latex & oil/alkyd)',
+          'Wood stains, varnishes, sealers & clear finishes',
+          'Paint aerosol spray cans & primer coatings',
+          'Flammable liquids, varsol, paint thinners & mineral spirits',
+          'Solvents, paint strippers, degreasers & deck cleaners',
+          'Domestic pesticides carrying PCP registration numbers',
+          'Fluorescent tube lighting & compact fluorescent bulbs (CFLs)',
+          'Compressed aerosol cans & non-refillable containers'
         ],
         guidelines: [
-          '<strong>Original Containers:</strong> All materials must be in their original, clearly labeled containers with tightly sealed lids.',
-          '<strong>Do Not Mix:</strong> Never combine different paints, chemicals, or solvents together in a single container.',
-          '<strong>Event & Yard Schedule:</strong> Accepted during regular yard hours and designated regional Hazardous Waste Event Days.'
+          '<strong>Original Containers:</strong> All products must be delivered in their original containers with clear manufacturer labeling and secure lids.',
+          '<strong>Never Mix Chemicals:</strong> Do not combine different paints, solvents, or chemicals into a single vessel.',
+          '<strong>Safe Transport:</strong> Secure containers upright in your vehicle trunk or truck box to prevent tipping or spills.'
         ],
         link: 'https://www.productcare.org/province/manitoba/',
         linkText: 'Visit Product Care Manitoba'
@@ -3086,29 +3100,69 @@
       'mmsm': {
         tag: 'PACKAGING & PRINTED PAPER',
         title: 'Multi-Material Stewardship Manitoba',
-        subtitle: 'Provincial packaging stewardship & operational funding partner of Tri-Com',
-        overview: 'Multi-Material Stewardship Manitoba (MMSM) is the industry-funded non-profit stewardship organization operating Manitoba\'s residential recycling framework (<strong>Simply Recycle</strong>). MMSM provides core funding, operational standards, and public education support to Tri-Com Recycling, ensuring household packaging and printed paper are recovered at industry-leading diversion rates.',
+        subtitle: 'Provincial residential recycling framework & core operational funding partner',
+        overview: 'Multi-Material Stewardship Manitoba (MMSM) is the industry-funded non-profit stewardship organization delivering the provincial <strong>Simply Recycle</strong> program. MMSM finances and supports municipal residential recycling infrastructure, collaborating directly with Tri-Com Recycling to optimize curbside collection and regional processing efficiency.',
         items: [
-          'Corrugated shipping boxes & clean pizza boxes',
-          'Boxboard (cereal, tissue, shoe & food boxes)',
-          'Newspapers, flyers, magazines & catalogs',
-          'Office paper, printer paper & correspondence',
-          'Plastic food containers, tubs, bottles & jugs (#1-#5)',
-          'Aluminum beverage cans & clean aluminum trays',
-          'Steel & tin soup cans, pet food cans & metal lids',
-          'Milk cartons, tetra paks, juice boxes & glass food jars'
+          'Corrugated shipping boxes, cardboard & pizza boxes (clean)',
+          'Boxboard (cereal, tissue, pasta, beverage & shoe boxes)',
+          'Newspapers, newsprint flyers, magazines & catalogs',
+          'Office paper, printer paper, letters & envelopes',
+          'Plastic bottles, food tubs, jugs & containers (#1 through #5)',
+          'Aluminum beverage cans & clean aluminum food trays',
+          'Steel & tin soup cans, pet food cans & metal jar lids',
+          'Milk cartons, tetra paks, juice boxes & glass food containers'
         ],
         guidelines: [
-          '<strong>Rinse Clean:</strong> Lightly rinse all food containers, tubs, and jars before placing them in the bin.',
-          '<strong>Flatten Cardboard:</strong> Breakdown and flatten all boxes to optimize space in curbside blue bins and collection trucks.',
-          '<strong>Curbside & Depot:</strong> Collected directly through curbside residential routes across The Pas, OCN, and RM of Kelsey, and accepted in bulk at Tri-Com.'
+          '<strong>Rinse Food Residue:</strong> Give food containers and jars a quick rinse to keep materials clean and odor-free.',
+          '<strong>Flatten All Cardboard:</strong> Break down and flatten boxes to maximize container capacity.',
+          '<strong>Curbside & Yard:</strong> Place materials in your municipal blue bin or drop off bulk sorted recyclables at Tri-Com.'
         ],
         link: 'https://simplyrecycle.ca/',
         linkText: 'Visit MMSM Simply Recycle'
+      },
+      'tire': {
+        tag: 'TIRE STEWARDSHIP',
+        title: 'Tire Stewardship Manitoba',
+        subtitle: 'Official scrap tire collection & recovery stewardship for Manitoba',
+        overview: 'Tire Stewardship Manitoba (TSM) operates the approved province-wide scrap tire recycling program. Tri-Com acts as an authorized collection site, receiving scrap tires from passenger vehicles, light trucks, and agricultural equipment to divert them from burning or illegal dumping. Recovered rubber is recycled into playground surfacing, athletic turf, asphalt modifiers, and molded agricultural mats.',
+        items: [
+          'Passenger car & SUV tires',
+          'Light truck & commercial van tires',
+          'Semi-trailer & commercial transport tires',
+          'Agricultural tractor & implement tires',
+          'Off-the-road (OTR) specialty tires',
+          'Motorcycle, ATV & utility trailer tires'
+        ],
+        guidelines: [
+          '<strong>Off the Rim:</strong> Tires must be removed from metal rims before drop-off at the yard.',
+          '<strong>No Disposal Fee:</strong> Free drop-off for up to approved personal limits per visit (funded by provincial tire recycling fees).',
+          '<strong>Commercial Haulers:</strong> Commercial volumes require manifest documentation upon arrival.'
+        ],
+        link: 'https://www.tirestewardshipmb.ca/',
+        linkText: 'Visit Tire Stewardship Manitoba'
+      },
+      'oil': {
+        tag: 'USED OIL & FLUIDS',
+        title: 'MARRC — Used Oil & Antifreeze',
+        subtitle: 'Manitoba Association for Resource Recovery Corporation stewardship',
+        overview: 'The Manitoba Association for Resource Recovery Corp. (MARRC) manages the provincial stewardship system for used lubricating products. Tri-Com operates an EcoCentre/registered depot where used automotive oil, oil filters, antifreeze, and plastic fluid containers are recovered for re-refining into high-grade lubricants, industrial fuels, and plastic pellets.',
+        items: [
+          'Used motor oil, transmission fluids & gear oils',
+          'Used automotive engine coolant / antifreeze (glycol)',
+          'Used automotive & heavy equipment oil filters',
+          'Empty plastic oil, lubricant & antifreeze containers (up to 50L)'
+        ],
+        guidelines: [
+          '<strong>Do Not Contaminate:</strong> Never mix oil with water, gasoline, brake cleaner, solvents, or pesticides.',
+          '<strong>Secure Containers:</strong> Bring fluids in clean, tightly capped jugs or barrels to avoid leakage on yard roadways.',
+          '<strong>Direct Hand-off:</strong> Report to the scale house attendant for direction to the designated fluid containment tank.'
+        ],
+        link: 'https://usedoilrecycling.com/manitoba/',
+        linkText: 'Visit MARRC Manitoba'
       }
     };
 
-    function initStewardshipModal() {
+        function initStewardshipModal() {
       const modalOverlay = document.getElementById('stewardship-modal-overlay');
       const closeBtn = document.getElementById('stewardship-modal-close-btn');
       const dismissBtn = document.getElementById('stewardship-modal-dismiss-btn');
@@ -3120,36 +3174,45 @@
       const guidelinesEl = document.getElementById('stewardship-modal-guidelines');
       const linkEl = document.getElementById('stewardship-modal-link');
 
-      if (!modalOverlay) return;
+      if (!modalOverlay) {
+        console.warn('stewardship-modal-overlay not found in DOM');
+        return;
+      }
 
       function openModal(progKey) {
         const data = STEWARDSHIP_PROGRAMS[progKey];
         if (!data) return;
 
-        tagEl.textContent = data.tag;
-        titleEl.textContent = data.title;
-        subtitleEl.textContent = data.subtitle;
-        overviewEl.innerHTML = data.overview;
+        if (tagEl) tagEl.textContent = data.tag;
+        if (titleEl) titleEl.textContent = data.title;
+        if (subtitleEl) subtitleEl.textContent = data.subtitle;
+        if (overviewEl) overviewEl.innerHTML = data.overview;
 
-        itemsEl.innerHTML = data.items.map(item => `
-          <div class="stewardship-modal-item">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            <span>${escapeHtml(item)}</span>
-          </div>
-        `).join('');
+        if (itemsEl) {
+          itemsEl.innerHTML = data.items.map(item => `
+            <div class="stewardship-modal-item">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>${escapeHtml(item)}</span>
+            </div>
+          `).join('');
+        }
 
-        guidelinesEl.innerHTML = data.guidelines.map(g => `
-          <li class="stewardship-modal-guideline">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-            <span>${g}</span>
-          </li>
-        `).join('');
+        if (guidelinesEl) {
+          guidelinesEl.innerHTML = data.guidelines.map(g => `
+            <li class="stewardship-modal-guideline">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+              <span>${g}</span>
+            </li>
+          `).join('');
+        }
 
-        linkEl.href = data.link;
-        linkEl.innerHTML = `
-          ${escapeHtml(data.linkText)}
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-        `;
+        if (linkEl) {
+          linkEl.href = data.link;
+          linkEl.innerHTML = `
+            ${escapeHtml(data.linkText)}
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          `;
+        }
 
         modalOverlay.classList.add('active');
         document.body.style.overflow = 'hidden';
@@ -3194,7 +3257,7 @@
       });
     }
 
-        // Initial trigger
+    // Initial trigger
     renderItemButtons();
     resizeCanvas();
     onScroll();
@@ -3204,7 +3267,10 @@
     renderLiveNewsPosts();
     initStewardshipModal();
   </script>
-  <!-- Stewardship Detailed Popup Window / Modal -->
+  
+
+
+    <!-- Stewardship Detailed Popup Window / Modal -->
   <div id="stewardship-modal-overlay" class="stewardship-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="stewardship-modal-title" aria-describedby="stewardship-modal-subtitle">
     <div class="stewardship-modal-card" id="stewardship-modal-card">
       <div class="stewardship-modal-header">
@@ -3256,7 +3322,6 @@
       </div>
     </div>
   </div>
-
 </body>
 
 </html>
