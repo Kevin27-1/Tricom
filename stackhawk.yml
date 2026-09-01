@@ -1,0 +1,16 @@
+app:
+  # StackHawk Application ID (Tricom)
+  applicationId: 49f38085-794c-460b-b831-88c24170624a
+  env: ${APP_ENV:Development}
+  host: ${APP_HOST:http://127.0.0.1:8086}
+  excludePaths:
+    - "(?i).*\\.git.*"
+
+tags:
+  - name: _STACKHAWK_AGENT
+    value: ${HAWK_AGENT:none}
+
+hawk:
+  spider:
+    base: true
+  failureThreshold: high

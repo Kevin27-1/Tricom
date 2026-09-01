@@ -48,14 +48,25 @@ class FirestoreRequestHandler(SimpleHTTPRequestHandler):
             'Content-Type': 'application/json'
         }
 
-    def _send_cors_headers(self):
-        self.send_header('Access-Control-Allow-Origin', '*')
+    server_version = "Server"
+    sys_version = ""
+
+    def end_headers(self):
+        origin = self.headers.get('Origin')
+        if origin:
+            self.send_header('Access-Control-Allow-Origin', origin)
+            self.send_header('Vary', 'Origin')
+        else:
+            self.send_header('Access-Control-Allow-Origin', 'http://localhost:8086')
         self.send_header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
         self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+        self.send_header('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:;")
+        self.send_header('X-Content-Type-Options', 'nosniff')
+        self.send_header('X-Frame-Options', 'DENY')
+        super().end_headers()
 
     def _send_json_response(self, status_code, data):
         self.send_response(status_code)
-        self._send_cors_headers()
         self.send_header('Content-Type', 'application/json')
         self.end_headers()
         if isinstance(data, (dict, list)):
@@ -67,12 +78,15 @@ class FirestoreRequestHandler(SimpleHTTPRequestHandler):
 
     def do_OPTIONS(self):
         self.send_response(200)
-        self._send_cors_headers()
         self.end_headers()
 
     def do_GET(self):
         parsed = urllib.parse.urlparse(self.path)
         path = parsed.path.rstrip('/')
+
+        if '/.' in parsed.path or parsed.path.startswith('/.'):
+            self._send_json_response(403, {'error': 'Access denied'})
+            return
 
         if path == '/api/health':
             self._send_json_response(200, {
@@ -220,7 +234,7 @@ class FirestoreRequestHandler(SimpleHTTPRequestHandler):
             self._send_json_response(404, {'error': 'Endpoint not found'})
 
 def run_server(port=8086):
-    server_address = ('127.0.0.1', port)
+    server_address = ('0.0.0.0', port)
     httpd = HTTPServer(server_address, FirestoreRequestHandler)
     print(f"Tri-Com Secure Backend API running at http://localhost:{port}")
     print(f"Firestore Project: {PROJECT_ID}")
