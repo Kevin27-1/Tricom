@@ -1211,7 +1211,558 @@
       cursor: pointer;
     }
 
-  </style>
+  
+    /* --- Stewardship Intake / Receiving Forms Modal & Styling --- */
+    .receiving-form-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 99999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .receiving-form-modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .receiving-form-modal-container {
+      width: 100%;
+      max-width: 900px;
+      max-height: 92vh;
+      background: #121214;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      box-shadow: 0 32px 64px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.08);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transform: scale(0.95) translateY(16px);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .receiving-form-modal-overlay.active .receiving-form-modal-container {
+      transform: scale(1) translateY(0);
+    }
+
+    /* Modal Top Toolbar */
+    .receiving-form-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 20px;
+      background: #1a1a1e;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      gap: 12px;
+      z-index: 10;
+    }
+
+    .receiving-form-tabs {
+      display: flex;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 4px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .receiving-form-tab-btn {
+      background: transparent;
+      border: none;
+      color: rgba(255, 255, 255, 0.7);
+      padding: 6px 14px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .receiving-form-tab-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .receiving-form-tab-btn.active {
+      color: #fff;
+      background: var(--theme-color, #0071e3);
+      box-shadow: 0 2px 8px rgba(0, 113, 227, 0.4);
+    }
+
+    .receiving-form-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .receiving-form-btn-print {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .receiving-form-btn-print:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .receiving-form-btn-close {
+      background: transparent;
+      border: none;
+      color: rgba(255, 255, 255, 0.6);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .receiving-form-btn-close:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Scrollable Document Body */
+    .receiving-form-content-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      background: #2a2a2e;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    /* Paper Page Container (White 8.5x11 Ratio Style) */
+    .tri-form-sheet {
+      display: none;
+      width: 100%;
+      max-width: 820px;
+    }
+
+    .tri-form-sheet.active {
+      display: block;
+    }
+
+    .tri-form-page {
+      background: #ffffff;
+      color: #111111;
+      padding: 32px 36px;
+      border-radius: 6px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 11px;
+      line-height: 1.35;
+      margin-bottom: 24px;
+      box-sizing: border-box;
+    }
+
+    .tri-form-page-header {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #111;
+      padding-bottom: 3px;
+      margin-bottom: 14px;
+      font-size: 10px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .tri-form-branding {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .tri-form-main-title {
+      font-size: 19px;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      margin: 0 0 4px 0;
+      color: #000;
+    }
+
+    .tri-form-sub-title {
+      font-size: 12px;
+      font-weight: 700;
+      margin: 0 0 3px 0;
+      color: #111;
+    }
+
+    .tri-form-communities {
+      font-size: 10px;
+      font-style: italic;
+      color: #444;
+      margin: 0;
+    }
+
+    .tri-form-section-title {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      background: #e8e8e8;
+      border: 1px solid #000;
+      padding: 3px 6px;
+      margin-top: 10px;
+      margin-bottom: 4px;
+      color: #000;
+      text-transform: uppercase;
+    }
+
+    .tri-form-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 6px;
+      font-size: 10.5px;
+    }
+
+    .tri-form-table td, .tri-form-table th {
+      border: 1px solid #000;
+      padding: 3px 5px;
+      vertical-align: middle;
+    }
+
+    .tri-table-grid thead th {
+      background: #f0f0f0;
+      font-weight: 700;
+      font-size: 10px;
+    }
+
+    .tri-form-table label {
+      font-weight: 700;
+      margin-right: 4px;
+      color: #111;
+    }
+
+    .tri-input {
+      border: none;
+      background: transparent;
+      font-family: inherit;
+      font-size: 11px;
+      color: #000;
+      padding: 1px 2px;
+      box-sizing: border-box;
+      outline: none;
+      width: 100%;
+    }
+
+    .tri-input:focus {
+      background: #eef6ff;
+    }
+
+    .tri-input-inline {
+      display: inline-block;
+      border-bottom: 1px solid #000 !important;
+      border-radius: 0;
+    }
+
+    .tri-radio-group {
+      display: inline-flex;
+      gap: 16px;
+      margin-left: 8px;
+    }
+
+    .tri-check-label {
+      font-weight: normal !important;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+    }
+
+    .tri-yn {
+      font-weight: 600 !important;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      margin: 0 4px;
+      cursor: pointer;
+    }
+
+    .tri-form-warning {
+      background: #fff;
+      border: 1px solid #000;
+      padding: 5px 7px;
+      margin: 6px 0;
+      font-size: 9.5px;
+      line-height: 1.3;
+      color: #000;
+    }
+
+    .tri-form-subtext {
+      font-size: 9px;
+      font-style: italic;
+      color: #333;
+      margin: 3px 0 6px 0;
+    }
+
+    .tri-form-checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px 8px;
+      border: 1px solid #000;
+      padding: 6px 8px;
+      margin-bottom: 6px;
+      background: #fafafa;
+    }
+
+    .tri-check-box {
+      font-size: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      font-weight: 500 !important;
+    }
+
+    .tri-form-field-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid #000;
+      padding: 4px 6px;
+      margin-bottom: 6px;
+      background: #fff;
+    }
+
+    .tri-form-field-line label {
+      white-space: nowrap;
+    }
+
+    .tri-sig-line {
+      border-bottom: 1px solid #000;
+      height: 28px;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .tri-sig-label {
+      font-size: 9.5px;
+      font-weight: 700;
+      color: #333;
+      margin-top: 3px;
+    }
+
+    .tri-form-regulatory-note {
+      font-size: 8.5px;
+      font-style: italic;
+      color: #444;
+      line-height: 1.3;
+      border-top: 1px solid #666;
+      padding-top: 5px;
+      margin-top: 18px;
+      text-align: justify;
+    }
+
+    .text-center {
+      text-align: center !important;
+    }
+
+    /* Dedicated Button in Stewardship Card & Modal */
+    .stewardship-form-action-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 10px;
+      padding: 8px 14px;
+      background: rgba(0, 113, 227, 0.12);
+      border: 1px solid rgba(0, 113, 227, 0.35);
+      border-radius: 8px;
+      color: #2997ff;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .stewardship-form-action-btn:hover {
+      background: rgba(0, 113, 227, 0.25);
+      border-color: #2997ff;
+      color: #fff;
+    }
+
+    /* Print Media Styling for Pristine Physical Output */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      .receiving-form-modal-overlay,
+      .receiving-form-modal-overlay * {
+        visibility: visible;
+      }
+      .receiving-form-modal-overlay {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: auto;
+        background: transparent !important;
+        padding: 0 !important;
+        display: block !important;
+        opacity: 1 !important;
+      }
+      .receiving-form-modal-container {
+        border: none !important;
+        box-shadow: none !important;
+        max-height: none !important;
+        max-width: 100% !important;
+        background: transparent !important;
+        transform: none !important;
+      }
+      .receiving-form-toolbar {
+        display: none !important;
+      }
+      .receiving-form-content-scroll {
+        background: transparent !important;
+        padding: 0 !important;
+        overflow: visible !important;
+        display: block !important;
+      }
+      .tri-form-sheet {
+        display: none !important;
+      }
+      .tri-form-sheet.active {
+        display: block !important;
+        max-width: 100% !important;
+      }
+      .tri-form-page {
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        padding: 20px 25px !important;
+        margin: 0 0 20px 0 !important;
+        page-break-after: always;
+        break-after: page;
+      }
+      .tri-form-page-break {
+        page-break-before: always;
+        break-before: page;
+      }
+    }
+
+
+    .mobile-stewardship-form-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 8px;
+      padding: 7px 12px;
+      background: rgba(0, 113, 227, 0.15);
+      border: 1px solid rgba(0, 113, 227, 0.35);
+      border-radius: 8px;
+      color: #2997ff;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    
+
+
+    /* Mobile Stewardship Modal Form Action Banner */
+    .mobile-modal-form-section {
+      margin-top: 14px;
+      margin-bottom: 6px;
+    }
+
+    .mobile-modal-form-banner {
+      background: linear-gradient(135deg, rgba(0, 113, 227, 0.15) 0%, rgba(52, 199, 89, 0.12) 100%);
+      border: 1.5px solid rgba(0, 113, 227, 0.4);
+      border-radius: 14px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .mobile-modal-form-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .mobile-modal-form-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: var(--theme-color, #0071e3);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .mobile-modal-form-title {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: #fff;
+      margin: 0 0 2px 0;
+    }
+
+    .mobile-modal-form-desc {
+      font-size: 0.76rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin: 0;
+      line-height: 1.35;
+    }
+
+    .mobile-modal-btn-form {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      width: 100%;
+      padding: 10px 14px;
+      background: var(--theme-color, #0071e3);
+      color: #ffffff;
+      font-size: 0.82rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 113, 227, 0.4);
+      font-family: inherit;
+    }
+
+    .mobile-modal-btn-form:active {
+      transform: scale(0.98);
+      background: #0062c4;
+    }
+</style>
 </head>
 <body>
   <main class="home" id="home-screen">
@@ -1655,7 +2206,722 @@
     </div>
   </aside>
 
-    <!-- Mobile Stewardship Modal Sheet -->
+    
+  <!-- Official Stewardship Receiving / Intake Forms Modal -->
+  <div id="stewardship-form-modal-overlay" class="receiving-form-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="stewardship-form-active-title">
+    <div class="receiving-form-modal-container">
+      <div class="receiving-form-toolbar">
+        <div class="receiving-form-tabs">
+          <button type="button" class="receiving-form-tab-btn active" id="tab-btn-pc" data-switch-form="product-care">📄 Product Care HHW Form</button>
+          <button type="button" class="receiving-form-tab-btn" id="tab-btn-epra" data-switch-form="epra">📄 EPRA Electronics Form</button>
+        </div>
+        <div class="receiving-form-actions">
+          <button type="button" class="receiving-form-btn-print" id="receiving-form-print-btn" title="Print this official form or save to PDF">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+            Print / Save PDF
+          </button>
+          <button type="button" class="receiving-form-btn-close" id="receiving-form-close-btn" aria-label="Close form">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="receiving-form-content-scroll">
+        <!-- 1. PRODUCT CARE HHW RECEIVING FORM -->
+        <div class="tri-form-sheet active" id="form-sheet-product-care">
+          <!-- Page 1 -->
+          <div class="tri-form-page">
+            <div class="tri-form-page-header">
+              <span class="tri-form-facility">Pas &amp; District Recycling Facility</span>
+              <span class="tri-form-page-num">Page 1 of 2</span>
+            </div>
+            
+            <div class="tri-form-branding">
+              <h1 class="tri-form-main-title">TRI – COM RECYCLING INC.</h1>
+              <h2 class="tri-form-sub-title">Household Hazardous Waste Receiving Form — Product Care Recycling Manitoba Program</h2>
+              <p class="tri-form-communities">Residential Drop-Off • RM of Kelsey • Town of The Pas • Opaskwayak Cree Nation</p>
+            </div>
+
+            <!-- Drop-off Information -->
+            <div class="tri-form-section-title">DROP-OFF INFORMATION</div>
+            <table class="tri-form-table">
+              <tr>
+                <td style="width: 25%;"><label>Date:</label><input type="date" class="tri-input" name="pc_date"></td>
+                <td style="width: 25%;"><label>Time:</label><input type="time" class="tri-input" name="pc_time"></td>
+                <td style="width: 25%;"><label>Received By:</label><input type="text" class="tri-input" name="pc_received_by" placeholder="Staff Name"></td>
+                <td style="width: 25%;"><label>Facility Ticket #:</label><input type="text" class="tri-input" name="pc_ticket"></td>
+              </tr>
+            </table>
+
+            <!-- Customer / Depositor Information -->
+            <div class="tri-form-section-title">CUSTOMER / DEPOSITOR INFORMATION</div>
+            <table class="tri-form-table">
+              <tr>
+                <td colspan="2"><label>Name:</label><input type="text" class="tri-input" name="pc_name" placeholder="Full Name"></td>
+              </tr>
+              <tr>
+                <td colspan="2"><label>Phone:</label><input type="tel" class="tri-input" name="pc_phone" placeholder="Phone Number"></td>
+              </tr>
+              <tr>
+                <td colspan="2"><label>Address:</label><input type="text" class="tri-input" name="pc_address" placeholder="Residential Address / Community"></td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <label>Source:</label>
+                  <div class="tri-radio-group">
+                    <label class="tri-check-label"><input type="radio" name="pc_source" value="residential" checked> Residential Household</label>
+                    <label class="tri-check-label"><input type="radio" name="pc_source" value="commercial"> Eligible Small Business (commercial volume)</label>
+                  </div>
+                </td>
+              </tr>
+            </table>
+
+            <!-- Material Received -->
+            <div class="tri-form-section-title">MATERIAL RECEIVED — PRODUCT CARE PROGRAM CATEGORIES</div>
+            <table class="tri-form-table tri-table-grid">
+              <thead>
+                <tr>
+                  <th>Program Product Category</th>
+                  <th style="width: 140px; text-align: center;">Qty / Volume</th>
+                  <th style="width: 90px; text-align: center;">Labelled?</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Residential Paint (incl. stain, varnish, aerosol paint)</td>
+                  <td><input type="text" class="tri-input text-center" placeholder="____ L / units"></td>
+                  <td class="text-center">
+                    <label class="tri-yn"><input type="radio" name="pc_lab_1" value="Y" checked> Y</label>
+                    <label class="tri-yn"><input type="radio" name="pc_lab_1" value="N"> N</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Fluorescent Lights — Tubes</td>
+                  <td><input type="text" class="tri-input text-center" placeholder="____ # units"></td>
+                  <td class="text-center">
+                    <label class="tri-yn"><input type="radio" name="pc_lab_2" value="Y" checked> Y</label>
+                    <label class="tri-yn"><input type="radio" name="pc_lab_2" value="N"> N</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Fluorescent Lights — CFLs</td>
+                  <td><input type="text" class="tri-input text-center" placeholder="____ # units"></td>
+                  <td class="text-center">
+                    <label class="tri-yn"><input type="radio" name="pc_lab_3" value="Y" checked> Y</label>
+                    <label class="tri-yn"><input type="radio" name="pc_lab_3" value="N"> N</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Pesticides — Liquid/Solid (PCP # + poison symbol, max 10 L)</td>
+                  <td><input type="text" class="tri-input text-center" placeholder="____ L / kg"></td>
+                  <td class="text-center">
+                    <label class="tri-yn"><input type="radio" name="pc_lab_4" value="Y" checked> Y</label>
+                    <label class="tri-yn"><input type="radio" name="pc_lab_4" value="N"> N</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Pesticides — Aerosol (max 680 g / 24 oz)</td>
+                  <td><input type="text" class="tri-input text-center" placeholder="____ # units"></td>
+                  <td class="text-center">
+                    <label class="tri-yn"><input type="radio" name="pc_lab_5" value="Y" checked> Y</label>
+                    <label class="tri-yn"><input type="radio" name="pc_lab_5" value="N"> N</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Flammable Liquids (incl. gasoline, max 10 L)</td>
+                  <td><input type="text" class="tri-input text-center" placeholder="____ L"></td>
+                  <td class="text-center">
+                    <label class="tri-yn"><input type="radio" name="pc_lab_6" value="Y" checked> Y</label>
+                    <label class="tri-yn"><input type="radio" name="pc_lab_6" value="N"> N</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Corrosives (acids, bases — max 10 L)</td>
+                  <td><input type="text" class="tri-input text-center" placeholder="____ L"></td>
+                  <td class="text-center">
+                    <label class="tri-yn"><input type="radio" name="pc_lab_7" value="Y" checked> Y</label>
+                    <label class="tri-yn"><input type="radio" name="pc_lab_7" value="N"> N</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Toxics — Liquid/Solid (skull &amp; crossbones + "danger", max 10 L)</td>
+                  <td><input type="text" class="tri-input text-center" placeholder="____ L / kg"></td>
+                  <td class="text-center">
+                    <label class="tri-yn"><input type="radio" name="pc_lab_8" value="Y" checked> Y</label>
+                    <label class="tri-yn"><input type="radio" name="pc_lab_8" value="N"> N</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Toxics — Aerosol (max 680 g / 24 oz)</td>
+                  <td><input type="text" class="tri-input text-center" placeholder="____ # units"></td>
+                  <td class="text-center">
+                    <label class="tri-yn"><input type="radio" name="pc_lab_9" value="Y" checked> Y</label>
+                    <label class="tri-yn"><input type="radio" name="pc_lab_9" value="N"> N</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Physically Hazardous — Flammable + Explosive symbol (e.g. non-refillable propane/fuel cylinders, max 5 kg, non-refillable only)</td>
+                  <td><input type="text" class="tri-input text-center" placeholder="____ # units"></td>
+                  <td class="text-center">
+                    <label class="tri-yn"><input type="radio" name="pc_lab_10" value="Y" checked> Y</label>
+                    <label class="tri-yn"><input type="radio" name="pc_lab_10" value="N"> N</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Other (specify): <input type="text" class="tri-input tri-input-inline" style="width: 70%;"></td>
+                  <td><input type="text" class="tri-input text-center"></td>
+                  <td class="text-center">
+                    <label class="tri-yn"><input type="radio" name="pc_lab_11" value="Y"> Y</label>
+                    <label class="tri-yn"><input type="radio" name="pc_lab_11" value="N"> N</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Other (specify): <input type="text" class="tri-input tri-input-inline" style="width: 70%;"></td>
+                  <td><input type="text" class="tri-input text-center"></td>
+                  <td class="text-center">
+                    <label class="tri-yn"><input type="radio" name="pc_lab_12" value="Y"> Y</label>
+                    <label class="tri-yn"><input type="radio" name="pc_lab_12" value="N"> N</label>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="tri-form-warning">
+              <strong>NOT accepted under the Product Care program:</strong> unlabelled/unknown/unidentifiable containers, leaking or improperly sealed containers, refillable cylinders, drain cleaners and household cleaners, cosmetics and beauty products, drugs/medicines/health products (incl. hand sanitizer), swimming pool chemicals, explosives and ammunition, and biohazardous/sharps material. Direct customers with explosives/ammunition to the local fire department or police detachment; do not accept on site.
+            </div>
+
+            <!-- Container Acceptance Check -->
+            <div class="tri-form-section-title">CONTAINER ACCEPTANCE CHECK</div>
+            <table class="tri-form-table tri-table-grid">
+              <thead>
+                <tr>
+                  <th>Container Acceptance Check</th>
+                  <th style="width: 60px; text-align: center;">Yes</th>
+                  <th style="width: 60px; text-align: center;">No</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Original manufacturer container with original label intact</td>
+                  <td class="text-center"><input type="radio" name="pc_acc_1" value="Y" checked></td>
+                  <td class="text-center"><input type="radio" name="pc_acc_1" value="N"></td>
+                </tr>
+                <tr>
+                  <td>Container properly sealed, not leaking or corroded</td>
+                  <td class="text-center"><input type="radio" name="pc_acc_2" value="Y" checked></td>
+                  <td class="text-center"><input type="radio" name="pc_acc_2" value="N"></td>
+                </tr>
+                <tr>
+                  <td>Product identifiable (matches an eligible Program Product category)</td>
+                  <td class="text-center"><input type="radio" name="pc_acc_3" value="Y" checked></td>
+                  <td class="text-center"><input type="radio" name="pc_acc_3" value="N"></td>
+                </tr>
+                <tr>
+                  <td>Container within maximum size limit for its category</td>
+                  <td class="text-center"><input type="radio" name="pc_acc_4" value="Y" checked></td>
+                  <td class="text-center"><input type="radio" name="pc_acc_4" value="N"></td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="tri-form-subtext">If any answer above is "No," do not accept the product into the Program stream — advise the customer and, if needed, direct them to an alternate hazardous waste disposal option.</p>
+          </div>
+
+          <!-- Page 2 -->
+          <div class="tri-form-page tri-form-page-break">
+            <div class="tri-form-page-header">
+              <span class="tri-form-facility">Pas &amp; District Recycling Facility</span>
+              <span class="tri-form-page-num">Page 2 of 2</span>
+            </div>
+
+            <!-- Condition of Material -->
+            <div class="tri-form-section-title">CONDITION OF MATERIAL</div>
+            <div class="tri-form-checkbox-grid">
+              <label class="tri-check-box"><input type="checkbox" name="pc_cond_good" checked> Good Condition</label>
+              <label class="tri-check-box"><input type="checkbox" name="pc_cond_dam"> Damaged Container</label>
+              <label class="tri-check-box"><input type="checkbox" name="pc_cond_leak"> Leaking</label>
+              <label class="tri-check-box"><input type="checkbox" name="pc_cond_corr"> Corroded</label>
+              <label class="tri-check-box"><input type="checkbox" name="pc_cond_fade"> Label Faded/Partial</label>
+              <label class="tri-check-box"><input type="checkbox" name="pc_cond_orig" checked> Original Container</label>
+              <label class="tri-check-box"><input type="checkbox" name="pc_cond_rep"> Repackaged</label>
+              <label class="tri-check-box"><input type="checkbox" name="pc_cond_mix"> Mixed / Unknown</label>
+            </div>
+            <div class="tri-form-field-line">
+              <label>Comments:</label>
+              <input type="text" class="tri-input" name="pc_cond_comments" placeholder="Optional inspector notes">
+            </div>
+
+            <!-- Total Weight -->
+            <div class="tri-form-section-title">TOTAL WEIGHT</div>
+            <table class="tri-form-table">
+              <tr>
+                <td style="width: 50%;"><label>Weighed on Scale:</label> <input type="number" step="0.1" class="tri-input tri-input-inline" style="width: 100px;"> kg</td>
+                <td style="width: 50%;"><label>Estimated Weight:</label> <input type="number" step="0.1" class="tri-input tri-input-inline" style="width: 100px;"> kg</td>
+              </tr>
+            </table>
+
+            <!-- Receiving Inspection -->
+            <div class="tri-form-section-title">RECEIVING INSPECTION</div>
+            <table class="tri-form-table tri-table-grid">
+              <thead>
+                <tr>
+                  <th>Inspection Item</th>
+                  <th style="width: 50px; text-align: center;">Yes</th>
+                  <th style="width: 50px; text-align: center;">No</th>
+                  <th style="width: 50px; text-align: center;">N/A</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Product matches an eligible Program Product category</td>
+                  <td class="text-center"><input type="radio" name="pc_insp_1" value="Y" checked></td>
+                  <td class="text-center"><input type="radio" name="pc_insp_1" value="N"></td>
+                  <td class="text-center"><input type="radio" name="pc_insp_1" value="NA"></td>
+                </tr>
+                <tr>
+                  <td>Hazard symbol / PCP # / poison symbol verified where applicable</td>
+                  <td class="text-center"><input type="radio" name="pc_insp_2" value="Y" checked></td>
+                  <td class="text-center"><input type="radio" name="pc_insp_2" value="N"></td>
+                  <td class="text-center"><input type="radio" name="pc_insp_2" value="NA"></td>
+                </tr>
+                <tr>
+                  <td>TDG shipping name and class confirmed for storage segregation</td>
+                  <td class="text-center"><input type="radio" name="pc_insp_3" value="Y" checked></td>
+                  <td class="text-center"><input type="radio" name="pc_insp_3" value="N"></td>
+                  <td class="text-center"><input type="radio" name="pc_insp_3" value="NA"></td>
+                </tr>
+                <tr>
+                  <td>Incompatible materials segregated (flammables / corrosives / toxics / oxidizers)</td>
+                  <td class="text-center"><input type="radio" name="pc_insp_4" value="Y" checked></td>
+                  <td class="text-center"><input type="radio" name="pc_insp_4" value="N"></td>
+                  <td class="text-center"><input type="radio" name="pc_insp_4" value="NA"></td>
+                </tr>
+                <tr>
+                  <td>Secondary containment used where required</td>
+                  <td class="text-center"><input type="radio" name="pc_insp_5" value="Y" checked></td>
+                  <td class="text-center"><input type="radio" name="pc_insp_5" value="N"></td>
+                  <td class="text-center"><input type="radio" name="pc_insp_5" value="NA"></td>
+                </tr>
+                <tr>
+                  <td>Material safely unloaded and staged in designated hazardous storage area</td>
+                  <td class="text-center"><input type="radio" name="pc_insp_6" value="Y" checked></td>
+                  <td class="text-center"><input type="radio" name="pc_insp_6" value="N"></td>
+                  <td class="text-center"><input type="radio" name="pc_insp_6" value="NA"></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="tri-form-field-line" style="margin-top: 8px;">
+              <label>Comments:</label>
+              <input type="text" class="tri-input" name="pc_insp_comments">
+            </div>
+
+            <!-- Storage Location -->
+            <div class="tri-form-section-title">STORAGE LOCATION</div>
+            <div class="tri-form-checkbox-grid">
+              <label class="tri-check-box"><input type="checkbox" name="pc_stor_flam"> Flammables Cabinet</label>
+              <label class="tri-check-box"><input type="checkbox" name="pc_stor_corr"> Corrosives Cabinet</label>
+              <label class="tri-check-box"><input type="checkbox" name="pc_stor_pois"> Poison / Toxics Cage</label>
+              <label class="tri-check-box"><input type="checkbox" name="pc_stor_paint"> Paint Storage Area</label>
+              <label class="tri-check-box"><input type="checkbox" name="pc_stor_light"> Lighting/Lamp Bin</label>
+              <label class="tri-check-box"><input type="checkbox" name="pc_stor_out"> Outdoor HHW Compound</label>
+            </div>
+            <div style="display: flex; gap: 16px; margin-top: 8px;">
+              <div style="flex: 1;"><label>Drum #:</label> <input type="text" class="tri-input tri-input-inline" style="width: 70%;"></div>
+              <div style="flex: 1;"><label>Other:</label> <input type="text" class="tri-input tri-input-inline" style="width: 70%;"></div>
+            </div>
+
+            <!-- Signatures -->
+            <div class="tri-form-section-title">SIGNATURES</div>
+            <div style="display: flex; gap: 24px; margin-top: 12px;">
+              <div style="flex: 1;">
+                <div class="tri-sig-line">
+                  <input type="text" class="tri-input" placeholder="Staff Name / Signature">
+                </div>
+                <div class="tri-sig-label">Received By (Tri – Com Recycling Inc)</div>
+                <div style="margin-top: 8px;"><label>Date:</label> <input type="date" class="tri-input tri-input-inline" style="width: 140px;"></div>
+              </div>
+              <div style="flex: 1;">
+                <div class="tri-sig-line">
+                  <input type="text" class="tri-input" placeholder="Depositor Name / Signature">
+                </div>
+                <div class="tri-sig-label">Customer / Depositor (if applicable)</div>
+                <div style="margin-top: 8px;"><label>Date:</label> <input type="date" class="tri-input tri-input-inline" style="width: 140px;"></div>
+              </div>
+            </div>
+
+            <div class="tri-form-regulatory-note">
+              Products accepted free of charge under the Manitoba Household Hazardous Waste, Paint, and Lighting Stewardship Programs (Household Hazardous Material and Prescribed Material Stewardship Regulation, WRAP Act), operated by Product Care Recycling. Retain this form for facility records and Hazardous Waste Generator reporting.
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. EPRA ELECTRONICS RECEIVING FORM -->
+        <div class="tri-form-sheet" id="form-sheet-epra">
+          <!-- Page 1 -->
+          <div class="tri-form-page">
+            <div class="tri-form-page-header">
+              <span class="tri-form-facility">Tri – Com Recycling Inc.</span>
+              <span class="tri-form-page-num">Page 1 of 2</span>
+            </div>
+            
+            <div class="tri-form-branding">
+              <h1 class="tri-form-main-title">TRI – COM RECYCLING INC.</h1>
+              <h2 class="tri-form-sub-title">Electronics Receiving Form — EPRA / Recycle My Electronics Manitoba Program</h2>
+              <p class="tri-form-communities">Residential • Business • Municipal • School • Organization • OCN Community</p>
+            </div>
+
+            <!-- Drop-off Information -->
+            <div class="tri-form-section-title">DROP-OFF INFORMATION</div>
+            <table class="tri-form-table">
+              <tr>
+                <td style="width: 25%;"><label>Date:</label><input type="date" class="tri-input" name="epra_date"></td>
+                <td style="width: 25%;"><label>Time:</label><input type="time" class="tri-input" name="epra_time"></td>
+                <td style="width: 25%;"><label>Received By:</label><input type="text" class="tri-input" name="epra_received_by" placeholder="Staff Name"></td>
+                <td style="width: 25%;"><label>Facility Ticket #:</label><input type="text" class="tri-input" name="epra_ticket"></td>
+              </tr>
+            </table>
+
+            <!-- Customer / Depositor Information -->
+            <div class="tri-form-section-title">CUSTOMER / DEPOSITOR INFORMATION</div>
+            <table class="tri-form-table">
+              <tr>
+                <td colspan="2"><label>Organization / Individual Name:</label><input type="text" class="tri-input" name="epra_org" placeholder="Full Name or Organization"></td>
+              </tr>
+              <tr>
+                <td style="width: 50%;"><label>Contact Person:</label><input type="text" class="tri-input" name="epra_contact"></td>
+                <td style="width: 50%;"><label>Phone:</label><input type="tel" class="tri-input" name="epra_phone"></td>
+              </tr>
+              <tr>
+                <td colspan="2"><label>Email:</label><input type="email" class="tri-input" name="epra_email"></td>
+              </tr>
+              <tr>
+                <td colspan="2"><label>Address:</label><input type="text" class="tri-input" name="epra_address"></td>
+              </tr>
+            </table>
+
+            <!-- Material Received -->
+            <div class="tri-form-section-title">MATERIAL RECEIVED — EPRA ACCEPTED ELECTRONICS</div>
+            <table class="tri-form-table tri-table-grid">
+              <thead>
+                <tr>
+                  <th>EPRA-Accepted Item</th>
+                  <th style="width: 80px; text-align: center;">Qty</th>
+                  <th style="width: 120px; text-align: center;">Weighed (kg)</th>
+                  <th style="width: 90px; text-align: center;">EHF Item?</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Desktop Computers (incl. servers)</td>
+                  <td><input type="number" min="0" class="tri-input text-center"></td>
+                  <td><input type="number" step="0.1" min="0" class="tri-input text-center"></td>
+                  <td class="text-center">
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_1" value="Y" checked> Y</label>
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_1" value="N"> N</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Laptops / Notebooks / Tablets</td>
+                  <td><input type="number" min="0" class="tri-input text-center"></td>
+                  <td><input type="number" step="0.1" min="0" class="tri-input text-center"></td>
+                  <td class="text-center">
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_2" value="Y" checked> Y</label>
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_2" value="N"> N</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Monitors — Flat Panel (LCD/LED/Plasma)</td>
+                  <td><input type="number" min="0" class="tri-input text-center"></td>
+                  <td><input type="number" step="0.1" min="0" class="tri-input text-center"></td>
+                  <td class="text-center">
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_3" value="Y" checked> Y</label>
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_3" value="N"> N</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Monitors / TVs — CRT</td>
+                  <td><input type="number" min="0" class="tri-input text-center"></td>
+                  <td><input type="number" step="0.1" min="0" class="tri-input text-center"></td>
+                  <td class="text-center">
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_4" value="Y" checked> Y</label>
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_4" value="N"> N</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Televisions — Flat Panel / Rear-Projection</td>
+                  <td><input type="number" min="0" class="tri-input text-center"></td>
+                  <td><input type="number" step="0.1" min="0" class="tri-input text-center"></td>
+                  <td class="text-center">
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_5" value="Y" checked> Y</label>
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_5" value="N"> N</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Keyboards, Mice &amp; Computer Peripherals</td>
+                  <td><input type="number" min="0" class="tri-input text-center"></td>
+                  <td><input type="number" step="0.1" min="0" class="tri-input text-center"></td>
+                  <td class="text-center">
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_6" value="Y" checked> Y</label>
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_6" value="N"> N</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Desktop Printers / Scanners / Fax / MFDs</td>
+                  <td><input type="number" min="0" class="tri-input text-center"></td>
+                  <td><input type="number" step="0.1" min="0" class="tri-input text-center"></td>
+                  <td class="text-center">
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_7" value="Y" checked> Y</label>
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_7" value="N"> N</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Floor-Standing Photocopiers / MFDs (&le;200 kg)</td>
+                  <td><input type="number" min="0" class="tri-input text-center"></td>
+                  <td><input type="number" step="0.1" min="0" class="tri-input text-center"></td>
+                  <td class="text-center">
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_8" value="Y" checked> Y</label>
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_8" value="N"> N</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Non-Cellular Telephones &amp; Answering Machines</td>
+                  <td><input type="number" min="0" class="tri-input text-center"></td>
+                  <td><input type="number" step="0.1" min="0" class="tri-input text-center"></td>
+                  <td class="text-center">
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_9" value="Y" checked> Y</label>
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_9" value="N"> N</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Cellular Phones &amp; Pagers</td>
+                  <td><input type="number" min="0" class="tri-input text-center"></td>
+                  <td><input type="number" step="0.1" min="0" class="tri-input text-center"></td>
+                  <td class="text-center">
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_10" value="Y" checked> Y</label>
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_10" value="N"> N</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Home Audio/Video (VCR, DVD/CD, receivers, speakers, projectors)</td>
+                  <td><input type="number" min="0" class="tri-input text-center"></td>
+                  <td><input type="number" step="0.1" min="0" class="tri-input text-center"></td>
+                  <td class="text-center">
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_11" value="Y" checked> Y</label>
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_11" value="N"> N</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Personal/Portable Audio-Video (MP3, cameras, headphones)</td>
+                  <td><input type="number" min="0" class="tri-input text-center"></td>
+                  <td><input type="number" step="0.1" min="0" class="tri-input text-center"></td>
+                  <td class="text-center">
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_12" value="Y" checked> Y</label>
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_12" value="N"> N</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Home Theatre-in-a-Box Systems</td>
+                  <td><input type="number" min="0" class="tri-input text-center"></td>
+                  <td><input type="number" step="0.1" min="0" class="tri-input text-center"></td>
+                  <td class="text-center">
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_13" value="Y" checked> Y</label>
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_13" value="N"> N</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Vehicle Audio/Video (aftermarket)</td>
+                  <td><input type="number" min="0" class="tri-input text-center"></td>
+                  <td><input type="number" step="0.1" min="0" class="tri-input text-center"></td>
+                  <td class="text-center">
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_14" value="Y" checked> Y</label>
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_14" value="N"> N</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Countertop Microwave Ovens</td>
+                  <td><input type="number" min="0" class="tri-input text-center"></td>
+                  <td><input type="number" step="0.1" min="0" class="tri-input text-center"></td>
+                  <td class="text-center">
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_15" value="Y" checked> Y</label>
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_15" value="N"> N</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Cables &amp; Chargers</td>
+                  <td><input type="number" min="0" class="tri-input text-center"></td>
+                  <td><input type="number" step="0.1" min="0" class="tri-input text-center"></td>
+                  <td class="text-center">
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_16" value="Y" checked> Y</label>
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_16" value="N"> N</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Other (specify): <input type="text" class="tri-input tri-input-inline" style="width: 70%;"></td>
+                  <td><input type="number" min="0" class="tri-input text-center"></td>
+                  <td><input type="number" step="0.1" min="0" class="tri-input text-center"></td>
+                  <td class="text-center">
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_17" value="Y"> Y</label>
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_17" value="N"> N</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Other (specify): <input type="text" class="tri-input tri-input-inline" style="width: 70%;"></td>
+                  <td><input type="number" min="0" class="tri-input text-center"></td>
+                  <td><input type="number" step="0.1" min="0" class="tri-input text-center"></td>
+                  <td class="text-center">
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_18" value="Y"> Y</label>
+                    <label class="tri-yn"><input type="radio" name="epra_ehf_18" value="N"> N</label>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="tri-form-warning">
+              <strong>NOT accepted under the EPRA program (route to appropriate stream / other program):</strong> large household appliances, built-in/over-range microwaves, standalone batteries, smoke detectors, fluorescent lamps/ballasts, empty ink/toner cartridges (separate program), and non-electronic scrap metal.
+            </div>
+
+            <!-- Condition of Material -->
+            <div class="tri-form-section-title">CONDITION OF MATERIAL</div>
+            <div class="tri-form-checkbox-grid">
+              <label class="tri-check-box"><input type="checkbox" name="epra_cond_good" checked> Good Condition</label>
+              <label class="tri-check-box"><input type="checkbox" name="epra_cond_used"> Used / Working</label>
+              <label class="tri-check-box"><input type="checkbox" name="epra_cond_dam"> Damaged</label>
+              <label class="tri-check-box"><input type="checkbox" name="epra_cond_mix"> Mixed Condition</label>
+              <label class="tri-check-box"><input type="checkbox" name="epra_cond_scr"> Broken Screen(s)</label>
+              <label class="tri-check-box"><input type="checkbox" name="epra_cond_gls"> Broken Glass</label>
+              <label class="tri-check-box"><input type="checkbox" name="epra_cond_wat"> Water Damage</label>
+              <label class="tri-check-box"><input type="checkbox" name="epra_cond_leak"> Leaking / Corrosion</label>
+            </div>
+          </div>
+
+          <!-- Page 2 -->
+          <div class="tri-form-page tri-form-page-break">
+            <div class="tri-form-page-header">
+              <span class="tri-form-facility">Tri – Com Recycling Inc.</span>
+              <span class="tri-form-page-num">Page 2 of 2</span>
+            </div>
+
+            <div class="tri-form-field-line">
+              <label>Comments:</label>
+              <input type="text" class="tri-input" name="epra_cond_comments" placeholder="Optional inspector notes">
+            </div>
+
+            <!-- Total Weight -->
+            <div class="tri-form-section-title">TOTAL WEIGHT</div>
+            <table class="tri-form-table">
+              <tr>
+                <td style="width: 50%;"><label>Weighed on Scale:</label> <input type="number" step="0.1" class="tri-input tri-input-inline" style="width: 100px;"> kg</td>
+                <td style="width: 50%;"><label>Estimated Weight:</label> <input type="number" step="0.1" class="tri-input tri-input-inline" style="width: 100px;"> kg</td>
+              </tr>
+            </table>
+
+            <!-- Receiving Inspection -->
+            <div class="tri-form-section-title">RECEIVING INSPECTION</div>
+            <table class="tri-form-table tri-table-grid">
+              <thead>
+                <tr>
+                  <th>Inspection Item</th>
+                  <th style="width: 50px; text-align: center;">Yes</th>
+                  <th style="width: 50px; text-align: center;">No</th>
+                  <th style="width: 50px; text-align: center;">N/A</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Material accepted under EPRA program (matches accepted list)</td>
+                  <td class="text-center"><input type="radio" name="epra_insp_1" value="Y" checked></td>
+                  <td class="text-center"><input type="radio" name="epra_insp_1" value="N"></td>
+                  <td class="text-center"><input type="radio" name="epra_insp_1" value="NA"></td>
+                </tr>
+                <tr>
+                  <td>Hazardous materials observed (batteries, leaking fluid, etc.)</td>
+                  <td class="text-center"><input type="radio" name="epra_insp_2" value="Y"></td>
+                  <td class="text-center"><input type="radio" name="epra_insp_2" value="N" checked></td>
+                  <td class="text-center"><input type="radio" name="epra_insp_2" value="NA"></td>
+                </tr>
+                <tr>
+                  <td>Loose batteries removed / separated</td>
+                  <td class="text-center"><input type="radio" name="epra_insp_3" value="Y" checked></td>
+                  <td class="text-center"><input type="radio" name="epra_insp_3" value="N"></td>
+                  <td class="text-center"><input type="radio" name="epra_insp_3" value="NA"></td>
+                </tr>
+                <tr>
+                  <td>Broken glass / CRTs separated and contained</td>
+                  <td class="text-center"><input type="radio" name="epra_insp_4" value="Y" checked></td>
+                  <td class="text-center"><input type="radio" name="epra_insp_4" value="N"></td>
+                  <td class="text-center"><input type="radio" name="epra_insp_4" value="NA"></td>
+                </tr>
+                <tr>
+                  <td>Data-bearing devices flagged for data security handling</td>
+                  <td class="text-center"><input type="radio" name="epra_insp_5" value="Y" checked></td>
+                  <td class="text-center"><input type="radio" name="epra_insp_5" value="N"></td>
+                  <td class="text-center"><input type="radio" name="epra_insp_5" value="NA"></td>
+                </tr>
+                <tr>
+                  <td>Material safely unloaded and staged in designated area</td>
+                  <td class="text-center"><input type="radio" name="epra_insp_6" value="Y" checked></td>
+                  <td class="text-center"><input type="radio" name="epra_insp_6" value="N"></td>
+                  <td class="text-center"><input type="radio" name="epra_insp_6" value="NA"></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="tri-form-field-line" style="margin-top: 8px;">
+              <label>Comments:</label>
+              <input type="text" class="tri-input" name="epra_insp_comments">
+            </div>
+
+            <!-- Storage Location -->
+            <div class="tri-form-section-title">STORAGE LOCATION</div>
+            <div class="tri-form-checkbox-grid">
+              <label class="tri-check-box"><input type="checkbox" name="epra_stor_cage"> Electronics Cage</label>
+              <label class="tri-check-box"><input type="checkbox" name="epra_stor_wh"> Warehouse</label>
+            </div>
+            <div style="display: flex; gap: 16px; margin-top: 8px;">
+              <div style="flex: 1;"><label>Pallet #:</label> <input type="text" class="tri-input tri-input-inline" style="width: 70%;"></div>
+              <div style="flex: 1;"><label>Gaylord #:</label> <input type="text" class="tri-input tri-input-inline" style="width: 70%;"></div>
+            </div>
+            <div class="tri-form-field-line" style="margin-top: 8px;">
+              <label>Other:</label>
+              <input type="text" class="tri-input" name="epra_stor_other">
+            </div>
+
+            <!-- Receipt -->
+            <div class="tri-form-section-title">RECEIPT</div>
+            <div style="display: flex; gap: 16px; align-items: center; padding: 4px 6px;">
+              <label class="tri-check-label"><input type="radio" name="epra_rcpt" value="Y"> Receipt Requested — Yes</label>
+              <label class="tri-check-label"><input type="radio" name="epra_rcpt" value="N" checked> Receipt Requested — No</label>
+              <div style="margin-left: auto;"><label>Receipt #:</label> <input type="text" class="tri-input tri-input-inline" style="width: 140px;"></div>
+            </div>
+
+            <!-- Signatures -->
+            <div class="tri-form-section-title">SIGNATURES</div>
+            <div style="display: flex; gap: 24px; margin-top: 12px;">
+              <div style="flex: 1;">
+                <div class="tri-sig-line">
+                  <input type="text" class="tri-input" placeholder="Staff Name / Signature">
+                </div>
+                <div class="tri-sig-label">Received By (Tri – Com Recycling Inc)</div>
+                <div style="margin-top: 8px;"><label>Date:</label> <input type="date" class="tri-input tri-input-inline" style="width: 140px;"></div>
+              </div>
+              <div style="flex: 1;">
+                <div class="tri-sig-line">
+                  <input type="text" class="tri-input" placeholder="Representative Name / Signature">
+                </div>
+                <div class="tri-sig-label">Customer / Depositor Representative</div>
+                <div style="margin-top: 8px;"><label>Date:</label> <input type="date" class="tri-input tri-input-inline" style="width: 140px;"></div>
+              </div>
+            </div>
+
+            <div class="tri-form-regulatory-note">
+              Electronics accepted free of charge under the EPRA / Recycle My Electronics Manitoba program (Electrical and Electronic Equipment Stewardship Regulation). This form is retained on-site for facility records.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Mobile Stewardship Modal Sheet -->
   <div id="mobile-stewardship-modal" class="mobile-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="mobile-modal-title">
     <div class="mobile-modal-sheet">
       <div class="mobile-modal-handle"></div>
@@ -1674,7 +2940,27 @@
           <h4 style="font-size: 0.85rem; font-weight: 700; margin: 0 0 8px 0; color: rgba(255,255,255,0.9);">Covered Materials &amp; Drop-Off Details</h4>
           <div id="mobile-modal-items" class="mobile-modal-items"></div>
         </div>
+
+        <!-- Official Receiving Form Section (for EPRA & Product Care) -->
+        <div id="mobile-modal-form-section" class="mobile-modal-form-section" style="display: none;">
+          <div class="mobile-modal-form-banner">
+            <div class="mobile-modal-form-header">
+              <div class="mobile-modal-form-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+              </div>
+              <div>
+                <h4 id="mobile-modal-form-title" class="mobile-modal-form-title">Official Receiving Form</h4>
+                <p id="mobile-modal-form-desc" class="mobile-modal-form-desc">Standardized intake sheet for certified depot drop-offs.</p>
+              </div>
+            </div>
+            <button type="button" id="mobile-modal-form-btn" class="mobile-modal-btn-form">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+              <span id="mobile-modal-form-btn-text">Official Receiving Form (PDF)</span>
+            </button>
+          </div>
+        </div>
       </div>
+
       <div class="mobile-modal-footer">
         <a id="mobile-modal-link" href="#" target="_blank" rel="noopener noreferrer" class="mobile-modal-btn-link">
           Official Site &rarr;
@@ -1790,7 +3076,7 @@
         'epra': {
           tag: 'ELECTRONICS RECYCLING',
           title: 'EPRA Manitoba — Recycle My Electronics',
-          overview: 'Official provincial take-back program for end-of-life electronics. Diverts consumer computers, televisions, IT hardware, audio gear, and phones from northern landfills for certified recovery.',
+          overview: 'Official provincial take-back program for end-of-life electronics. Diverts consumer computers, televisions, IT hardware, audio gear, and phones from northern landfills for certified recovery. Drop-offs are 100% free with no tipping fees.',
           items: ['Computers, laptops & tablets', 'TVs & display monitors', 'Printers, scanners & fax copiers', 'Smartphones, cellphones & chargers', 'Audio, video & stereo gear', 'Keyboards, mice & accessories'],
           link: 'https://www.recyclemyelectronics.ca/mb/'
         },
@@ -1833,10 +3119,21 @@
       const itemsEl = document.getElementById('mobile-modal-items');
       const linkEl = document.getElementById('mobile-modal-link');
 
+      // Form elements in mobile modal
+      const formSection = document.getElementById('mobile-modal-form-section');
+      const formTitle = document.getElementById('mobile-modal-form-title');
+      const formDesc = document.getElementById('mobile-modal-form-desc');
+      const formBtn = document.getElementById('mobile-modal-form-btn');
+      const formBtnText = document.getElementById('mobile-modal-form-btn-text');
+
+      let currentMobileKey = null;
+
       function openStewardshipModal(key) {
         if (!modal) return;
         const d = MOBILE_STEWARDSHIP_DATA[key];
         if (!d) return;
+        currentMobileKey = key;
+
         if (tagEl) tagEl.textContent = d.tag;
         if (titleEl) titleEl.textContent = d.title;
         if (overviewEl) overviewEl.textContent = d.overview;
@@ -1849,6 +3146,22 @@
           `).join('');
         }
         if (linkEl) linkEl.href = d.link;
+
+        // Configure Official Receiving Form inside Learn More modal
+        if (key === 'epra') {
+          if (formSection) formSection.style.display = 'block';
+          if (formTitle) formTitle.textContent = 'Official EPRA Electronics Receiving Form';
+          if (formDesc) formDesc.textContent = 'Standardized Electronics Product Stewardship intake sheet. View, fill out, and print/save as PDF.';
+          if (formBtnText) formBtnText.textContent = 'Official EPRA Receiving Form (PDF)';
+        } else if (key === 'product-care') {
+          if (formSection) formSection.style.display = 'block';
+          if (formTitle) formTitle.textContent = 'Official Product Care HHW Form';
+          if (formDesc) formDesc.textContent = 'Certified 2-page Household Hazardous Waste (paint, aerosols, solvents, pesticides) depot receipt & transfer sheet.';
+          if (formBtnText) formBtnText.textContent = 'Official Product Care Form (PDF)';
+        } else {
+          if (formSection) formSection.style.display = 'none';
+        }
+
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
       }
@@ -1859,8 +3172,20 @@
         document.body.style.overflow = '';
       }
 
-      document.querySelectorAll('[data-stewardship]').forEach(card => {
-        card.addEventListener('click', () => {
+      if (formBtn) {
+        formBtn.addEventListener('click', () => {
+          if (window.openReceivingForm && (currentMobileKey === 'epra' || currentMobileKey === 'product-care')) {
+            closeStewardshipModal();
+            window.openReceivingForm(currentMobileKey);
+          }
+        });
+      }
+
+      // Card click opens Learn More modal
+      document.querySelectorAll('#stewardship .stewardship-card[data-stewardship]').forEach(card => {
+        card.addEventListener('click', (e) => {
+          if (e.target.closest('.mobile-stewardship-form-btn')) return;
+          e.preventDefault();
           const k = card.getAttribute('data-stewardship');
           openStewardshipModal(k);
         });
@@ -1890,6 +3215,90 @@
           }
         });
       });
+
+      
+    /* --- Stewardship Receiving / Intake Forms Logic --- */
+    function initReceivingFormsModal() {
+      const formModalOverlay = document.getElementById('stewardship-form-modal-overlay');
+      if (!formModalOverlay) return;
+
+      const tabBtnPC = document.getElementById('tab-btn-pc');
+      const tabBtnEPRA = document.getElementById('tab-btn-epra');
+      const sheetPC = document.getElementById('form-sheet-product-care');
+      const sheetEPRA = document.getElementById('form-sheet-epra');
+      const closeBtn = document.getElementById('receiving-form-close-btn');
+      const printBtn = document.getElementById('receiving-form-print-btn');
+
+      // Populate current date in date inputs
+      const todayStr = new Date().toISOString().split('T')[0];
+      const nowTimeStr = new Date().toTimeString().slice(0, 5);
+      formModalOverlay.querySelectorAll('input[type="date"]').forEach(inp => {
+        if (!inp.value) inp.value = todayStr;
+      });
+      formModalOverlay.querySelectorAll('input[type="time"]').forEach(inp => {
+        if (!inp.value) inp.value = nowTimeStr;
+      });
+
+      function switchForm(formKey) {
+        if (formKey === 'epra') {
+          tabBtnPC?.classList.remove('active');
+          tabBtnEPRA?.classList.add('active');
+          sheetPC?.classList.remove('active');
+          sheetEPRA?.classList.add('active');
+        } else {
+          tabBtnEPRA?.classList.remove('active');
+          tabBtnPC?.classList.add('active');
+          sheetEPRA?.classList.remove('active');
+          sheetPC?.classList.add('active');
+        }
+      }
+
+      function openFormModal(formKey) {
+        switchForm(formKey || 'product-care');
+        formModalOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeFormModal() {
+        formModalOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      tabBtnPC?.addEventListener('click', () => switchForm('product-care'));
+      tabBtnEPRA?.addEventListener('click', () => switchForm('epra'));
+      closeBtn?.addEventListener('click', closeFormModal);
+
+      printBtn?.addEventListener('click', () => {
+        window.print();
+      });
+
+      formModalOverlay.addEventListener('click', (e) => {
+        if (e.target === formModalOverlay) {
+          closeFormModal();
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && formModalOverlay.classList.contains('active')) {
+          closeFormModal();
+        }
+      });
+
+      // Bind all buttons with data-open-form or data-form-btn
+      document.querySelectorAll('[data-open-form]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const formKey = btn.getAttribute('data-open-form');
+          openFormModal(formKey);
+        });
+      });
+
+      // Expose globally
+      window.openReceivingForm = openFormModal;
+    }
+
+      initReceivingFormsModal();
     });
   </script>
 </body>
