@@ -80,12 +80,34 @@ class FirestoreRequestHandler(SimpleHTTPRequestHandler):
         self.send_response(200)
         self.end_headers()
 
+    def send_error(self, code, message=None, explain=None):
+        if code == 404:
+            try:
+                error_page_path = os.path.join(BASE_DIR, '404.html')
+                if os.path.exists(error_page_path):
+                    with open(error_page_path, 'rb') as f:
+                        content = f.read()
+                    self.send_response(404, message or "Not Found")
+                    self.send_header('Content-Type', 'text/html; charset=utf-8')
+                    self.send_header('Content-Length', str(len(content)))
+                    self.end_headers()
+                    self.wfile.write(content)
+                    return
+            except Exception:
+                pass
+        super().send_error(code, message, explain)
+
     def do_GET(self):
         parsed = urllib.parse.urlparse(self.path)
         path = parsed.path.rstrip('/')
 
         if '/.' in parsed.path or parsed.path.startswith('/.'):
             self._send_json_response(403, {'error': 'Access denied'})
+            return
+
+        if path == '/404':
+            self.path = '/404.html'
+            super().do_GET()
             return
 
         if path == '/api/health':
