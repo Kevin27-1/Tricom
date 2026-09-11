@@ -1071,6 +1071,7 @@
       border-top-right-radius: 24px;
       width: 100%;
       max-height: 85vh;
+      max-height: calc(100dvh - 50px);
       display: flex;
       flex-direction: column;
       box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
@@ -1078,6 +1079,7 @@
       transform: translateY(100%);
       transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
       overflow: hidden;
+      overscroll-behavior: contain;
     }
 
     .mobile-modal-overlay.active .mobile-modal-sheet {
@@ -1099,6 +1101,7 @@
       justify-content: space-between;
       align-items: flex-start;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      flex-shrink: 0;
     }
 
     .mobile-modal-tag {
@@ -1137,9 +1140,29 @@
     .mobile-modal-body {
       padding: 18px 20px;
       overflow-y: auto;
+      flex: 1 1 auto;
+      min-height: 0;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      touch-action: pan-y;
       display: flex;
       flex-direction: column;
       gap: 18px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.28) transparent;
+    }
+
+    .mobile-modal-body::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .mobile-modal-body::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .mobile-modal-body::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.25);
+      border-radius: 9999px;
     }
 
     .mobile-modal-overview {
@@ -1175,11 +1198,12 @@
     }
 
     .mobile-modal-footer {
-      padding: 14px 20px 24px 20px;
+      padding: 14px 20px calc(18px + env(safe-area-inset-bottom, 0px)) 20px;
       border-top: 1px solid rgba(255, 255, 255, 0.08);
       background: #18181a;
       display: flex;
       gap: 10px;
+      flex-shrink: 0;
     }
 
     .mobile-modal-btn-link {
@@ -1349,8 +1373,12 @@
 
     /* Scrollable Document Body */
     .receiving-form-content-scroll {
-      flex: 1;
+      flex: 1 1 auto;
+      min-height: 0;
       overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      touch-action: pan-y;
       padding: 24px;
       background: #2a2a2e;
       display: flex;
@@ -3106,6 +3134,10 @@
 
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
+        const bodyEl = modal.querySelector('.mobile-modal-body');
+        if (bodyEl) {
+          bodyEl.scrollTop = 0;
+        }
       }
 
       function closeStewardshipModal() {
@@ -3139,7 +3171,40 @@
         modal.addEventListener('click', (e) => {
           if (e.target === modal) closeStewardshipModal();
         });
+
+        // Ensure wheel scrolling works flawlessly inside mobile modal
+        modal.addEventListener('wheel', (e) => {
+          const bodyEl = modal.querySelector('.mobile-modal-body');
+          if (bodyEl) {
+            bodyEl.scrollTop += e.deltaY;
+            e.preventDefault();
+            e.stopPropagation();
+          }
+        }, { passive: false });
       }
+
+      // Keyboard navigation for mobile modal
+      document.addEventListener('keydown', (e) => {
+        if (!modal || !modal.classList.contains('active')) return;
+        const bodyEl = modal.querySelector('.mobile-modal-body');
+        if (e.key === 'Escape') {
+          closeStewardshipModal();
+        } else if (bodyEl) {
+          if (e.key === 'ArrowDown') {
+            bodyEl.scrollTop += 60;
+            e.preventDefault();
+          } else if (e.key === 'ArrowUp') {
+            bodyEl.scrollTop -= 60;
+            e.preventDefault();
+          } else if (e.key === 'PageDown' || (e.key === ' ' && !e.target.closest('button, input, textarea'))) {
+            bodyEl.scrollTop += 240;
+            e.preventDefault();
+          } else if (e.key === 'PageUp') {
+            bodyEl.scrollTop -= 240;
+            e.preventDefault();
+          }
+        }
+      });
 
       // ─── Smooth scroll for anchor links ───
       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -3199,12 +3264,23 @@
         switchForm(formKey || 'product-care');
         formModalOverlay.classList.add('active');
         document.body.style.overflow = 'hidden';
+        const scrollContent = formModalOverlay.querySelector('.receiving-form-content-scroll');
+        if (scrollContent) scrollContent.scrollTop = 0;
       }
 
       function closeFormModal() {
         formModalOverlay.classList.remove('active');
         document.body.style.overflow = '';
       }
+
+      formModalOverlay.addEventListener('wheel', (e) => {
+        const scrollContent = formModalOverlay.querySelector('.receiving-form-content-scroll');
+        if (scrollContent) {
+          scrollContent.scrollTop += e.deltaY;
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      }, { passive: false });
 
       tabBtnPC?.addEventListener('click', () => switchForm('product-care'));
       tabBtnEPRA?.addEventListener('click', () => switchForm('epra'));
