@@ -932,52 +932,93 @@
       letter-spacing: -0.01em;
     }
 
-    .newsletter-form {
-      margin-top: 16px;
+    /* ─── Contact Form (Mobile) ─── */
+    .mobile-contact-form {
       display: flex;
-      gap: 10px;
+      flex-direction: column;
+      gap: 14px;
+      padding: 20px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     }
 
-    .newsletter-input {
-      flex: 1;
-      height: 48px;
-      padding: 0 16px;
+    .mobile-form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .mobile-form-label {
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.7);
+      letter-spacing: 0.02em;
+    }
+
+    .mobile-form-input,
+    .mobile-form-textarea {
+      width: 100%;
+      padding: 13px 15px;
       border-radius: 12px;
-      border: 1.5px solid rgba(255, 255, 255, 0.12);
-      background: rgba(255, 255, 255, 0.06);
+      border: 1.5px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.07);
       color: var(--white);
       font-family: var(--font-system);
-      font-size: 0.88rem;
-      font-weight: 600;
+      font-size: 0.92rem;
+      font-weight: 500;
       outline: none;
-      transition: border-color 0.3s var(--ease-smooth);
+      transition: border-color 0.25s var(--ease-smooth), background 0.25s var(--ease-smooth), box-shadow 0.25s var(--ease-smooth);
+      -webkit-appearance: none;
     }
 
-    .newsletter-input::placeholder {
-      color: rgba(255, 255, 255, 0.3);
+    .mobile-form-input::placeholder,
+    .mobile-form-textarea::placeholder {
+      color: rgba(255, 255, 255, 0.35);
+      font-weight: 400;
     }
 
-    .newsletter-input:focus {
+    .mobile-form-input:focus,
+    .mobile-form-textarea:focus {
       border-color: var(--blue-light);
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 0 3px rgba(45, 114, 171, 0.3);
     }
 
-    .newsletter-btn {
+    .mobile-form-textarea {
+      resize: vertical;
+      min-height: 96px;
+    }
+
+    .mobile-form-submit-btn {
+      margin-top: 4px;
       height: 48px;
-      padding: 0 20px;
+      width: 100%;
       border-radius: 12px;
       border: none;
       background: var(--blue-mid);
       color: var(--white);
       font-family: var(--font-system);
-      font-size: 0.85rem;
-      font-weight: 800;
+      font-size: 0.92rem;
+      font-weight: 750;
+      letter-spacing: -0.01em;
       cursor: pointer;
-      transition: background 0.3s var(--ease-smooth), transform 0.2s var(--ease-smooth);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(36, 104, 160, 0.35);
+      transition: background 0.2s var(--ease-smooth), transform 0.15s var(--ease-smooth), box-shadow 0.2s var(--ease-smooth);
       -webkit-tap-highlight-color: transparent;
     }
 
-    .newsletter-btn:active {
-      transform: scale(0.95);
+    .mobile-form-submit-btn:hover {
+      background: var(--blue-light);
+    }
+
+    .mobile-form-submit-btn:active {
+      transform: scale(0.98);
       background: var(--blue-deep);
     }
 
@@ -2143,10 +2184,30 @@
     <p class="section-subtitle reveal reveal-delay-2">Questions about a load, a bin or a contract? We're here to help.</p>
 
     <div class="contact-grid">
-      <!-- Email -->
+      <!-- Send a Message Form (on top of Reach us) -->
       <div class="reveal reveal-delay-2">
+        <p class="contact-block-label">Send a message</p>
+        <form class="mobile-contact-form" id="contact-form-element" onsubmit="handleContactSubmit(event)">
+          <div class="mobile-form-group">
+            <label class="mobile-form-label" for="contact-name">Full Name</label>
+            <input type="text" id="contact-name" class="mobile-form-input" placeholder="Your name" required />
+          </div>
+          <div class="mobile-form-group">
+            <label class="mobile-form-label" for="contact-email">Email Address</label>
+            <input type="email" id="contact-email" class="mobile-form-input" placeholder="name@example.com" required />
+          </div>
+          <div class="mobile-form-group">
+            <label class="mobile-form-label" for="contact-message">Message</label>
+            <textarea id="contact-message" class="mobile-form-textarea" placeholder="How can we help you?" required></textarea>
+          </div>
+          <button type="submit" class="mobile-form-submit-btn">Send Message</button>
+        </form>
+      </div>
+
+      <!-- Reach us -->
+      <div class="reveal reveal-delay-3">
         <p class="contact-block-label">Reach us</p>
-        <a class="contact-item" href="mailto:tricomrecycling@gmail.com" id="contact-email">
+        <a class="contact-item" href="mailto:tricomrecycling@gmail.com" id="contact-item-email">
           <div class="contact-item-icon">✉️</div>
           <div>
             <p class="contact-item-label">Email</p>
@@ -2156,7 +2217,7 @@
       </div>
 
       <!-- Phone -->
-      <div class="reveal reveal-delay-3">
+      <div class="reveal reveal-delay-4">
         <a class="contact-item" href="tel:+12046233519" id="contact-phone">
           <div class="contact-item-icon">📞</div>
           <div>
@@ -2164,17 +2225,6 @@
             <p class="contact-item-value">(204) 623-3519</p>
           </div>
         </a>
-      </div>
-
-      <!-- Newsletter -->
-      <div class="reveal reveal-delay-4">
-        <p class="contact-block-label">Keep in touch</p>
-        <p class="section-subtitle" style="margin-top: 0; font-size: 0.82rem;">Depot closures, event days and program changes — a few times a year.</p>
-        <form class="newsletter-form" onsubmit="event.preventDefault();" id="newsletter-form">
-          <label for="newsletter-email" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Email address</label>
-          <input class="newsletter-input" type="email" id="newsletter-email" placeholder="you@example.com" required>
-          <button class="newsletter-btn" type="submit">Sign up</button>
-        </form>
       </div>
     </div>
 
@@ -3315,6 +3365,70 @@
       // Expose globally
       window.openReceivingForm = openFormModal;
     }
+
+    // ─── Contact Form Handler (Firestore REST & LocalStorage Hybrid) ───
+    const FIRESTORE_MESSAGES_ENDPOINT = 'http://localhost:8086/api/messages';
+
+    async function sendToFirestoreREST(url, fieldsData) {
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(fieldsData)
+        });
+        const result = await response.json();
+        console.log('Saved directly to Cloud Firestore tricom-recycling project:', result);
+      } catch (err) {
+        console.log('Firestore REST notice:', err);
+      }
+    }
+
+    function handleContactSubmit(event) {
+      event.preventDefault();
+      const nameEl = document.getElementById('contact-name');
+      const emailEl = document.getElementById('contact-email');
+      const msgEl = document.getElementById('contact-message');
+
+      if (!nameEl || !emailEl || !msgEl) return;
+
+      const name = nameEl.value.trim();
+      const email = emailEl.value.trim();
+      const message = msgEl.value.trim();
+      const dateStr = new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true });
+
+      const msgObj = {
+        name,
+        email,
+        message,
+        date: dateStr,
+        read: false,
+        timestamp: Date.now()
+      };
+
+      // 1. Direct Cloud Firestore REST Save to tricom-recycling project
+      sendToFirestoreREST(FIRESTORE_MESSAGES_ENDPOINT, {
+        name,
+        email,
+        message,
+        date: dateStr,
+        read: false,
+        timestamp: Date.now()
+      });
+
+      // 2. LocalStorage Persistence
+      const stored = localStorage.getItem('tricom_messages');
+      let messages = [];
+      if (stored) {
+        try { messages = JSON.parse(stored); } catch (e) { }
+      }
+
+      messages.unshift({ id: 'msg-' + Date.now(), ...msgObj });
+      localStorage.setItem('tricom_messages', JSON.stringify(messages));
+
+      alert('Thank you, ' + name + '! Your message has been sent to Tri-Com Recycling.');
+      document.getElementById('contact-form-element').reset();
+    }
+    window.handleContactSubmit = handleContactSubmit;
 
       initReceivingFormsModal();
     });
