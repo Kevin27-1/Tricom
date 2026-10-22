@@ -11,17 +11,19 @@ Tri-Com Recycling provides modern, sustainable waste management, recycling stewa
 ## 🚀 Key Features
 
 - **Dynamic Interactive Experience**: Frame-by-frame interactive scroll and smooth animations powered by Lenis smooth scrolling.
-- **Adaptive Responsive Design**: Tailored desktop (`index.html`) and mobile (`mobile.html`) layouts with bidirectional viewport synchronization.
+- **Unified Responsive Design**: Fully responsive interface for both mobile and desktop screens with fluid layouts, desktop navbar, and mobile navigation drawer.
 - **Material Acceptance Guide**: Comprehensive searchable directory of accepted and non-accepted materials with stewardship details.
-- **Depot Schedule & Drop-off Tracker**: Live operating hours, interactive depot locations, and seasonal schedule updates.
+- **Stewardship Programs**: Registered take-back streams (EPRA electronics, Product Care paint/HHW, MMSM packaging) with official interactive receiving/intake forms.
+- **Depot Schedule & Drop-off Tracker**: Live operating hours, interactive depot locations, and Google Maps directions.
+- **Direct Messaging Form**: Integrated message submission with Cloud Firestore REST and local storage fallback.
 - **Admin Dashboard**: Content management interface for notices, schedules, and depot news (`admin.html`).
 
 ## 📁 Project Structure
 
 ```
 Tricom/
-├── index.html              # Main desktop web experience
-├── mobile.html             # Dedicated mobile-optimized interface
+├── index.html              # Main website (unified responsive desktop & mobile)
+├── mobile.html             # Mobile & desktop responsive entry point
 ├── admin.html              # Depot administrative portal
 ├── api_server.py           # Backend helper server for updates & API endpoints
 ├── Done/                   # High-resolution material & category iconography
