@@ -62,6 +62,9 @@ class FirestoreRequestHandler(SimpleHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
         self.send_header('Content-Security-Policy', "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: https: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://*.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https: blob:; frame-src 'self' https://www.google.com https://*.google.com; connect-src 'self' http://localhost:* https://*.googleapis.com;")
         self.send_header('X-Content-Type-Options', 'nosniff')
+        self.send_header('Cache-Control', 'no-cache, no-store, must-revalidate')
+        self.send_header('Pragma', 'no-cache')
+        self.send_header('Expires', '0')
         super().end_headers()
 
     def _send_json_response(self, status_code, data):
@@ -135,6 +138,15 @@ class FirestoreRequestHandler(SimpleHTTPRequestHandler):
                 self._send_json_response(500, {'error': str(e)})
             return
 
+        if path == '/api/materials':
+            try:
+                headers = self._get_auth_headers()
+                res = requests.get(f'{BASE_FIRESTORE_URL}/materials', headers=headers)
+                self._send_json_response(res.status_code, res.content)
+            except Exception as e:
+                self._send_json_response(500, {'error': str(e)})
+            return
+
         # Serve static files as default fallback
         super().do_GET()
 
@@ -178,6 +190,22 @@ class FirestoreRequestHandler(SimpleHTTPRequestHandler):
                 url = f'{BASE_FIRESTORE_URL}/news?documentId={doc_id}'
             else:
                 url = f'{BASE_FIRESTORE_URL}/news'
+            res = requests.post(url, headers=headers, json={'fields': fields})
+            self._send_json_response(res.status_code, res.content)
+
+        elif path == '/api/materials':
+            doc_id = body.get('id', '')
+            fields = {
+                'title': {'stringValue': str(body.get('title', ''))},
+                'category': {'stringValue': str(body.get('category', 'curbside'))},
+                'icon': {'stringValue': str(body.get('icon', '📦'))},
+                'theme': {'stringValue': str(body.get('theme', 'paper'))},
+                'description': {'stringValue': str(body.get('description', ''))}
+            }
+            if doc_id:
+                url = f'{BASE_FIRESTORE_URL}/materials?documentId={doc_id}'
+            else:
+                url = f'{BASE_FIRESTORE_URL}/materials'
             res = requests.post(url, headers=headers, json={'fields': fields})
             self._send_json_response(res.status_code, res.content)
 
@@ -228,6 +256,20 @@ class FirestoreRequestHandler(SimpleHTTPRequestHandler):
             res = requests.patch(url, headers=headers, json={'fields': fields})
             self._send_json_response(res.status_code, res.content)
 
+        elif path.startswith('/api/materials/'):
+            doc_id = path.split('/')[-1]
+            fields = {}
+            update_mask = []
+            for k in ['title', 'category', 'icon', 'theme', 'description']:
+                if k in body:
+                    fields[k] = {'stringValue': str(body[k])}
+                    update_mask.append(f'updateMask.fieldPaths={k}')
+
+            mask_str = '&'.join(update_mask)
+            url = f'{BASE_FIRESTORE_URL}/materials/{doc_id}' + (f'?{mask_str}' if mask_str else '')
+            res = requests.patch(url, headers=headers, json={'fields': fields})
+            self._send_json_response(res.status_code, res.content)
+
         else:
             self._send_json_response(404, {'error': 'Endpoint not found'})
 
@@ -249,6 +291,11 @@ class FirestoreRequestHandler(SimpleHTTPRequestHandler):
         elif path.startswith('/api/news/'):
             doc_id = path.split('/')[-1]
             res = requests.delete(f'{BASE_FIRESTORE_URL}/news/{doc_id}', headers=headers)
+            self._send_json_response(res.status_code, res.content or b'{}')
+
+        elif path.startswith('/api/materials/'):
+            doc_id = path.split('/')[-1]
+            res = requests.delete(f'{BASE_FIRESTORE_URL}/materials/{doc_id}', headers=headers)
             self._send_json_response(res.status_code, res.content or b'{}')
 
         else:

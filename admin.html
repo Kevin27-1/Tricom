@@ -163,7 +163,7 @@
     /* Stat Cards Row */
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 20px;
       margin-bottom: 32px;
     }
@@ -306,6 +306,86 @@
       background: rgba(16, 185, 129, 0.15);
       color: #34d399;
       border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .badge-curbside {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .badge-dropoff {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .badge-notaccepted {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .mat-table-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .mat-table-icon.paper { background: #e8f0fe; }
+    .mat-table-icon.containers { background: #e6f4ea; }
+    .mat-table-icon.metals { background: #fef7e0; }
+    .mat-table-icon.electronics { background: #f3e8fd; }
+    .mat-table-icon.beverage { background: #e8f7fa; }
+    .mat-table-icon.hazardous { background: #fff3e0; }
+    .mat-table-icon.rejected { background: #fce8e6; }
+
+    .admin-filter-pills {
+      display: flex;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 3px;
+      border-radius: 9999px;
+      border: 1px solid var(--card-border);
+      gap: 3px;
+    }
+    .filter-pill {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 650;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .filter-pill:hover {
+      color: #ffffff;
+    }
+    .filter-pill.active {
+      background: var(--color-primary);
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(0, 112, 243, 0.3);
+    }
+
+    .emoji-picker-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 8px;
+      font-size: 1.2rem;
+      padding: 5px 9px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      line-height: 1;
+    }
+    .emoji-picker-btn:hover {
+      background: rgba(255, 255, 255, 0.18);
+      transform: scale(1.1);
     }
 
     .action-btn-sm {
@@ -519,11 +599,16 @@
       </button>
       <button class="nav-btn" onclick="switchTab('news')">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1m2 13a2 2 0 0 1-2-2V7m2 13a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
-        News &amp; Events Manager
+        News &amp; Events
+      </button>
+      <button class="nav-btn" onclick="switchTab('materials')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+        Materials Directory
       </button>
     </nav>
 
     <div class="header-actions">
+      <button class="btn-action" onclick="openAddMaterialModal()" style="background: #10b981;">+ Add Material</button>
       <button class="btn-action" onclick="openAddEventModal()">+ Add News Event</button>
       <button class="btn-action btn-secondary" onclick="handleLogout()">Log Out</button>
       <a href="index.html" class="btn-action btn-secondary" style="text-decoration: none;">View Site &rarr;</a>
@@ -564,6 +649,17 @@
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1m2 13a2 2 0 0 1-2-2V7m2 13a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
         </div>
       </div>
+
+      <div class="stat-card" style="cursor: pointer; transition: transform 0.2s ease, border-color 0.2s ease;" onclick="switchTab('materials')" title="Click to view Materials Directory">
+        <div class="stat-info">
+          <span class="stat-label">Active Materials</span>
+          <span class="stat-value" id="stat-total-materials" style="color: #10b981;">0</span>
+          <span style="font-size: 0.75rem; color: #10b981; font-weight: 700; margin-top: 4px;">Manage Materials &rarr;</span>
+        </div>
+        <div class="stat-icon" style="background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.3); color: #10b981;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+        </div>
+      </div>
     </div>
 
     <!-- Panel 1: Overview (Combined Latest Feed) -->
@@ -573,6 +669,29 @@
       </div>
       <div class="data-table-container" id="overview-messages-container">
         <!-- Rendered by JS -->
+      </div>
+
+      <!-- Materials Directory Section on Overview Dashboard -->
+      <div style="margin-top: 40px;">
+        <div class="panel-header" style="flex-wrap: wrap; gap: 14px;">
+          <div>
+            <h2 class="panel-title">Materials Directory Manager</h2>
+            <p style="font-size: 0.85rem; color: #94a3b8; margin-top: 4px;">Directly edit, add, or remove curbside accepted items, depot special drop-offs, and prohibited materials on the public website.</p>
+          </div>
+          <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <div class="admin-filter-pills">
+              <button type="button" class="filter-pill active" onclick="filterAdminMaterials('all', this)">All (<span class="count-mat-all">0</span>)</button>
+              <button type="button" class="filter-pill" onclick="filterAdminMaterials('curbside', this)">Curbside (<span class="count-mat-curbside">0</span>)</button>
+              <button type="button" class="filter-pill" onclick="filterAdminMaterials('dropoff', this)">Drop-Off (<span class="count-mat-dropoff">0</span>)</button>
+              <button type="button" class="filter-pill" onclick="filterAdminMaterials('notaccepted', this)">Not Accepted (<span class="count-mat-notaccepted">0</span>)</button>
+            </div>
+            <button class="btn-action" onclick="openAddMaterialModal()" style="background: #10b981;">+ Add Material</button>
+            <button class="btn-action btn-secondary" onclick="promptResetDefaultMaterials()" title="Restore default Tri-Com recycling materials list">Reset Defaults</button>
+          </div>
+        </div>
+        <div class="data-table-container" id="overview-materials-container">
+          <!-- Rendered by JS -->
+        </div>
       </div>
     </div>
 
@@ -593,6 +712,29 @@
         <button class="btn-action" onclick="openAddEventModal()">+ Create New Announcement</button>
       </div>
       <div class="data-table-container" id="news-events-container">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+    <!-- Panel 4: Materials Directory Manager -->
+    <div id="panel-materials" class="dashboard-panel">
+      <div class="panel-header" style="flex-wrap: wrap; gap: 14px;">
+        <div>
+          <h2 class="panel-title">Materials Directory Manager</h2>
+          <p style="font-size: 0.82rem; color: #94a3b8; margin-top: 4px;">Add, edit, reclassify, or remove curbside accepted items, depot special drop-offs, and prohibited materials on the public website.</p>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+          <div class="admin-filter-pills">
+            <button type="button" class="filter-pill active" onclick="filterAdminMaterials('all', this)">All (<span id="count-mat-all">0</span>)</button>
+            <button type="button" class="filter-pill" onclick="filterAdminMaterials('curbside', this)">Curbside (<span id="count-mat-curbside">0</span>)</button>
+            <button type="button" class="filter-pill" onclick="filterAdminMaterials('dropoff', this)">Drop-Off (<span id="count-mat-dropoff">0</span>)</button>
+            <button type="button" class="filter-pill" onclick="filterAdminMaterials('notaccepted', this)">Not Accepted (<span id="count-mat-notaccepted">0</span>)</button>
+          </div>
+          <button class="btn-action" onclick="openAddMaterialModal()" style="background: #10b981;">+ Add Material</button>
+          <button class="btn-action btn-secondary" onclick="promptResetDefaultMaterials()" title="Restore default Tri-Com recycling materials list">Reset Defaults</button>
+        </div>
+      </div>
+      <div class="data-table-container" id="materials-table-container">
         <!-- Rendered by JS -->
       </div>
     </div>
@@ -694,10 +836,120 @@
     </div>
   </div>
 
+  <!-- Add / Edit Material Modal -->
+  <div id="material-modal" class="modal-overlay">
+    <div class="modal-card" style="max-width: 540px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-material-title">Add Material</h3>
+        <button class="modal-close" onclick="closeAddMaterialModal()">&times;</button>
+      </div>
+      <form class="modal-form" onsubmit="saveMaterial(event)">
+        <input type="hidden" id="material-id" />
+        
+        <div class="form-group">
+          <label class="form-label" for="material-title">Material Name</label>
+          <input type="text" id="material-title" class="form-input" placeholder="e.g., Clean Cardboard or Lead-Acid Batteries" required />
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+          <div class="form-group">
+            <label class="form-label" for="material-category">Category</label>
+            <select id="material-category" class="form-select" onchange="autoSelectMaterialTheme(this.value)">
+              <option value="curbside">Accepted Curbside</option>
+              <option value="dropoff">Special Drop-Off</option>
+              <option value="notaccepted">Not Accepted (Forbidden)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="material-theme">Color Theme</label>
+            <select id="material-theme" class="form-select">
+              <option value="paper">Paper (Blue)</option>
+              <option value="containers">Containers (Green)</option>
+              <option value="metals">Metals (Yellow/Orange)</option>
+              <option value="electronics">Electronics (Purple)</option>
+              <option value="beverage">Beverage (Teal)</option>
+              <option value="hazardous">Hazardous (Amber)</option>
+              <option value="rejected">Rejected (Red)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="material-icon">Material Icon (Emoji)</label>
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <input type="text" id="material-icon" class="form-input" style="max-width: 80px; text-align: center; font-size: 1.4rem;" placeholder="📦" required />
+            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+              <button type="button" class="emoji-picker-btn" onclick="selectMaterialEmoji('📦')">📦</button>
+              <button type="button" class="emoji-picker-btn" onclick="selectMaterialEmoji('📰')">📰</button>
+              <button type="button" class="emoji-picker-btn" onclick="selectMaterialEmoji('📄')">📄</button>
+              <button type="button" class="emoji-picker-btn" onclick="selectMaterialEmoji('🧴')">🧴</button>
+              <button type="button" class="emoji-picker-btn" onclick="selectMaterialEmoji('🥫')">🥫</button>
+              <button type="button" class="emoji-picker-btn" onclick="selectMaterialEmoji('🍾')">🍾</button>
+              <button type="button" class="emoji-picker-btn" onclick="selectMaterialEmoji('🔋')">🔋</button>
+              <button type="button" class="emoji-picker-btn" onclick="selectMaterialEmoji('🖥️')">🖥️</button>
+              <button type="button" class="emoji-picker-btn" onclick="selectMaterialEmoji('⚠️')">⚠️</button>
+              <button type="button" class="emoji-picker-btn" onclick="selectMaterialEmoji('🚫')">🚫</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="material-description">Description &amp; Rules</label>
+          <textarea id="material-description" class="form-textarea" placeholder="e.g., Clean corrugated cardboard with tape removed. Flattened." required></textarea>
+        </div>
+
+        <button type="submit" class="btn-action" style="width: 100%; margin-top: 10px; background: #10b981;">Save Material</button>
+      </form>
+    </div>
+  </div>
+
   <script>
     // Storage keys
     const STORAGE_KEY_MESSAGES = 'tricom_messages';
     const STORAGE_KEY_NEWS = 'tricom_news_posts';
+    const STORAGE_KEY_MATERIALS = 'tricom_materials';
+
+    let currentMaterialsFilter = 'all';
+
+    const DEFAULT_MATERIALS = [
+      { id: "mat-newspaper", title: "Newspaper", category: "curbside", icon: "📰", theme: "paper", description: "Newspapers, newsprint inserts, and weekly papers." },
+      { id: "mat-office-paper", title: "Office Paper", category: "curbside", icon: "📄", theme: "paper", description: "Printer paper, notebook paper, copy paper, and white documents." },
+      { id: "mat-flyers-mail", title: "Flyers & Mail", category: "curbside", icon: "✉️", theme: "paper", description: "Unaddressed mail, advertising flyers, envelopes, and notices." },
+      { id: "mat-magazines", title: "Magazines", category: "curbside", icon: "📖", theme: "paper", description: "Glossy magazines, catalogs, and soft periodicals." },
+      { id: "mat-phone-books", title: "Phone Books", category: "curbside", icon: "📒", theme: "paper", description: "Softcover phone directories and community books." },
+      { id: "mat-cardboard", title: "Cardboard", category: "curbside", icon: "📦", theme: "paper", description: "Flattened corrugated boxes with tape and packing removed." },
+      { id: "mat-boxboard", title: "Boxboard", category: "curbside", icon: "🥣", theme: "paper", description: "Cereal boxes, shoe boxes, and tissue boxes flattened." },
+      { id: "mat-plastic-containers", title: "Plastic Containers", category: "curbside", icon: "🧴", theme: "containers", description: "Rinsed food tubs, bottles, and jugs (#1–#5)." },
+      { id: "mat-aluminum-cans", title: "Aluminum Cans", category: "curbside", icon: "🥫", theme: "metals", description: "Clean aluminum beverage cans and drink tins." },
+      { id: "mat-steel-tin-cans", title: "Steel & Tin Cans", category: "curbside", icon: "⚙️", theme: "metals", description: "Clean soup cans, pet food cans, and food tins." },
+      { id: "mat-glass-bottles", title: "Glass Bottles", category: "curbside", icon: "🍾", theme: "beverage", description: "Unbroken clear, green, and brown glass beverage bottles." },
+      { id: "mat-glass-jars", title: "Glass Jars", category: "curbside", icon: "🫙", theme: "beverage", description: "Rinsed clean unbroken glass food and sauce jars." },
+      { id: "mat-milk-cartons", title: "Milk & Cartons", category: "curbside", icon: "🧃", theme: "beverage", description: "Paper cartons, milk cartons, and juice boxes rinsed." },
+      { id: "mat-lead-acid-batteries", title: "Lead-Acid Batteries", category: "dropoff", icon: "🔋", theme: "hazardous", description: "Vehicle and equipment batteries. Special hazardous drop-off." },
+      { id: "mat-electronic-waste", title: "Electronic Waste", category: "dropoff", icon: "🖥️", theme: "electronics", description: "Screens, computers, TVs, electronics, cabling, and cords." },
+      { id: "mat-hazardous-waste", title: "Hazardous Waste", category: "dropoff", icon: "⚠️", theme: "hazardous", description: "Paints, solvents, pesticides, and household chemicals." },
+      { id: "mat-propane-cylinders", title: "Propane Cylinders", category: "dropoff", icon: "🛢️", theme: "hazardous", description: "Pressurized fuel tanks. Explosion risk; return to vendors." },
+      { id: "mat-fluorescent-bulbs", title: "Fluorescent Bulbs", category: "dropoff", icon: "💡", theme: "hazardous", description: "Fluorescent tubes and CFL bulbs containing mercury." },
+      { id: "mat-styrofoam-foam", title: "Styrofoam / Foam", category: "notaccepted", icon: "🚫", theme: "rejected", description: "Foam packaging, cups, and takeout containers not accepted." },
+      { id: "mat-black-plastic", title: "Black Plastic", category: "notaccepted", icon: "🚫", theme: "rejected", description: "Optical sorting cannot read black carbon pigment. Place in garbage." },
+      { id: "mat-scrap-metal", title: "Scrap Metal", category: "notaccepted", icon: "🚫", theme: "rejected", description: "Large metal objects, pots, pans, and hardware not accepted in bins." }
+    ];
+
+    function getStoredMaterials() {
+      const stored = localStorage.getItem(STORAGE_KEY_MATERIALS);
+      if (stored) {
+        try {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        } catch (e) {}
+      }
+      localStorage.setItem(STORAGE_KEY_MATERIALS, JSON.stringify(DEFAULT_MATERIALS));
+      return DEFAULT_MATERIALS;
+    }
+
+    function saveStoredMaterials(materialsList) {
+      localStorage.setItem(STORAGE_KEY_MATERIALS, JSON.stringify(materialsList));
+    }
 
     // Initial seed default news posts if empty
     function getStoredNews() {
@@ -757,16 +1009,20 @@
     function renderDashboard() {
       const messages = getStoredMessages();
       const news = getStoredNews();
+      const materials = getStoredMaterials();
 
       const unreadCount = messages.filter(m => !m.read).length;
 
       document.getElementById('stat-total-messages').innerText = messages.length;
       document.getElementById('stat-unread-messages').innerText = unreadCount;
       document.getElementById('stat-published-events').innerText = news.length;
+      const matStatEl = document.getElementById('stat-total-materials');
+      if (matStatEl) matStatEl.innerText = materials.length;
 
       renderOverviewTable(messages);
       renderMessagesInbox(messages);
       renderNewsTable(news);
+      renderMaterialsTable(materials, currentMaterialsFilter);
     }
 
     function renderOverviewTable(messages) {
@@ -897,6 +1153,98 @@
       `;
     }
 
+    function filterAdminMaterials(category, btnEl) {
+      currentMaterialsFilter = category;
+      document.querySelectorAll('.admin-filter-pills .filter-pill').forEach(btn => {
+        const text = btn.innerText.toLowerCase();
+        const matches = (category === 'all' && text.includes('all')) ||
+                        (category === 'curbside' && text.includes('curbside')) ||
+                        (category === 'dropoff' && (text.includes('drop-off') || text.includes('dropoff'))) ||
+                        (category === 'notaccepted' && (text.includes('not accepted') || text.includes('notaccepted')));
+        btn.classList.toggle('active', matches);
+      });
+      renderMaterialsTable(getStoredMaterials(), category);
+    }
+
+    function renderMaterialsTable(materials, activeFilter = 'all') {
+      const container1 = document.getElementById('materials-table-container');
+      const container2 = document.getElementById('overview-materials-container');
+      const containers = [container1, container2].filter(Boolean);
+      if (!containers.length) return;
+
+      const countAll = materials.length;
+      const countCurbside = materials.filter(m => m.category === 'curbside').length;
+      const countDropoff = materials.filter(m => m.category === 'dropoff').length;
+      const countNotAccepted = materials.filter(m => m.category === 'notaccepted').length;
+
+      document.querySelectorAll('.count-mat-all, #count-mat-all').forEach(el => el.innerText = countAll);
+      document.querySelectorAll('.count-mat-curbside, #count-mat-curbside').forEach(el => el.innerText = countCurbside);
+      document.querySelectorAll('.count-mat-dropoff, #count-mat-dropoff').forEach(el => el.innerText = countDropoff);
+      document.querySelectorAll('.count-mat-notaccepted, #count-mat-notaccepted').forEach(el => el.innerText = countNotAccepted);
+
+      const displayList = activeFilter === 'all' ? materials : materials.filter(m => m.category === activeFilter);
+
+      let tableHtml = '';
+      if (!displayList.length) {
+        tableHtml = `
+          <div class="empty-state">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+            <div class="empty-state-text">No materials found in this category. Click "+ Add Material" to add one.</div>
+          </div>
+        `;
+      } else {
+        tableHtml = `
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width: 250px;">Material</th>
+                <th style="width: 150px;">Category</th>
+                <th style="width: 140px;">Theme</th>
+                <th>Description &amp; Guidelines</th>
+                <th style="width: 140px; text-align: right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${displayList.map(m => {
+                let badgeHtml = '';
+                if (m.category === 'curbside') {
+                  badgeHtml = '<span class="badge-status badge-curbside">Curbside</span>';
+                } else if (m.category === 'dropoff') {
+                  badgeHtml = '<span class="badge-status badge-dropoff">Drop-Off</span>';
+                } else {
+                  badgeHtml = '<span class="badge-status badge-notaccepted">Not Accepted</span>';
+                }
+
+                const themeLabel = (m.theme || 'paper').toUpperCase();
+
+                return `
+                  <tr>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 10px;">
+                        <div class="mat-table-icon ${escapeHtml(m.theme || 'paper')}">${escapeHtml(m.icon || '📦')}</div>
+                        <strong style="color: #ffffff; font-size: 0.92rem;">${escapeHtml(m.title)}</strong>
+                      </div>
+                    </td>
+                    <td>${badgeHtml}</td>
+                    <td><span style="font-size: 0.78rem; text-transform: uppercase; font-weight: 700; color: #94a3b8; letter-spacing: 0.04em;">${escapeHtml(themeLabel)}</span></td>
+                    <td style="color: #94a3b8; font-size: 0.86rem; line-height: 1.45;">${escapeHtml(m.description)}</td>
+                    <td style="text-align: right;">
+                      <button class="action-btn-sm" onclick="editMaterial('${escapeHtml(m.id)}')">Edit</button>
+                      <button class="action-btn-sm action-btn-danger" onclick="deleteMaterial('${escapeHtml(m.id)}')">Delete</button>
+                    </td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+        `;
+      }
+
+      containers.forEach(c => {
+        c.innerHTML = tableHtml;
+      });
+    }
+
     // Modal Control & Image Preview Helpers
     function updateImagePreview(url) {
       const wrap = document.getElementById('image-preview-wrap');
@@ -942,6 +1290,125 @@
 
     function closeAddEventModal() {
       document.getElementById('event-modal').classList.remove('active');
+    }
+
+    // Materials Modal Controls & CRUD
+    function openAddMaterialModal() {
+      document.getElementById('material-id').value = '';
+      document.getElementById('material-title').value = '';
+      document.getElementById('material-category').value = 'curbside';
+      document.getElementById('material-theme').value = 'paper';
+      document.getElementById('material-icon').value = '📦';
+      document.getElementById('material-description').value = '';
+      document.getElementById('modal-material-title').innerText = 'Add Material';
+      document.getElementById('material-modal').classList.add('active');
+    }
+
+    function closeAddMaterialModal() {
+      document.getElementById('material-modal').classList.remove('active');
+    }
+
+    function selectMaterialEmoji(emoji) {
+      document.getElementById('material-icon').value = emoji;
+    }
+
+    function autoSelectMaterialTheme(category) {
+      const themeSelect = document.getElementById('material-theme');
+      if (!themeSelect) return;
+      if (category === 'curbside') {
+        if (themeSelect.value === 'rejected' || themeSelect.value === 'hazardous') {
+          themeSelect.value = 'containers';
+        }
+      } else if (category === 'dropoff') {
+        if (themeSelect.value !== 'hazardous' && themeSelect.value !== 'electronics') {
+          themeSelect.value = 'hazardous';
+        }
+      } else if (category === 'notaccepted') {
+        themeSelect.value = 'rejected';
+      }
+    }
+
+    function editMaterial(id) {
+      const materials = getStoredMaterials();
+      const item = materials.find(m => m.id === id);
+      if (!item) return;
+
+      document.getElementById('material-id').value = item.id;
+      document.getElementById('material-title').value = item.title;
+      document.getElementById('material-category').value = item.category || 'curbside';
+      document.getElementById('material-theme').value = item.theme || 'paper';
+      document.getElementById('material-icon').value = item.icon || '📦';
+      document.getElementById('material-description').value = item.description || '';
+      document.getElementById('modal-material-title').innerText = 'Edit Material';
+      document.getElementById('material-modal').classList.add('active');
+    }
+
+    async function saveMaterial(e) {
+      e.preventDefault();
+      const id = document.getElementById('material-id').value || 'mat-' + Date.now();
+      const title = document.getElementById('material-title').value.trim();
+      const category = document.getElementById('material-category').value;
+      const theme = document.getElementById('material-theme').value;
+      const icon = document.getElementById('material-icon').value.trim() || '📦';
+      const description = document.getElementById('material-description').value.trim();
+
+      const matData = { id, title, category, theme, icon, description };
+
+      // 1. Sync to Backend API
+      try {
+        await fetch(`${API_BASE}/materials`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(matData)
+        });
+      } catch (err) {
+        console.log('Backend material sync notice:', err);
+      }
+
+      // 2. LocalStorage Persistence
+      const materials = getStoredMaterials();
+      const existingIndex = materials.findIndex(m => m.id === id);
+
+      if (existingIndex > -1) {
+        materials[existingIndex] = matData;
+      } else {
+        materials.push(matData);
+      }
+
+      saveStoredMaterials(materials);
+      closeAddMaterialModal();
+      renderDashboard();
+    }
+
+    function deleteMaterial(id) {
+      const materials = getStoredMaterials();
+      const item = materials.find(m => m.id === id);
+      const itemName = item ? item.title : 'this material';
+
+      pendingDeleteFn = async () => {
+        try {
+          await fetch(`${API_BASE}/materials/${id}`, { method: 'DELETE' });
+        } catch (e) {}
+
+        let matList = getStoredMaterials();
+        matList = matList.filter(m => m.id !== id);
+        saveStoredMaterials(matList);
+        renderDashboard();
+      };
+
+      document.getElementById('confirm-modal-title').innerText = 'Delete Material';
+      document.getElementById('confirm-modal-text').innerText = `Are you sure you want to remove "${itemName}" from the materials directory? It will be removed from the public website.`;
+      document.getElementById('confirm-modal').classList.add('active');
+    }
+
+    function promptResetDefaultMaterials() {
+      pendingDeleteFn = async () => {
+        saveStoredMaterials(DEFAULT_MATERIALS);
+        renderDashboard();
+      };
+      document.getElementById('confirm-modal-title').innerText = 'Reset Default Materials';
+      document.getElementById('confirm-modal-text').innerText = 'Are you sure you want to restore the default 21 materials? Any custom items or recent edits will be replaced with official Tri-Com defaults.';
+      document.getElementById('confirm-modal').classList.add('active');
     }
 
     const API_BASE = 'http://localhost:8086/api';
@@ -996,6 +1463,32 @@
 
             if (cloudNews.length > 0) {
               localStorage.setItem(STORAGE_KEY_NEWS, JSON.stringify(cloudNews));
+              renderDashboard();
+            }
+          }
+        }
+      } catch (err) {}
+
+      // Sync materials from backend
+      try {
+        const res = await fetch(`${API_BASE}/materials`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.documents && Array.isArray(data.documents) && data.documents.length > 0) {
+            const cloudMaterials = data.documents.map(doc => {
+              const f = doc.fields || {};
+              return {
+                id: doc.name.split('/').pop(),
+                title: f.title ? f.title.stringValue : 'Material',
+                category: f.category ? f.category.stringValue : 'curbside',
+                theme: f.theme ? f.theme.stringValue : 'paper',
+                icon: f.icon ? f.icon.stringValue : '📦',
+                description: f.description ? f.description.stringValue : ''
+              };
+            });
+
+            if (cloudMaterials.length > 0) {
+              localStorage.setItem(STORAGE_KEY_MATERIALS, JSON.stringify(cloudMaterials));
               renderDashboard();
             }
           }
@@ -1188,7 +1681,7 @@
 
     // Window storage listener for instant cross-tab sync
     window.addEventListener('storage', (e) => {
-      if (e.key === STORAGE_KEY_MESSAGES || e.key === STORAGE_KEY_NEWS) {
+      if (e.key === STORAGE_KEY_MESSAGES || e.key === STORAGE_KEY_NEWS || e.key === STORAGE_KEY_MATERIALS) {
         renderDashboard();
       }
     });

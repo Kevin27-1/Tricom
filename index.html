@@ -809,47 +809,88 @@
     }
 
     .news-card {
-      padding: 20px;
+      padding: 22px;
       border-radius: 16px;
       background: var(--white);
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 6px 20px rgba(0, 0, 0, 0.04);
-      transition: transform 0.3s var(--ease-smooth);
+      transition: transform 0.3s var(--ease-smooth), box-shadow 0.3s var(--ease-smooth);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      position: relative;
     }
 
     .news-card:active {
       transform: scale(0.98);
     }
 
+    .news-card-top-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .news-card-badge {
+      font-size: 0.65rem;
+      font-weight: 750;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--blue-mid);
+      background: rgba(36, 104, 160, 0.08);
+      padding: 3px 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(36, 104, 160, 0.16);
+    }
+
+    .news-card-date {
+      font-size: 0.72rem;
+      color: #86868b;
+      font-weight: 600;
+    }
+
     .news-card-title {
-      font-size: 0.95rem;
+      font-size: 0.98rem;
       font-weight: 800;
       letter-spacing: -0.02em;
       color: #1d1d1f;
-      line-height: 1.25;
+      line-height: 1.3;
+      margin-bottom: 6px;
     }
 
     .news-card-excerpt {
-      margin-top: 8px;
+      margin-top: 4px;
       font-size: 0.82rem;
       font-weight: 500;
-      line-height: 1.45;
-      color: #86868b;
+      line-height: 1.5;
+      color: #64748b;
+      flex: 1 1 auto;
     }
 
     .news-card-link {
       display: inline-flex;
       align-items: center;
-      gap: 4px;
-      margin-top: 12px;
+      gap: 5px;
+      margin-top: 14px;
       font-size: 0.82rem;
       font-weight: 700;
       color: var(--blue-mid);
-      text-decoration: none;
-      transition: gap 0.3s var(--ease-smooth);
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      font-family: inherit;
+      transition: gap 0.25s var(--ease-smooth), color 0.25s var(--ease-smooth);
+    }
+
+    .news-card-link:hover {
+      color: var(--blue-deep);
+      gap: 8px;
     }
 
     .news-card-link:active {
-      gap: 8px;
+      gap: 10px;
     }
 
     /* ═══════════════════════════════════════════
@@ -1018,13 +1059,49 @@
       border-top: 1px solid rgba(255, 255, 255, 0.08);
       display: flex;
       align-items: center;
-      gap: 10px;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
     }
 
     .contact-footer-text {
       font-size: 0.72rem;
       font-weight: 600;
-      color: rgba(255, 255, 255, 0.3);
+      color: rgba(255, 255, 255, 0.35);
+    }
+
+    .contact-admin-card {
+      background: rgba(0, 112, 243, 0.12) !important;
+      border: 1px solid rgba(0, 112, 243, 0.3) !important;
+    }
+
+    .contact-admin-card:hover {
+      background: rgba(0, 112, 243, 0.22) !important;
+      border-color: rgba(56, 189, 248, 0.5) !important;
+      transform: translateY(-2px);
+    }
+
+    .contact-footer-admin-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 15px;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.78rem;
+      font-weight: 650;
+      text-decoration: none;
+      transition: all 0.2s var(--ease-smooth);
+    }
+
+    .contact-footer-admin-link:hover {
+      background: rgba(0, 112, 243, 0.25);
+      border-color: #0070F3;
+      color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 112, 243, 0.25);
     }
 
     /* ═══════════════════════════════════════════
@@ -1605,6 +1682,262 @@
       padding: 12px 16px;
       border-radius: 12px;
       cursor: pointer;
+    }
+
+    /* ─── News Details Pop-Up Modal ─── */
+    .news-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.78);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      padding: 0;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .news-modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .news-modal-sheet {
+      background: #141721;
+      color: #ffffff;
+      border-top-left-radius: 24px;
+      border-top-right-radius: 24px;
+      width: 100%;
+      max-height: 88vh;
+      max-height: calc(100dvh - 40px);
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      transform: translateY(100%);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow: hidden;
+      overscroll-behavior: contain;
+    }
+
+    .news-modal-overlay.active .news-modal-sheet {
+      transform: translateY(0);
+    }
+
+    .news-modal-header {
+      padding: 16px 20px 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      flex-shrink: 0;
+      background: #181d28;
+    }
+
+    .news-modal-badge {
+      font-size: 0.65rem;
+      font-weight: 750;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 9999px;
+      background: rgba(0, 112, 243, 0.18);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      display: inline-block;
+    }
+
+    .news-modal-date {
+      font-size: 0.74rem;
+      color: rgba(255, 255, 255, 0.55);
+      font-weight: 500;
+    }
+
+    .news-modal-heading {
+      font-size: 1.25rem;
+      font-weight: 750;
+      color: #ffffff;
+      line-height: 1.3;
+      margin: 6px 0 0 0;
+    }
+
+    .news-modal-close-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 255, 255, 0.75);
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .news-modal-close-btn:hover {
+      background: rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+    }
+
+    .news-modal-body {
+      padding: 18px 20px;
+      overflow-y: auto;
+      flex: 1 1 auto;
+      min-height: 0;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      touch-action: pan-y;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
+    }
+
+    .news-modal-body::-webkit-scrollbar {
+      width: 6px;
+    }
+    .news-modal-body::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.25);
+      border-radius: 9999px;
+    }
+
+    .news-summary-box {
+      background: rgba(0, 112, 243, 0.1);
+      border-left: 3px solid #0070F3;
+      padding: 12px 16px;
+      border-radius: 0 10px 10px 0;
+    }
+
+    .news-summary-text {
+      font-size: 0.92rem;
+      line-height: 1.5;
+      color: #e2e8f0;
+      font-weight: 500;
+      margin: 0;
+    }
+
+    .news-full-content {
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 0.9rem;
+      line-height: 1.65;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .news-full-content h4 {
+      color: #ffffff;
+      font-size: 0.98rem;
+      font-weight: 700;
+      margin: 6px 0 2px 0;
+    }
+
+    .news-full-content ul {
+      margin: 0;
+      padding-left: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .news-full-content li {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .news-contact-help-box {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .news-modal-inquire-btn {
+      background: var(--blue-mid);
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 8px 15px;
+      border-radius: 8px;
+      transition: background 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .news-modal-inquire-btn:hover {
+      background: var(--blue-light);
+    }
+
+    .news-modal-footer {
+      padding: 14px 20px calc(16px + env(safe-area-inset-bottom, 0px)) 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      background: #10131a;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .news-modal-dismiss-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #ffffff;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 10px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .news-modal-dismiss-btn:hover {
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    @media (min-width: 769px) {
+      .news-modal-overlay {
+        align-items: center;
+        padding: 24px;
+      }
+      .news-modal-sheet {
+        max-width: 680px;
+        border-radius: 24px;
+        max-height: 85vh;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.12);
+        transform: scale(0.95) translateY(20px);
+      }
+      .news-modal-overlay.active .news-modal-sheet {
+        transform: scale(1) translateY(0);
+      }
+      .news-modal-header {
+        padding: 18px 24px 16px 24px;
+      }
+      .news-modal-heading {
+        font-size: 1.4rem;
+      }
+      .news-modal-body {
+        padding: 22px 24px;
+      }
+      .news-modal-footer {
+        padding: 16px 24px;
+      }
     }
 
   
@@ -2266,10 +2599,10 @@
 
       <!-- Category Filter Tabs -->
       <div class="material-filters reveal reveal-delay-3" role="tablist" aria-label="Material categories">
-        <button class="material-filter-btn active" data-filter="all" role="tab" aria-selected="true">All (21)</button>
-        <button class="material-filter-btn" data-filter="curbside" role="tab" aria-selected="false">Curbside (13)</button>
-        <button class="material-filter-btn" data-filter="dropoff" role="tab" aria-selected="false">Drop-off (5)</button>
-        <button class="material-filter-btn" data-filter="notaccepted" role="tab" aria-selected="false">Not Accepted (3)</button>
+        <button class="material-filter-btn active" data-filter="all" role="tab" aria-selected="true">All (<span id="mat-count-all">21</span>)</button>
+        <button class="material-filter-btn" data-filter="curbside" role="tab" aria-selected="false">Curbside (<span id="mat-count-curbside">13</span>)</button>
+        <button class="material-filter-btn" data-filter="dropoff" role="tab" aria-selected="false">Drop-off (<span id="mat-count-dropoff">5</span>)</button>
+        <button class="material-filter-btn" data-filter="notaccepted" role="tab" aria-selected="false">Not Accepted (<span id="mat-count-notaccepted">3</span>)</button>
       </div>
 
       <!-- Category 1: What you can recycle (Curbside) -->
@@ -2281,7 +2614,7 @@
             ACCEPTED CURBSIDE
           </span>
         </div>
-        <div class="accept-grid">
+        <div class="accept-grid" id="grid-curbside">
           <div class="accept-card">
             <div class="accept-card-icon paper">📰</div>
             <h4 class="accept-card-title">Newspaper</h4>
@@ -2359,7 +2692,7 @@
             SPECIAL DROP-OFF
           </span>
         </div>
-        <div class="accept-grid">
+        <div class="accept-grid" id="grid-dropoff">
           <div class="accept-card">
             <div class="accept-card-icon hazardous">🔋</div>
             <h4 class="accept-card-title">Lead-Acid Batteries</h4>
@@ -2397,7 +2730,7 @@
             NOT ACCEPTED
           </span>
         </div>
-        <div class="accept-grid">
+        <div class="accept-grid" id="grid-notaccepted">
           <div class="accept-card">
             <div class="accept-card-icon rejected">🚫</div>
             <h4 class="accept-card-title">Styrofoam / Foam</h4>
@@ -2520,26 +2853,42 @@
       <h2 class="section-title reveal reveal-delay-1">News</h2>
       <p class="section-subtitle reveal reveal-delay-2">Latest announcements, regional updates, and operational guidelines from the depot.</p>
 
-      <div class="news-feed">
-        <article class="news-card reveal reveal-delay-1">
+      <div class="news-feed" id="news-feed-container">
+        <article class="news-card reveal reveal-delay-1" data-news-id="news-sorting-line" tabindex="0" role="button" aria-label="Read full article on sorting line upgrade">
+          <div class="news-card-top-meta">
+            <span class="news-card-badge">FACILITY UPGRADE</span>
+            <span class="news-card-date">Sep 2025</span>
+          </div>
           <h3 class="news-card-title">Sorting line upgrade cuts contamination by a third</h3>
           <p class="news-card-excerpt">A new pre-sort station means cleaner bales and better returns for the whole region.</p>
-          <a class="news-card-link" href="#news">Read more →</a>
+          <button type="button" class="news-card-link" data-news-id="news-sorting-line">Read more →</button>
         </article>
-        <article class="news-card reveal reveal-delay-2">
+        <article class="news-card reveal reveal-delay-2" data-news-id="news-blue-bin" tabindex="0" role="button" aria-label="Read full article on curbside blue bin guide">
+          <div class="news-card-top-meta">
+            <span class="news-card-badge">COMMUNITY GUIDE</span>
+            <span class="news-card-date">2025 Guide</span>
+          </div>
           <h3 class="news-card-title">Curbside blue bin guide, refreshed</h3>
           <p class="news-card-excerpt">A plain-language sheet on what belongs in the bin — and what quietly ruins a load.</p>
-          <a class="news-card-link" href="#news">Read more →</a>
+          <button type="button" class="news-card-link" data-news-id="news-blue-bin">Read more →</button>
         </article>
-        <article class="news-card reveal reveal-delay-3">
+        <article class="news-card reveal reveal-delay-3" data-news-id="news-stewardship" tabindex="0" role="button" aria-label="Read full article on provincial stewardship registry">
+          <div class="news-card-top-meta">
+            <span class="news-card-badge">STEWARDSHIP</span>
+            <span class="news-card-date">Milestone</span>
+          </div>
           <h3 class="news-card-title">Tri-Com joins provincial stewardship registry</h3>
           <p class="news-card-excerpt">Registered collection for electronics, tires and beverage containers is now confirmed.</p>
-          <a class="news-card-link" href="#news">Read more →</a>
+          <button type="button" class="news-card-link" data-news-id="news-stewardship">Read more →</button>
         </article>
-        <article class="news-card reveal reveal-delay-4">
+        <article class="news-card reveal reveal-delay-4" data-news-id="news-recycle-journey" tabindex="0" role="button" aria-label="Read full article on where your recycling actually goes">
+          <div class="news-card-top-meta">
+            <span class="news-card-badge">CIRCULAR ECONOMY</span>
+            <span class="news-card-date">Feature</span>
+          </div>
           <h3 class="news-card-title">Where your recycling actually goes</h3>
           <p class="news-card-excerpt">We traced one week of material from the tipping floor to the end mill.</p>
-          <a class="news-card-link" href="#news">Read more →</a>
+          <button type="button" class="news-card-link" data-news-id="news-recycle-journey">Read more →</button>
         </article>
       </div>
     </div>
@@ -2608,15 +2957,43 @@
             <p style="font-size: 0.82rem; color: rgba(255,255,255,0.7); line-height: 1.5; margin: 0 0 10px 0;">18 Meadows Road, The Pas, MB R9A 1S3</p>
             <p style="font-size: 0.78rem; color: rgba(255,255,255,0.5); line-height: 1.4; margin: 0;">Serving the Town of The Pas, Opaskwayak Cree Nation (OCN), and RM of Kelsey with full curbside and depot recycling.</p>
           </div>
+
+          <!-- Depot Staff / Admin Panel Access Button -->
+          <div class="reveal reveal-delay-5" style="margin-top: 16px;">
+            <a class="contact-item contact-admin-card" href="admin.html" id="contact-admin-btn" title="Open Depot Administrative Portal">
+              <div class="contact-item-icon" style="background: rgba(0, 112, 243, 0.2); color: #38bdf8;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </div>
+              <div style="flex: 1;">
+                <p class="contact-item-label" style="color: #60a5fa;">Staff &amp; Depot Operations</p>
+                <p class="contact-item-value" style="display: flex; align-items: center; justify-content: space-between;">
+                  <span>Admin Dashboard</span>
+                  <span style="font-size: 1rem; color: #60a5fa; margin-left: 8px;">→</span>
+                </p>
+              </div>
+            </a>
+          </div>
         </div>
       </div>
 
       <!-- Footer -->
       <div class="contact-footer reveal reveal-delay-5">
-        <svg width="18" height="18" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-          <path fill="rgba(255,255,255,0.3)" d="M20 2.5a17.5 17.5 0 1 0 0 35 17.5 17.5 0 0 0 0-35Zm6.2 9.4 3.9 6.8-2.7 1.55-2.3-4H20v-3.1h6.2Zm-12.1 1.3 2.7 1.56-2.45 4.2 2.55 4.4-2.68 1.56-3.92-6.8 3.8-4.47Zm10.4 13.2 2.7 1.55-3.9 6.75H16l.05-3.1h4.3l2.15-3.7Z"/>
-        </svg>
-        <span class="contact-footer-text">© 2025 Tri-Com Recycling Inc. All rights reserved.</span>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <svg width="18" height="18" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+            <path fill="rgba(255,255,255,0.3)" d="M20 2.5a17.5 17.5 0 1 0 0 35 17.5 17.5 0 0 0 0-35Zm6.2 9.4 3.9 6.8-2.7 1.55-2.3-4H20v-3.1h6.2Zm-12.1 1.3 2.7 1.56-2.45 4.2 2.55 4.4-2.68 1.56-3.92-6.8 3.8-4.47Zm10.4 13.2 2.7 1.55-3.9 6.75H16l.05-3.1h4.3l2.15-3.7Z"/>
+          </svg>
+          <span class="contact-footer-text">© 2025 Tri-Com Recycling Inc. All rights reserved.</span>
+        </div>
+        <a href="admin.html" class="contact-footer-admin-link" id="contact-footer-admin-link" title="Open Depot Administrative Portal">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          Admin Portal
+        </a>
       </div>
     </div>
   </footer>
@@ -2655,6 +3032,16 @@
       <a class="menu-link" href="#contact">
         <span class="menu-link-title">Contact</span>
         <span class="menu-link-desc">Reach the Tri-Com team</span>
+      </a>
+      <a class="menu-link" href="admin.html" id="menu-admin-link">
+        <span class="menu-link-title" style="display: flex; align-items: center; gap: 6px; color: #60a5fa;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          Admin Dashboard
+        </span>
+        <span class="menu-link-desc">Depot announcements & messages</span>
       </a>
     </nav>
     <div class="menu-footer">
@@ -3426,6 +3813,56 @@
     </div>
   </div>
 
+  <!-- News Announcement & Story Details Modal Sheet -->
+  <div id="news-modal" class="news-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="news-modal-title">
+    <div class="news-modal-sheet">
+      <div class="mobile-modal-handle"></div>
+      <div class="news-modal-header">
+        <div style="flex: 1; min-width: 0;">
+          <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+            <span id="news-modal-badge" class="news-modal-badge">ANNOUNCEMENT</span>
+            <span id="news-modal-date" class="news-modal-date">Recent Notice</span>
+          </div>
+          <h3 id="news-modal-title" class="news-modal-heading">News Title</h3>
+        </div>
+        <button type="button" id="news-modal-close" class="news-modal-close-btn" aria-label="Close news announcement">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="news-modal-body" id="news-modal-body">
+        <!-- Optional Event Image Preview -->
+        <div id="news-modal-image-wrap" style="display: none; border-radius: 12px; overflow: hidden; margin-bottom: 4px; border: 1px solid rgba(255,255,255,0.12);">
+          <img id="news-modal-image" src="" alt="Announcement media" style="width: 100%; max-height: 250px; object-fit: cover; display: block;" />
+        </div>
+
+        <!-- Summary callout box -->
+        <div class="news-summary-box">
+          <p id="news-modal-excerpt" class="news-summary-text"></p>
+        </div>
+
+        <!-- Full Content Details -->
+        <div id="news-modal-full-content" class="news-full-content"></div>
+
+        <!-- Depot Contact Help Banner -->
+        <div class="news-contact-help-box">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 1.3rem;">ℹ️</span>
+            <div>
+              <p style="font-weight: 750; font-size: 0.85rem; color: #ffffff; margin: 0;">Questions about this notice?</p>
+              <p style="font-size: 0.78rem; color: rgba(255,255,255,0.65); margin: 2px 0 0 0;">Connect with our yard attendants or administration team.</p>
+            </div>
+          </div>
+          <a href="#contact" onclick="closeNewsModal()" class="news-modal-inquire-btn">Contact Depot</a>
+        </div>
+      </div>
+
+      <div class="news-modal-footer">
+        <button type="button" id="news-modal-dismiss" class="news-modal-dismiss-btn">Close Notice</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // ─── Scroll Reveal Observer for all sections ───
@@ -3697,8 +4134,375 @@
         });
       });
 
-      
-    /* --- Stewardship Receiving / Intake Forms Logic --- */
+      // ─── News Details Pop-Up Modal Controller ───
+      const NEWS_DETAILS_DATA = {
+        'news-sorting-line': {
+          badge: 'FACILITY UPGRADE',
+          date: 'September 2025',
+          title: 'Sorting line upgrade cuts contamination by a third',
+          excerpt: 'A new pre-sort station means cleaner bales and better returns for the whole region.',
+          html: `
+            <h4>Operational Breakthrough on the Tipping Floor</h4>
+            <p>In September 2025, Tri-Com completed the installation and full commissioning of a dedicated pre-sort inspection station on our primary material recovery line at the Meadows Road depot. This upgrade introduces high-lumen inspection lighting, ergonomic manual separation bays, and a direct high-speed reject chute before single-stream loads reach our high-compression balers.</p>
+            <h4>Verified Operational Results</h4>
+            <ul>
+              <li><strong>Contamination Reduction:</strong> Contamination in commercial and residential cardboard batches dropped by 34% within the first month of operation.</li>
+              <li><strong>Premium Mill Acceptance:</strong> Clean, high-density fiber bales meet strict Canadian mill specifications, securing higher commodity rebates that directly offset northern collection costs.</li>
+              <li><strong>Equipment Longevity:</strong> Prevents rogue debris (scrap metal, wire, and unrinsed fluids) from jamming sorting conveyors and damaging hydraulic baler rams.</li>
+            </ul>
+            <h4>How You Can Help Keep Northern Bales Clean</h4>
+            <p>Residents and commercial haulers are kindly reminded to flatten all corrugated boxes and lightly rinse any food or drink containers before recycling. Clean inputs mean 100% of the material gets remanufactured.</p>
+          `
+        },
+        'news-blue-bin': {
+          badge: 'COMMUNITY GUIDE',
+          date: 'Residential Collection • 2025 Update',
+          title: 'Curbside blue bin guide, refreshed',
+          excerpt: 'A plain-language sheet on what belongs in the bin — and what quietly ruins a load.',
+          html: `
+            <h4>Clear Guidelines for Northern Households</h4>
+            <p>To help residents in The Pas, Opaskwayak Cree Nation (OCN), and the RM of Kelsey achieve maximum diversion without accidental contamination, Tri-Com has published a refreshed, plain-language curbside recycling standard.</p>
+            <h4>What Definitely Belongs in Your Blue Bin</h4>
+            <ul>
+              <li><strong>Clean Cardboard &amp; Paper:</strong> Flattened corrugated boxes, food boxboard (cereal &amp; cracker boxes), newsprint, flyers, and clean office paper.</li>
+              <li><strong>Plastic Containers (#1 to #5):</strong> Rinsed food tubs, detergent jugs, and beverage bottles with caps screwed back on.</li>
+              <li><strong>Metal &amp; Cans:</strong> Aluminum drink cans, tin soup cans, and clean metal lids.</li>
+              <li><strong>Glass Jars &amp; Bottles:</strong> Rinsed clear and colored food and beverage jars.</li>
+            </ul>
+            <h4>What Destroys a Batch (Keep Out!)</h4>
+            <ul>
+              <li><strong>Plastic Bags &amp; Film:</strong> Stretchy plastic films wrap around rotating baler shafts, creating dangerous jams and shutdowns. Please return plastic shopping bags to depot collection bins.</li>
+              <li><strong>Food Scraps &amp; Grease:</strong> Unrinsed containers and greasy pizza box bases ruin paper repulping batches.</li>
+              <li><strong>Batteries &amp; Propane Cylinders:</strong> A severe fire hazard on collection trucks and balers. Always deliver these free of charge to our HHW stewardship depot.</li>
+              <li><strong>Black Garbage Bags:</strong> Always place recyclables loose in your blue cart — never bundle them inside tied trash bags.</li>
+            </ul>
+          `
+        },
+        'news-stewardship': {
+          badge: 'PROVINCIAL STEWARDSHIP',
+          date: 'Depot Licensing • 2025',
+          title: 'Tri-Com joins provincial stewardship registry',
+          excerpt: 'Registered collection for electronics, tires and beverage containers is now confirmed.',
+          html: `
+            <h4>Certified Extended Producer Responsibility Depot</h4>
+            <p>Tri-Com Recycling is officially accredited and registered under Manitoba's regulated Extended Producer Responsibility (EPR) programs. As the northern regional depot, we ensure specialized waste streams are recycled through verified, non-landfill channels.</p>
+            <h4>Active Certified Programs at 18 Meadows Road</h4>
+            <ul>
+              <li><strong>EPRA Manitoba (Recycle My Electronics):</strong> Free collection and certified processing for computers, televisions, laptops, monitors, smartphones, audio systems, and cables. All data-bearing devices are handled according to strict privacy and destruction standards.</li>
+              <li><strong>Product Care Association (HHW):</strong> Safe receiving and staging for household paints, spray cans, stains, varnishes, thinners, and compact fluorescent lighting (CFLs).</li>
+              <li><strong>Multi-Material Stewardship Manitoba (MMSM):</strong> Extended producer responsibility support for residential paper and packaging materials across northern municipal partner routes.</li>
+            </ul>
+            <h4>Free Drop-Offs for the Public</h4>
+            <p>No tipping fees apply to certified stewardship items. Residents can drop off approved electronics and paint products at our depot yard completely free of charge during normal open hours.</p>
+          `
+        },
+        'news-recycle-journey': {
+          badge: 'CIRCULAR ECONOMY',
+          date: 'Depot Feature • Operational Audit',
+          title: 'Where your recycling actually goes',
+          excerpt: 'We traced one week of material from the tipping floor to the end mill.',
+          html: `
+            <h4>Traceability and Transparency from Curb to Mill</h4>
+            <p>Ever wondered what happens to your cardboard box or plastic container after the collection truck drives away? In a detailed 7-day operational tracking audit, Tri-Com traced 48 metric tons of collected material from our scales in The Pas through to end-market remanufacturing.</p>
+            <h4>The 4 Stages of the Circle of Recycle</h4>
+            <ul>
+              <li><strong>1. Scale-In &amp; Inspection:</strong> Collection trucks cross our certified scale. Loads are spread on the covered concrete pad for immediate moisture and contamination audits.</li>
+              <li><strong>2. Sorting &amp; Grading:</strong> Trained sorters separate Old Corrugated Cardboard (OCC), mixed fiber, rigid HDPE plastics, and non-ferrous metals into segregated bunkers.</li>
+              <li><strong>3. Industrial Baling:</strong> Heavy-duty hydraulic presses compact materials into dense 1,200 lb industrial bales secured with high-tensile wire, recorded with weight and batch ID tags.</li>
+              <li><strong>4. Mill Shipping &amp; Reuse:</strong> Bales are loaded onto flatbed trailers bound for Canadian paper mills and domestic smelting facilities. Cardboard is repulped into new shipping cartons within days, and aluminum cans return as new beverage cans in as little as 60 days.</li>
+            </ul>
+            <h4>Our 100% Diversion Pledge</h4>
+            <p>Every single verified recyclable pound collected by Tri-Com is accounted for and delivered to circular remanufacturing mills. Nothing is quietly diverted to landfills.</p>
+          `
+        }
+      };
+
+      function escapeHtml(str) {
+        if (!str) return '';
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      const newsModal = document.getElementById('news-modal');
+      const newsModalClose = document.getElementById('news-modal-close');
+      const newsModalDismiss = document.getElementById('news-modal-dismiss');
+      const newsBadgeEl = document.getElementById('news-modal-badge');
+      const newsDateEl = document.getElementById('news-modal-date');
+      const newsTitleEl = document.getElementById('news-modal-title');
+      const newsExcerptEl = document.getElementById('news-modal-excerpt');
+      const newsContentEl = document.getElementById('news-modal-full-content');
+      const newsImgWrap = document.getElementById('news-modal-image-wrap');
+      const newsImgEl = document.getElementById('news-modal-image');
+
+      function openNewsModal(newsId) {
+        if (!newsModal) return;
+
+        let item = NEWS_DETAILS_DATA[newsId];
+
+        if (!item) {
+          try {
+            const stored = localStorage.getItem('tricom_news_posts');
+            if (stored) {
+              const posts = JSON.parse(stored);
+              const found = posts.find(p => p.id === newsId);
+              if (found) {
+                item = {
+                  badge: found.badge || 'ANNOUNCEMENT',
+                  date: found.date || 'Notice',
+                  title: found.title,
+                  excerpt: found.excerpt,
+                  image: found.image || '',
+                  html: `
+                    <h4>Announcement Summary</h4>
+                    <p style="font-size: 0.95rem; line-height: 1.6;">${escapeHtml(found.excerpt)}</p>
+                    <p style="font-size: 0.85rem; color: rgba(255,255,255,0.7); margin-top: 10px;">For additional operational questions or special intake requirements, please call our yard line directly or submit a message through the contact form below.</p>
+                  `
+                };
+              }
+            }
+          } catch (e) {}
+        }
+
+        if (!item) return;
+
+        if (newsBadgeEl) newsBadgeEl.textContent = item.badge;
+        if (newsDateEl) newsDateEl.textContent = item.date;
+        if (newsTitleEl) newsTitleEl.textContent = item.title;
+        if (newsExcerptEl) newsExcerptEl.textContent = item.excerpt;
+        if (newsContentEl) newsContentEl.innerHTML = item.html;
+
+        if (newsImgWrap && newsImgEl) {
+          if (item.image) {
+            newsImgEl.src = item.image;
+            newsImgWrap.style.display = 'block';
+          } else {
+            newsImgWrap.style.display = 'none';
+            newsImgEl.src = '';
+          }
+        }
+
+        newsModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        const bodyEl = document.getElementById('news-modal-body');
+        if (bodyEl) bodyEl.scrollTop = 0;
+      }
+
+      function closeNewsModal() {
+        if (!newsModal) return;
+        newsModal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+      window.closeNewsModal = closeNewsModal;
+      window.openNewsModal = openNewsModal;
+
+      if (newsModalClose) newsModalClose.addEventListener('click', closeNewsModal);
+      if (newsModalDismiss) newsModalDismiss.addEventListener('click', closeNewsModal);
+      if (newsModal) {
+        newsModal.addEventListener('click', (e) => {
+          if (e.target === newsModal) closeNewsModal();
+        });
+        newsModal.addEventListener('wheel', (e) => {
+          const bodyEl = document.getElementById('news-modal-body');
+          if (bodyEl) {
+            bodyEl.scrollTop += e.deltaY;
+            e.preventDefault();
+            e.stopPropagation();
+          }
+        }, { passive: false });
+      }
+
+      // Keyboard navigation for News modal
+      document.addEventListener('keydown', (e) => {
+        if (!newsModal || !newsModal.classList.contains('active')) return;
+        if (e.key === 'Escape') {
+          closeNewsModal();
+        } else {
+          const bodyEl = document.getElementById('news-modal-body');
+          if (bodyEl) {
+            if (e.key === 'ArrowDown') {
+              bodyEl.scrollTop += 60;
+              e.preventDefault();
+            } else if (e.key === 'ArrowUp') {
+              bodyEl.scrollTop -= 60;
+              e.preventDefault();
+            } else if (e.key === 'PageDown') {
+              bodyEl.scrollTop += 240;
+              e.preventDefault();
+            } else if (e.key === 'PageUp') {
+              bodyEl.scrollTop -= 240;
+              e.preventDefault();
+            }
+          }
+        }
+      });
+
+      // Delegate click & keyboard activation on news feed
+      const newsFeedContainer = document.getElementById('news-feed-container');
+      if (newsFeedContainer) {
+        newsFeedContainer.addEventListener('click', (e) => {
+          const card = e.target.closest('.news-card');
+          if (card) {
+            const newsId = card.getAttribute('data-news-id');
+            if (newsId) {
+              e.preventDefault();
+              openNewsModal(newsId);
+            }
+          }
+        });
+
+        newsFeedContainer.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            const card = e.target.closest('.news-card');
+            if (card) {
+              const newsId = card.getAttribute('data-news-id');
+              if (newsId) {
+                e.preventDefault();
+                openNewsModal(newsId);
+              }
+            }
+          }
+        });
+      }
+
+      // Render any custom announcements created from admin dashboard
+      function syncAndRenderAdminNews() {
+        if (!newsFeedContainer) return;
+        try {
+          const stored = localStorage.getItem('tricom_news_posts');
+          if (!stored) return;
+          const posts = JSON.parse(stored);
+          if (!Array.isArray(posts) || posts.length === 0) return;
+
+          posts.forEach(post => {
+            if (!post || !post.id || NEWS_DETAILS_DATA[post.id]) return;
+            if (newsFeedContainer.querySelector(`[data-news-id="${post.id}"]`)) return;
+
+            const card = document.createElement('article');
+            card.className = 'news-card reveal visible';
+            card.setAttribute('data-news-id', post.id);
+            card.setAttribute('tabindex', '0');
+            card.setAttribute('role', 'button');
+            card.setAttribute('aria-label', `Read full announcement: ${post.title}`);
+            card.innerHTML = `
+              <div class="news-card-top-meta">
+                <span class="news-card-badge">${escapeHtml(post.badge || 'NOTICE')}</span>
+                <span class="news-card-date">${escapeHtml(post.date || 'Notice')}</span>
+              </div>
+              ${post.image ? `<img src="${escapeHtml(post.image)}" alt="Announcement preview" style="width: 100%; height: 130px; object-fit: cover; border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(0,0,0,0.06);" />` : ''}
+              <h3 class="news-card-title">${escapeHtml(post.title)}</h3>
+              <p class="news-card-excerpt">${escapeHtml(post.excerpt)}</p>
+              <button type="button" class="news-card-link" data-news-id="${escapeHtml(post.id)}">Read more →</button>
+            `;
+            newsFeedContainer.prepend(card);
+          });
+        } catch (e) {}
+      }
+
+      syncAndRenderAdminNews();
+
+      // Render any custom materials updated from admin dashboard or cloud database
+      function renderDynamicMaterialsDirectory() {
+        const gridCurbside = document.getElementById('grid-curbside');
+        const gridDropoff = document.getElementById('grid-dropoff');
+        const gridNotAccepted = document.getElementById('grid-notaccepted');
+
+        if (!gridCurbside || !gridDropoff || !gridNotAccepted) return;
+
+        let materials = null;
+        try {
+          const stored = localStorage.getItem('tricom_materials');
+          if (stored) {
+            const parsed = JSON.parse(stored);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+              materials = parsed;
+            }
+          }
+        } catch (e) {}
+
+        if (!materials) return; // Keep standard markup if nothing customized
+
+        const curbsideItems = materials.filter(m => m.category === 'curbside');
+        const dropoffItems = materials.filter(m => m.category === 'dropoff');
+        const notAcceptedItems = materials.filter(m => m.category === 'notaccepted');
+
+        // Update tab count badges
+        const countAllEl = document.getElementById('mat-count-all');
+        const countCurbEl = document.getElementById('mat-count-curbside');
+        const countDropEl = document.getElementById('mat-count-dropoff');
+        const countNotEl = document.getElementById('mat-count-notaccepted');
+
+        if (countAllEl) countAllEl.innerText = materials.length;
+        if (countCurbEl) countCurbEl.innerText = curbsideItems.length;
+        if (countDropEl) countDropEl.innerText = dropoffItems.length;
+        if (countNotEl) countNotEl.innerText = notAcceptedItems.length;
+
+        function buildCardHtml(m) {
+          const theme = escapeHtml(m.theme || 'paper');
+          const icon = escapeHtml(m.icon || '📦');
+          const title = escapeHtml(m.title || 'Material');
+          const desc = escapeHtml(m.description || '');
+          return `
+            <div class="accept-card">
+              <div class="accept-card-icon ${theme}">${icon}</div>
+              <h4 class="accept-card-title">${title}</h4>
+              <p class="accept-card-body">${desc}</p>
+            </div>
+          `;
+        }
+
+        function renderGroupGrid(gridEl, list, emptyMsg) {
+          if (!list.length) {
+            gridEl.innerHTML = `<div style="grid-column: 1 / -1; padding: 24px; text-align: center; color: rgba(255,255,255,0.45); font-size: 0.9rem;">${emptyMsg}</div>`;
+          } else {
+            gridEl.innerHTML = list.map(buildCardHtml).join('');
+          }
+        }
+
+        renderGroupGrid(gridCurbside, curbsideItems, 'No curbside materials currently listed.');
+        renderGroupGrid(gridDropoff, dropoffItems, 'No depot drop-off items currently listed.');
+        renderGroupGrid(gridNotAccepted, notAcceptedItems, 'No non-accepted materials currently listed.');
+      }
+
+      async function syncCloudMaterials() {
+        try {
+          const res = await fetch('http://localhost:8086/api/materials');
+          if (res.ok) {
+            const data = await res.json();
+            if (data.documents && Array.isArray(data.documents) && data.documents.length > 0) {
+              const cloudMaterials = data.documents.map(doc => {
+                const f = doc.fields || {};
+                return {
+                  id: doc.name.split('/').pop(),
+                  title: f.title ? f.title.stringValue : 'Material',
+                  category: f.category ? f.category.stringValue : 'curbside',
+                  theme: f.theme ? f.theme.stringValue : 'paper',
+                  icon: f.icon ? f.icon.stringValue : '📦',
+                  description: f.description ? f.description.stringValue : ''
+                };
+              });
+              if (cloudMaterials.length > 0) {
+                localStorage.setItem('tricom_materials', JSON.stringify(cloudMaterials));
+                renderDynamicMaterialsDirectory();
+              }
+            }
+          }
+        } catch (err) {}
+      }
+
+      renderDynamicMaterialsDirectory();
+      syncCloudMaterials();
+
+      window.addEventListener('storage', (e) => {
+        if (e.key === 'tricom_materials') {
+          renderDynamicMaterialsDirectory();
+        }
+      });
+
+      /* --- Stewardship Receiving / Intake Forms Logic --- */
     function initReceivingFormsModal() {
       const formModalOverlay = document.getElementById('stewardship-form-modal-overlay');
       if (!formModalOverlay) return;
