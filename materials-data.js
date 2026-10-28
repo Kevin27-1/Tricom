@@ -392,3 +392,4 @@
   window.MATERIAL_DETAILS_DATA = MATERIAL_DETAILS_DATA;
   window.getMaterialDetails = getMaterialDetails;
 })();
+
