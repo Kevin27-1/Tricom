@@ -3863,6 +3863,11 @@
     </div>
   </div>
 
+  <!-- Firebase Cloud Sync SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // ─── Scroll Reveal Observer for all sections ───
@@ -4404,6 +4409,42 @@
 
       syncAndRenderAdminNews();
 
+      // Real-time Cloud Firestore sync across all devices
+      function initPublicFirestoreSync() {
+        const db = window.getTricomDb ? window.getTricomDb() : null;
+        if (!db) return;
+
+        // Sync announcements in real time
+        db.collection('news').onSnapshot((snapshot) => {
+          const posts = [];
+          snapshot.forEach((doc) => {
+            posts.push({ id: doc.id, ...doc.data() });
+          });
+          if (posts.length > 0) {
+            localStorage.setItem('tricom_news_posts', JSON.stringify(posts));
+            syncAndRenderAdminNews();
+          }
+        }, (err) => {
+          console.warn('Firestore public news sync note:', err);
+        });
+
+        // Sync materials directory in real time
+        db.collection('materials').onSnapshot((snapshot) => {
+          const mats = [];
+          snapshot.forEach((doc) => {
+            mats.push({ id: doc.id, ...doc.data() });
+          });
+          if (mats.length > 0) {
+            localStorage.setItem('tricom_materials', JSON.stringify(mats));
+            renderDynamicMaterialsDirectory();
+          }
+        }, (err) => {
+          console.warn('Firestore public materials sync note:', err);
+        });
+      }
+
+      initPublicFirestoreSync();
+
       // Render any custom materials updated from admin dashboard or cloud database
       function renderDynamicMaterialsDirectory() {
         const gridCurbside = document.getElementById('grid-curbside');
@@ -4633,15 +4674,16 @@
         timestamp: Date.now()
       };
 
-      // 1. Direct Cloud Firestore REST Save to tricom-recycling project
-      sendToFirestoreREST(FIRESTORE_MESSAGES_ENDPOINT, {
-        name,
-        email,
-        message,
-        date: dateStr,
-        read: false,
-        timestamp: Date.now()
-      });
+      // 1. Direct Cloud Firestore Save to tricom-recycling project across all devices
+      const db = window.getTricomDb ? window.getTricomDb() : null;
+      if (db) {
+        db.collection('messages').doc('msg-' + Date.now()).set(msgObj).catch((err) => {
+          console.warn('Direct Firestore write error, trying REST fallback:', err);
+          sendToFirestoreREST(FIRESTORE_MESSAGES_ENDPOINT, msgObj);
+        });
+      } else {
+        sendToFirestoreREST(FIRESTORE_MESSAGES_ENDPOINT, msgObj);
+      }
 
       // 2. LocalStorage Persistence
       const stored = localStorage.getItem('tricom_messages');

@@ -186,11 +186,12 @@ class FirestoreRequestHandler(SimpleHTTPRequestHandler):
                 'image': {'stringValue': str(body.get('image', ''))}
             }
             if doc_id:
-                # Set with specific document ID
-                url = f'{BASE_FIRESTORE_URL}/news?documentId={doc_id}'
+                # Upsert with document ID to avoid 409 conflict
+                url = f'{BASE_FIRESTORE_URL}/news/{doc_id}'
+                res = requests.patch(url, headers=headers, json={'fields': fields})
             else:
                 url = f'{BASE_FIRESTORE_URL}/news'
-            res = requests.post(url, headers=headers, json={'fields': fields})
+                res = requests.post(url, headers=headers, json={'fields': fields})
             self._send_json_response(res.status_code, res.content)
 
         elif path == '/api/materials':
@@ -203,10 +204,12 @@ class FirestoreRequestHandler(SimpleHTTPRequestHandler):
                 'description': {'stringValue': str(body.get('description', ''))}
             }
             if doc_id:
-                url = f'{BASE_FIRESTORE_URL}/materials?documentId={doc_id}'
+                # Upsert with document ID to avoid 409 conflict
+                url = f'{BASE_FIRESTORE_URL}/materials/{doc_id}'
+                res = requests.patch(url, headers=headers, json={'fields': fields})
             else:
                 url = f'{BASE_FIRESTORE_URL}/materials'
-            res = requests.post(url, headers=headers, json={'fields': fields})
+                res = requests.post(url, headers=headers, json={'fields': fields})
             self._send_json_response(res.status_code, res.content)
 
         else:

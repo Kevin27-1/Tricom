@@ -1,0 +1,21 @@
+{
+  "firestore": {
+    "rules": "firestore.rules"
+  },
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "firestore.rules",
+      "serviceAccountKey.json",
+      ".git/**",
+      ".gitignore",
+      "api_server.py",
+      "*.py",
+      "*.log",
+      "index.canvas-backup.html",
+      "Done/**"
+    ]
+  }
+}
+
