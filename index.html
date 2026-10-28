@@ -653,6 +653,81 @@
       color: #86868b;
     }
 
+    /* Interactive Material Cards */
+    .accept-card {
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+    }
+    .accept-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 12px 32px rgba(0, 0, 0, 0.06);
+      border-color: rgba(0, 112, 243, 0.3);
+    }
+    .accept-card:focus-visible {
+      outline: 2px solid var(--blue-mid, #2468a0);
+      outline-offset: 2px;
+    }
+    .accept-card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 10px;
+      font-size: 0.72rem;
+      font-weight: 750;
+      color: var(--blue-mid, #2468a0);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      transition: color 0.15s ease;
+    }
+    .accept-card:hover .accept-card-link {
+      color: var(--blue-light, #2d72ab);
+    }
+
+    /* Material Modal Internal Styles */
+    .material-modal-section {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .material-modal-section-title {
+      font-size: 0.88rem;
+      font-weight: 750;
+      color: #ffffff;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .material-modal-list {
+      margin: 0;
+      padding-left: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 0.88rem;
+      line-height: 1.55;
+      color: rgba(255, 255, 255, 0.82);
+    }
+    .material-modal-list.avoid-list li::marker {
+      color: #f87171;
+    }
+    .material-modal-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 2px;
+    }
+    .material-modal-tag {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 9999px;
+      padding: 5px 12px;
+      font-size: 0.78rem;
+      font-weight: 550;
+      color: #f1f5f9;
+    }
+
     /* ═══════════════════════════════════════════
        2. STEWARDSHIP
        ═══════════════════════════════════════════ */
@@ -2615,70 +2690,83 @@
           </span>
         </div>
         <div class="accept-grid" id="grid-curbside">
-          <div class="accept-card">
+          <div class="accept-card" data-material-id="mat-newspaper" role="button" tabindex="0" aria-label="View guidelines for Newspaper">
             <div class="accept-card-icon paper">📰</div>
             <h4 class="accept-card-title">Newspaper</h4>
             <p class="accept-card-body">Newspapers, newsprint inserts, and weekly papers.</p>
+            <span class="accept-card-link">View details &rarr;</span>
           </div>
-          <div class="accept-card">
+          <div class="accept-card" data-material-id="mat-office-paper" role="button" tabindex="0" aria-label="View guidelines for Office Paper">
             <div class="accept-card-icon paper">📄</div>
             <h4 class="accept-card-title">Office Paper</h4>
             <p class="accept-card-body">Printer paper, notebook paper, copy paper, and white documents.</p>
+            <span class="accept-card-link">View details &rarr;</span>
           </div>
-          <div class="accept-card">
+          <div class="accept-card" data-material-id="mat-flyers-mail" role="button" tabindex="0" aria-label="View guidelines for Flyers & Mail">
             <div class="accept-card-icon paper">✉️</div>
             <h4 class="accept-card-title">Flyers & Mail</h4>
             <p class="accept-card-body">Unaddressed mail, advertising flyers, envelopes, and notices.</p>
+            <span class="accept-card-link">View details &rarr;</span>
           </div>
-          <div class="accept-card">
+          <div class="accept-card" data-material-id="mat-magazines" role="button" tabindex="0" aria-label="View guidelines for Magazines">
             <div class="accept-card-icon paper">📖</div>
             <h4 class="accept-card-title">Magazines</h4>
             <p class="accept-card-body">Glossy magazines, catalogs, and soft periodicals.</p>
+            <span class="accept-card-link">View details &rarr;</span>
           </div>
-          <div class="accept-card">
+          <div class="accept-card" data-material-id="mat-phone-books" role="button" tabindex="0" aria-label="View guidelines for Phone Books">
             <div class="accept-card-icon paper">📒</div>
             <h4 class="accept-card-title">Phone Books</h4>
             <p class="accept-card-body">Softcover phone directories and community books.</p>
+            <span class="accept-card-link">View details &rarr;</span>
           </div>
-          <div class="accept-card">
+          <div class="accept-card" data-material-id="mat-cardboard" role="button" tabindex="0" aria-label="View guidelines for Cardboard">
             <div class="accept-card-icon paper">📦</div>
             <h4 class="accept-card-title">Cardboard</h4>
             <p class="accept-card-body">Flattened corrugated boxes with tape and packing removed.</p>
+            <span class="accept-card-link">View details &rarr;</span>
           </div>
-          <div class="accept-card">
+          <div class="accept-card" data-material-id="mat-boxboard" role="button" tabindex="0" aria-label="View guidelines for Boxboard">
             <div class="accept-card-icon paper">🥣</div>
             <h4 class="accept-card-title">Boxboard</h4>
             <p class="accept-card-body">Cereal boxes, shoe boxes, and tissue boxes flattened.</p>
+            <span class="accept-card-link">View details &rarr;</span>
           </div>
-          <div class="accept-card">
+          <div class="accept-card" data-material-id="mat-plastic-containers" role="button" tabindex="0" aria-label="View guidelines for Plastic Containers">
             <div class="accept-card-icon containers">🧴</div>
             <h4 class="accept-card-title">Plastic Containers</h4>
             <p class="accept-card-body">Rinsed food tubs, bottles, and jugs (#1–#5).</p>
+            <span class="accept-card-link">View details &rarr;</span>
           </div>
-          <div class="accept-card">
+          <div class="accept-card" data-material-id="mat-aluminum-cans" role="button" tabindex="0" aria-label="View guidelines for Aluminum Cans">
             <div class="accept-card-icon metals">🥫</div>
             <h4 class="accept-card-title">Aluminum Cans</h4>
             <p class="accept-card-body">Clean aluminum beverage cans and drink tins.</p>
+            <span class="accept-card-link">View details &rarr;</span>
           </div>
-          <div class="accept-card">
+          <div class="accept-card" data-material-id="mat-steel-tin-cans" role="button" tabindex="0" aria-label="View guidelines for Steel & Tin Cans">
             <div class="accept-card-icon metals">⚙️</div>
             <h4 class="accept-card-title">Steel & Tin Cans</h4>
             <p class="accept-card-body">Clean soup cans, pet food cans, and food tins.</p>
+            <span class="accept-card-link">View details &rarr;</span>
           </div>
-          <div class="accept-card">
+          <div class="accept-card" data-material-id="mat-glass-bottles" role="button" tabindex="0" aria-label="View guidelines for Glass Bottles">
             <div class="accept-card-icon beverage">🍾</div>
             <h4 class="accept-card-title">Glass Bottles</h4>
             <p class="accept-card-body">Unbroken clear, green, and brown glass beverage bottles.</p>
+            <span class="accept-card-link">View details &rarr;</span>
           </div>
-          <div class="accept-card">
+          <div class="accept-card" data-material-id="mat-glass-jars" role="button" tabindex="0" aria-label="View guidelines for Glass Jars">
             <div class="accept-card-icon beverage">🫙</div>
             <h4 class="accept-card-title">Glass Jars</h4>
             <p class="accept-card-body">Rinsed clean unbroken glass food and sauce jars.</p>
+            <span class="accept-card-link">View details &rarr;</span>
           </div>
-          <div class="accept-card">
+          <div class="accept-card" data-material-id="mat-milk-cartons" role="button" tabindex="0" aria-label="View guidelines for Milk & Cartons">
             <div class="accept-card-icon beverage">🧃</div>
             <h4 class="accept-card-title">Milk & Cartons</h4>
             <p class="accept-card-body">Paper cartons, milk cartons, and juice boxes rinsed.</p>
+            <span class="accept-card-link">View details &rarr;</span>
           </div>
         </div>
       </div>
@@ -2693,30 +2781,35 @@
           </span>
         </div>
         <div class="accept-grid" id="grid-dropoff">
-          <div class="accept-card">
+          <div class="accept-card" data-material-id="mat-lead-acid-batteries" role="button" tabindex="0" aria-label="View guidelines for Lead-Acid Batteries">
             <div class="accept-card-icon hazardous">🔋</div>
             <h4 class="accept-card-title">Lead-Acid Batteries</h4>
             <p class="accept-card-body">Vehicle and equipment batteries. Special hazardous drop-off.</p>
+            <span class="accept-card-link">View details &rarr;</span>
           </div>
-          <div class="accept-card">
+          <div class="accept-card" data-material-id="mat-electronic-waste" role="button" tabindex="0" aria-label="View guidelines for Electronic Waste">
             <div class="accept-card-icon electronics">🖥️</div>
             <h4 class="accept-card-title">Electronic Waste</h4>
             <p class="accept-card-body">Screens, computers, TVs, electronics, cabling, and cords.</p>
+            <span class="accept-card-link">View details &rarr;</span>
           </div>
-          <div class="accept-card">
+          <div class="accept-card" data-material-id="mat-hazardous-waste" role="button" tabindex="0" aria-label="View guidelines for Hazardous Waste">
             <div class="accept-card-icon hazardous">⚠️</div>
             <h4 class="accept-card-title">Hazardous Waste</h4>
             <p class="accept-card-body">Paints, solvents, pesticides, and household chemicals.</p>
+            <span class="accept-card-link">View details &rarr;</span>
           </div>
-          <div class="accept-card">
+          <div class="accept-card" data-material-id="mat-propane-cylinders" role="button" tabindex="0" aria-label="View guidelines for Propane Cylinders">
             <div class="accept-card-icon hazardous">🛢️</div>
             <h4 class="accept-card-title">Propane Cylinders</h4>
             <p class="accept-card-body">Pressurized fuel tanks. Explosion risk; return to vendors.</p>
+            <span class="accept-card-link">View details &rarr;</span>
           </div>
-          <div class="accept-card">
+          <div class="accept-card" data-material-id="mat-fluorescent-bulbs" role="button" tabindex="0" aria-label="View guidelines for Fluorescent Bulbs">
             <div class="accept-card-icon hazardous">💡</div>
             <h4 class="accept-card-title">Fluorescent Bulbs</h4>
             <p class="accept-card-body">Fluorescent tubes and CFL bulbs containing mercury.</p>
+            <span class="accept-card-link">View details &rarr;</span>
           </div>
         </div>
       </div>
@@ -2731,20 +2824,23 @@
           </span>
         </div>
         <div class="accept-grid" id="grid-notaccepted">
-          <div class="accept-card">
+          <div class="accept-card" data-material-id="mat-styrofoam-foam" role="button" tabindex="0" aria-label="View guidelines for Styrofoam / Foam">
             <div class="accept-card-icon rejected">🚫</div>
             <h4 class="accept-card-title">Styrofoam / Foam</h4>
             <p class="accept-card-body">Foam packaging, cups, and takeout containers not accepted.</p>
+            <span class="accept-card-link">View details &rarr;</span>
           </div>
-          <div class="accept-card">
+          <div class="accept-card" data-material-id="mat-black-plastic" role="button" tabindex="0" aria-label="View guidelines for Black Plastic">
             <div class="accept-card-icon rejected">🚫</div>
             <h4 class="accept-card-title">Black Plastic</h4>
             <p class="accept-card-body">Optical sorting cannot read black carbon pigment. Place in garbage.</p>
+            <span class="accept-card-link">View details &rarr;</span>
           </div>
-          <div class="accept-card">
+          <div class="accept-card" data-material-id="mat-scrap-metal" role="button" tabindex="0" aria-label="View guidelines for Scrap Metal">
             <div class="accept-card-icon rejected">🚫</div>
             <h4 class="accept-card-title">Scrap Metal</h4>
             <p class="accept-card-body">Large metal objects, pots, pans, and hardware not accepted in bins.</p>
+            <span class="accept-card-link">View details &rarr;</span>
           </div>
         </div>
       </div>
@@ -3863,10 +3959,85 @@
     </div>
   </div>
 
-  <!-- Firebase Cloud Sync SDK -->
+  <!-- Material Details Popup Modal Sheet -->
+  <div id="material-modal-overlay" class="news-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="material-modal-title">
+    <div class="news-modal-sheet" id="material-modal-sheet">
+      <div class="mobile-modal-handle"></div>
+      <div class="news-modal-header" style="align-items: center;">
+        <div style="display: flex; align-items: center; gap: 14px; flex: 1; min-width: 0;">
+          <div id="material-modal-icon-wrap" class="accept-card-icon" style="margin: 0; width: 44px; height: 44px; font-size: 1.4rem;">
+            <span id="material-modal-icon">📦</span>
+          </div>
+          <div style="min-width: 0;">
+            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+              <span id="material-modal-badge" class="news-modal-badge">ACCEPTED CURBSIDE</span>
+              <span id="material-modal-category-text" class="news-modal-date">Curbside Blue Cart</span>
+            </div>
+            <h3 id="material-modal-title" class="news-modal-heading" style="margin: 3px 0 0 0;">Material Name</h3>
+          </div>
+        </div>
+        <button type="button" id="material-modal-close" class="news-modal-close-btn" onclick="closeMaterialModal()" aria-label="Close material details">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="news-modal-body" id="material-modal-body">
+        <!-- Summary Callout -->
+        <div class="news-summary-box" id="material-modal-summary-box">
+          <p id="material-modal-summary" class="news-summary-text"></p>
+        </div>
+
+        <!-- Preparation & Guidelines -->
+        <div class="material-modal-section">
+          <h4 class="material-modal-section-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+            Preparation &amp; Sorting Guidelines
+          </h4>
+          <ul id="material-modal-prep-list" class="material-modal-list"></ul>
+        </div>
+
+        <!-- What's Included / Examples -->
+        <div class="material-modal-section" id="material-modal-examples-section">
+          <h4 class="material-modal-section-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Accepted Examples
+          </h4>
+          <div id="material-modal-examples-tags" class="material-modal-tags"></div>
+        </div>
+
+        <!-- What to Avoid -->
+        <div class="material-modal-section" id="material-modal-avoid-section">
+          <h4 class="material-modal-section-title" style="color: #f87171;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+            What to Avoid (Contamination Risk)
+          </h4>
+          <ul id="material-modal-avoid-list" class="material-modal-list avoid-list"></ul>
+        </div>
+
+        <!-- Stewardship / Destination Box -->
+        <div class="news-contact-help-box" id="material-modal-stewardship-box">
+          <div style="display: flex; align-items: flex-start; gap: 10px;">
+            <span style="font-size: 1.2rem; line-height: 1.2;">♻️</span>
+            <div>
+              <p style="font-weight: 750; font-size: 0.85rem; color: #ffffff; margin: 0;">Certified Stewardship &amp; Processing</p>
+              <p id="material-modal-destination" style="font-size: 0.8rem; color: rgba(255,255,255,0.7); margin: 3px 0 0 0; line-height: 1.4;"></p>
+            </div>
+          </div>
+          <a href="#contact" onclick="closeMaterialModal()" class="news-modal-inquire-btn">Ask a Question</a>
+        </div>
+      </div>
+
+      <div class="news-modal-footer">
+        <button type="button" class="news-modal-dismiss-btn" onclick="closeMaterialModal()">Close Details</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase Cloud Sync & Materials Knowledge SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
   <script src="firebase-config.js"></script>
+  <script src="materials-data.js"></script>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -4304,6 +4475,120 @@
       window.closeNewsModal = closeNewsModal;
       window.openNewsModal = openNewsModal;
 
+      // ─── Material Detail Popup Modal Logic ───
+      const materialModalOverlay = document.getElementById('material-modal-overlay');
+
+      function openMaterialModal(matId, fallbackTitle = '') {
+        if (!materialModalOverlay) return;
+
+        const details = window.getMaterialDetails ? window.getMaterialDetails(matId || fallbackTitle) : null;
+        if (!details) return;
+
+        const iconWrap = document.getElementById('material-modal-icon-wrap');
+        const iconEl = document.getElementById('material-modal-icon');
+        const titleEl = document.getElementById('material-modal-title');
+        const badgeEl = document.getElementById('material-modal-badge');
+        const catTextEl = document.getElementById('material-modal-category-text');
+        const summaryEl = document.getElementById('material-modal-summary');
+        const prepList = document.getElementById('material-modal-prep-list');
+        const examplesSection = document.getElementById('material-modal-examples-section');
+        const examplesTags = document.getElementById('material-modal-examples-tags');
+        const avoidSection = document.getElementById('material-modal-avoid-section');
+        const avoidList = document.getElementById('material-modal-avoid-list');
+        const destinationEl = document.getElementById('material-modal-destination');
+
+        if (iconWrap) iconWrap.className = 'accept-card-icon ' + (details.theme || 'paper');
+        if (iconEl) iconEl.textContent = details.icon || '📦';
+        if (titleEl) titleEl.textContent = details.title || fallbackTitle;
+
+        if (badgeEl) {
+          badgeEl.textContent = details.badge || 'ACCEPTED';
+          if (details.category === 'curbside') {
+            badgeEl.className = 'news-modal-badge';
+            badgeEl.style.background = 'rgba(16, 185, 129, 0.18)';
+            badgeEl.style.color = '#34d399';
+            badgeEl.style.borderColor = 'rgba(52, 211, 153, 0.3)';
+          } else if (details.category === 'dropoff') {
+            badgeEl.className = 'news-modal-badge';
+            badgeEl.style.background = 'rgba(245, 158, 11, 0.18)';
+            badgeEl.style.color = '#fbbf24';
+            badgeEl.style.borderColor = 'rgba(251, 191, 36, 0.3)';
+          } else {
+            badgeEl.className = 'news-modal-badge';
+            badgeEl.style.background = 'rgba(239, 68, 68, 0.18)';
+            badgeEl.style.color = '#f87171';
+            badgeEl.style.borderColor = 'rgba(248, 113, 113, 0.3)';
+          }
+        }
+
+        if (catTextEl) {
+          catTextEl.textContent = details.category === 'curbside' ? 'Curbside Blue Cart' :
+                                  details.category === 'dropoff' ? 'Depot Yard Drop-Off' : 'Not Recyclable';
+        }
+
+        if (summaryEl) summaryEl.textContent = details.summary || details.description || '';
+
+        if (prepList) {
+          prepList.innerHTML = (details.preparation || []).map(p => `<li>${escapeHtml(p)}</li>`).join('');
+        }
+
+        if (examplesTags && examplesSection) {
+          if (details.examples && details.examples.length > 0) {
+            examplesTags.innerHTML = details.examples.map(ex => `<span class="material-modal-tag">${escapeHtml(ex)}</span>`).join('');
+            examplesSection.style.display = 'flex';
+          } else {
+            examplesSection.style.display = 'none';
+          }
+        }
+
+        if (avoidList && avoidSection) {
+          if (details.notAccepted && details.notAccepted.length > 0) {
+            avoidList.innerHTML = details.notAccepted.map(a => `<li>${escapeHtml(a)}</li>`).join('');
+            avoidSection.style.display = 'flex';
+          } else {
+            avoidSection.style.display = 'none';
+          }
+        }
+
+        if (destinationEl) {
+          destinationEl.textContent = details.destination || 'Processed through certified stewardship programs.';
+        }
+
+        materialModalOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        const bodyEl = document.getElementById('material-modal-body');
+        if (bodyEl) bodyEl.scrollTop = 0;
+      }
+
+      function closeMaterialModal() {
+        if (!materialModalOverlay) return;
+        materialModalOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+      window.openMaterialModal = openMaterialModal;
+      window.closeMaterialModal = closeMaterialModal;
+
+      // Click delegation for all material cards
+      document.addEventListener('click', (e) => {
+        const card = e.target.closest('.accept-card');
+        if (card) {
+          const matId = card.getAttribute('data-material-id');
+          const matTitle = card.querySelector('.accept-card-title')?.textContent?.trim();
+          openMaterialModal(matId, matTitle);
+          return;
+        }
+
+        if (e.target === materialModalOverlay) {
+          closeMaterialModal();
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && materialModalOverlay && materialModalOverlay.classList.contains('active')) {
+          closeMaterialModal();
+        }
+      });
+
       if (newsModalClose) newsModalClose.addEventListener('click', closeNewsModal);
       if (newsModalDismiss) newsModalDismiss.addEventListener('click', closeNewsModal);
       if (newsModal) {
@@ -4486,11 +4771,13 @@
           const icon = escapeHtml(m.icon || '📦');
           const title = escapeHtml(m.title || 'Material');
           const desc = escapeHtml(m.description || '');
+          const id = escapeHtml(m.id || '');
           return `
-            <div class="accept-card">
+            <div class="accept-card" data-material-id="${id}" role="button" tabindex="0" aria-label="View guidelines for ${title}">
               <div class="accept-card-icon ${theme}">${icon}</div>
               <h4 class="accept-card-title">${title}</h4>
               <p class="accept-card-body">${desc}</p>
+              <span class="accept-card-link">View details &rarr;</span>
             </div>
           `;
         }

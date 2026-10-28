@@ -1067,6 +1067,70 @@
 
   </main>
 
+  <!-- Admin Material Inspection Modal -->
+  <div id="admin-material-detail-modal" class="modal-overlay" style="z-index: 1050;">
+    <div class="modal-card" style="max-width: 580px;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0;">
+          <div id="admin-mat-detail-icon-wrap" class="mat-table-icon paper">
+            <span id="admin-mat-detail-icon">📦</span>
+          </div>
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span id="admin-mat-detail-badge" class="badge-status badge-curbside">Curbside</span>
+              <span id="admin-mat-detail-theme-tag" style="font-size: 0.72rem; color: #94a3b8; text-transform: uppercase; font-weight: 700;">PAPER</span>
+            </div>
+            <h3 class="modal-title" id="admin-mat-detail-title" style="margin-top: 4px; font-size: 1.35rem;">Material Details</h3>
+          </div>
+        </div>
+        <button class="modal-close" onclick="closeAdminMaterialDetailModal()">&times;</button>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 16px; color: #cbd5e1; max-height: calc(80vh - 120px); overflow-y: auto; padding-right: 4px;">
+        <!-- Description / Summary -->
+        <div style="background: rgba(255, 255, 255, 0.04); border-left: 3px solid #0070F3; padding: 12px 16px; border-radius: 0 10px 10px 0;">
+          <span style="font-size: 0.74rem; text-transform: uppercase; font-weight: 700; color: #38bdf8; display: block; margin-bottom: 2px;">Official Summary &amp; Rules</span>
+          <p id="admin-mat-detail-summary" style="margin: 0; font-size: 0.92rem; line-height: 1.5; color: #f1f5f9;"></p>
+        </div>
+
+        <!-- Preparation & Guidelines -->
+        <div>
+          <h4 style="font-size: 0.86rem; font-weight: 700; color: #ffffff; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+            <span>📋</span> Preparation &amp; Sorting Guidelines
+          </h4>
+          <ul id="admin-mat-detail-prep" style="margin: 0; padding-left: 20px; font-size: 0.86rem; line-height: 1.5; color: #cbd5e1; display: flex; flex-direction: column; gap: 6px;"></ul>
+        </div>
+
+        <!-- Accepted Examples -->
+        <div id="admin-mat-detail-examples-wrap">
+          <h4 style="font-size: 0.86rem; font-weight: 700; color: #ffffff; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+            <span>✅</span> Accepted Examples
+          </h4>
+          <div id="admin-mat-detail-examples" style="display: flex; flex-wrap: wrap; gap: 6px;"></div>
+        </div>
+
+        <!-- What to Avoid -->
+        <div id="admin-mat-detail-avoid-wrap">
+          <h4 style="font-size: 0.86rem; font-weight: 700; color: #f87171; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+            <span>⚠️</span> What to Avoid
+          </h4>
+          <ul id="admin-mat-detail-avoid" style="margin: 0; padding-left: 20px; font-size: 0.86rem; line-height: 1.5; color: #cbd5e1; display: flex; flex-direction: column; gap: 6px;"></ul>
+        </div>
+
+        <!-- Destination / Stewardship -->
+        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--card-border); padding: 12px 14px; border-radius: 12px; font-size: 0.82rem; line-height: 1.45; color: #94a3b8;">
+          <strong style="color: #ffffff;">Stewardship &amp; Destination:</strong>
+          <span id="admin-mat-detail-destination"></span>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end;">
+        <button type="button" class="btn-action btn-secondary" onclick="closeAdminMaterialDetailModal()">Close</button>
+        <button type="button" class="btn-action" id="admin-mat-detail-edit-btn" style="background: #10b981;">Edit Material</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Add / Edit News Event Modal -->
   <div id="event-modal" class="modal-overlay">
     <div class="modal-card">
@@ -1234,6 +1298,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
   <script src="firebase-config.js"></script>
+  <script src="materials-data.js"></script>
 
   <script>
     // Storage keys
@@ -1684,15 +1749,19 @@
                 return `
                   <tr>
                     <td>
-                      <div style="display: flex; align-items: center; gap: 10px;">
+                      <div style="display: flex; align-items: center; gap: 10px; cursor: pointer;" onclick="openAdminMaterialDetailModal('${escapeHtml(m.id)}')">
                         <div class="mat-table-icon ${escapeHtml(m.theme || 'paper')}">${escapeHtml(m.icon || '📦')}</div>
-                        <strong style="color: #ffffff; font-size: 0.92rem;">${escapeHtml(m.title)}</strong>
+                        <div>
+                          <strong style="color: #ffffff; font-size: 0.92rem; text-decoration: underline dotted rgba(255,255,255,0.3);">${escapeHtml(m.title)}</strong>
+                          <span style="display: block; font-size: 0.72rem; color: #38bdf8; margin-top: 1px;">Click for details</span>
+                        </div>
                       </div>
                     </td>
                     <td>${badgeHtml}</td>
                     <td><span style="font-size: 0.78rem; text-transform: uppercase; font-weight: 700; color: #94a3b8; letter-spacing: 0.04em;">${escapeHtml(themeLabel)}</span></td>
                     <td style="color: #94a3b8; font-size: 0.86rem; line-height: 1.45;">${escapeHtml(m.description)}</td>
-                    <td style="text-align: right;">
+                    <td style="text-align: right; white-space: nowrap;">
+                      <button class="action-btn-sm" onclick="openAdminMaterialDetailModal('${escapeHtml(m.id)}')">Details</button>
                       <button class="action-btn-sm" onclick="editMaterial('${escapeHtml(m.id)}')">Edit</button>
                       <button class="action-btn-sm action-btn-danger" onclick="deleteMaterial('${escapeHtml(m.id)}')">Delete</button>
                     </td>
@@ -1876,6 +1945,84 @@
     }
 
     // Materials Modal Controls & CRUD
+    // Material Inspection Detail Modal for Admin
+    let currentInspectedMaterialId = null;
+
+    function openAdminMaterialDetailModal(matId) {
+      currentInspectedMaterialId = matId;
+      const modal = document.getElementById('admin-material-detail-modal');
+      if (!modal) return;
+
+      const details = window.getMaterialDetails ? window.getMaterialDetails(matId) : null;
+      if (!details) return;
+
+      const iconWrap = document.getElementById('admin-mat-detail-icon-wrap');
+      const iconEl = document.getElementById('admin-mat-detail-icon');
+      const titleEl = document.getElementById('admin-mat-detail-title');
+      const badgeEl = document.getElementById('admin-mat-detail-badge');
+      const themeTag = document.getElementById('admin-mat-detail-theme-tag');
+      const summaryEl = document.getElementById('admin-mat-detail-summary');
+      const prepList = document.getElementById('admin-mat-detail-prep');
+      const examplesWrap = document.getElementById('admin-mat-detail-examples-wrap');
+      const examplesContainer = document.getElementById('admin-mat-detail-examples');
+      const avoidWrap = document.getElementById('admin-mat-detail-avoid-wrap');
+      const avoidList = document.getElementById('admin-mat-detail-avoid');
+      const destinationEl = document.getElementById('admin-mat-detail-destination');
+      const editBtn = document.getElementById('admin-mat-detail-edit-btn');
+
+      if (iconWrap) iconWrap.className = 'mat-table-icon ' + (details.theme || 'paper');
+      if (iconEl) iconEl.textContent = details.icon || '📦';
+      if (titleEl) titleEl.textContent = details.title;
+      if (themeTag) themeTag.textContent = (details.theme || 'paper').toUpperCase();
+
+      if (badgeEl) {
+        badgeEl.textContent = details.category === 'curbside' ? 'Curbside' : (details.category === 'dropoff' ? 'Drop-Off' : 'Not Accepted');
+        badgeEl.className = 'badge-status ' + (details.category === 'curbside' ? 'badge-curbside' : (details.category === 'dropoff' ? 'badge-dropoff' : 'badge-notaccepted'));
+      }
+
+      if (summaryEl) summaryEl.textContent = details.summary || details.description || '';
+
+      if (prepList) {
+        prepList.innerHTML = (details.preparation || []).map(p => `<li>${escapeHtml(p)}</li>`).join('');
+      }
+
+      if (examplesContainer && examplesWrap) {
+        if (details.examples && details.examples.length > 0) {
+          examplesContainer.innerHTML = details.examples.map(ex => `<span style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 9999px; padding: 4px 10px; font-size: 0.78rem; color: #f1f5f9;">${escapeHtml(ex)}</span>`).join('');
+          examplesWrap.style.display = 'block';
+        } else {
+          examplesWrap.style.display = 'none';
+        }
+      }
+
+      if (avoidList && avoidWrap) {
+        if (details.notAccepted && details.notAccepted.length > 0) {
+          avoidList.innerHTML = details.notAccepted.map(a => `<li>${escapeHtml(a)}</li>`).join('');
+          avoidWrap.style.display = 'block';
+        } else {
+          avoidWrap.style.display = 'none';
+        }
+      }
+
+      if (destinationEl) {
+        destinationEl.textContent = details.destination || 'Handled in certified stewardship programs.';
+      }
+
+      if (editBtn) {
+        editBtn.onclick = function() {
+          closeAdminMaterialDetailModal();
+          editMaterial(matId);
+        };
+      }
+
+      modal.classList.add('active');
+    }
+
+    function closeAdminMaterialDetailModal() {
+      const modal = document.getElementById('admin-material-detail-modal');
+      if (modal) modal.classList.remove('active');
+    }
+
     function openAddMaterialModal() {
       document.getElementById('material-id').value = '';
       document.getElementById('material-title').value = '';
