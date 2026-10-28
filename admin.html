@@ -5,7 +5,10 @@
   <link rel="shortcut icon" href="favicon.ico" />
 
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#060b14" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>Tri-Com Recycling — Admin Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -566,13 +569,280 @@
       box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
     }
 
-    @media (max-width: 768px) {
-      .stats-grid {
-        grid-template-columns: 1fr;
-      }
+    /* Table scroll hint for small screens */
+    .table-scroll-hint {
+      display: none;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #64748b;
+      padding: 8px 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    @keyframes mobileMenuSlideDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .mobile-menu-toggle {
+      display: none;
+    }
+
+    /* ─── Mobile & Tablet Responsive Optimizations ─── */
+    @media (max-width: 1024px) {
       .admin-header {
+        padding: 12px 16px;
         flex-direction: column;
-        gap: 16px;
+        align-items: stretch;
+        gap: 10px;
+      }
+
+      .header-top-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        gap: 10px;
+      }
+
+      .brand-title {
+        display: none; /* Hide long secondary title on smaller displays */
+      }
+
+      .admin-nav {
+        width: 100%;
+        overflow-x: auto;
+        padding: 4px 0 6px;
+        gap: 6px;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+      }
+      .admin-nav::-webkit-scrollbar {
+        display: none;
+      }
+
+      .nav-btn {
+        flex-shrink: 0;
+        white-space: nowrap;
+        padding: 8px 14px;
+        font-size: 0.82rem;
+      }
+
+      .mobile-menu-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid var(--card-border);
+        color: #ffffff;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        flex-shrink: 0;
+      }
+      .mobile-menu-toggle:hover, .mobile-menu-toggle:active {
+        background: rgba(255, 255, 255, 0.16);
+      }
+
+      .header-actions {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background: rgba(15, 23, 42, 0.98);
+        border: 1px solid var(--card-border);
+        border-radius: 18px;
+        padding: 14px;
+        gap: 10px;
+        animation: mobileMenuSlideDown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
+      }
+
+      .header-actions.mobile-open {
+        display: flex;
+      }
+
+      .header-actions .btn-action {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 16px;
+        font-size: 0.92rem;
+      }
+
+      .admin-main {
+        padding: 20px 16px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .table-scroll-hint {
+        display: block;
+      }
+
+      .panel-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .panel-title {
+        font-size: 1.4rem;
+      }
+
+      /* 2x2 Clean Mobile Stats Grid */
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+
+      .stat-card {
+        padding: 16px 14px;
+        border-radius: 16px;
+      }
+
+      .stat-value {
+        font-size: 1.8rem;
+      }
+
+      .stat-label {
+        font-size: 0.72rem;
+        letter-spacing: 0.04em;
+      }
+
+      .stat-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+      }
+      .stat-icon svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      /* Horizontal scrolling table container with touch momentum */
+      .data-table-container {
+        border-radius: 16px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .data-table {
+        min-width: 620px;
+      }
+
+      .data-table th, .data-table td {
+        padding: 12px 14px;
+        font-size: 0.85rem;
+      }
+
+      .action-btn-sm {
+        padding: 7px 12px;
+        font-size: 0.8rem;
+        min-height: 36px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Horizontally scrollable filter pills on mobile */
+      .admin-filter-pills {
+        width: 100%;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+      }
+      .admin-filter-pills::-webkit-scrollbar {
+        display: none;
+      }
+      .filter-pill {
+        flex-shrink: 0;
+        white-space: nowrap;
+        padding: 7px 13px;
+        font-size: 0.78rem;
+      }
+
+      /* Modals on Mobile Devices */
+      .modal-overlay {
+        padding: 12px;
+        align-items: flex-start;
+        padding-top: max(16px, env(safe-area-inset-top));
+        padding-bottom: max(16px, env(safe-area-inset-bottom));
+      }
+
+      .modal-card {
+        padding: 22px 16px;
+        border-radius: 20px;
+        max-height: calc(100vh - 32px);
+      }
+
+      .modal-title {
+        font-size: 1.25rem;
+      }
+
+      .modal-close {
+        padding: 8px;
+        font-size: 1.8rem;
+        line-height: 0.8;
+      }
+
+      /* 16px font-size prevents iOS Safari from automatically zooming into inputs */
+      .form-input, .form-textarea, .form-select {
+        font-size: 16px !important;
+        padding: 12px 14px;
+      }
+
+      .btn-action {
+        min-height: 44px;
+      }
+
+      /* Admin Login Overlay for mobile */
+      #login-overlay {
+        padding: 16px !important;
+      }
+      #login-overlay > div {
+        padding: 28px 20px !important;
+        border-radius: 22px !important;
+        max-width: 360px !important;
+      }
+      #login-overlay h2 {
+        font-size: 1.5rem !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .admin-header {
+        padding: 10px 12px;
+      }
+
+      .brand-badge {
+        font-size: 1.2rem;
+      }
+
+      .backend-status-pill {
+        padding: 4px 8px;
+        font-size: 0.7rem;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+
+      .stat-card {
+        padding: 14px 10px;
+      }
+
+      .stat-value {
+        font-size: 1.55rem;
+      }
+
+      .stat-icon {
+        display: none; /* Hide icon on narrow screens to maximize number readability */
       }
     }
   </style>
@@ -617,21 +887,28 @@
 
   <!-- Top Header Navigation -->
   <header class="admin-header">
-    <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
-      <a href="index.html" class="admin-brand" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
-        <img src="tricom-logo.jpg" alt="Tri-Com Recycling" style="height: 38px; width: auto; border-radius: 6px;" />
-        <div>
-          <span class="brand-badge">TRI-COM</span>
-          <span class="brand-title">Admin Management Portal</span>
+    <div class="header-top-row">
+      <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+        <a href="index.html" class="admin-brand" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+          <img src="tricom-logo.jpg" alt="Tri-Com Recycling" style="height: 38px; width: auto; border-radius: 6px;" />
+          <div>
+            <span class="brand-badge">TRI-COM</span>
+            <span class="brand-title">Admin Management Portal</span>
+          </div>
+        </a>
+        <div id="backend-status-badge" class="backend-status-pill offline" title="Backend Server status">
+          <span class="status-dot"></span>
+          <span id="backend-status-text">Local Storage Mode</span>
         </div>
-      </a>
-      <div id="backend-status-badge" class="backend-status-pill offline" title="Backend Server (localhost:8086) is offline. Operating smoothly in local browser storage mode.">
-        <span class="status-dot"></span>
-        <span id="backend-status-text">Local Storage Mode</span>
       </div>
+
+      <!-- Mobile Menu Hamburger Button -->
+      <button type="button" class="mobile-menu-toggle" id="mobile-menu-btn" onclick="toggleMobileActionsMenu()" aria-label="Toggle admin actions menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" id="mobile-menu-icon"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
     </div>
 
-    <nav class="admin-nav">
+    <nav class="admin-nav" id="admin-nav-bar">
       <button class="nav-btn active" onclick="switchTab('overview')">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
         Overview
@@ -650,9 +927,9 @@
       </button>
     </nav>
 
-    <div class="header-actions">
-      <button class="btn-action" onclick="openAddMaterialModal()" style="background: #10b981;">+ Add Material</button>
-      <button class="btn-action" onclick="openAddEventModal()">+ Add News Event</button>
+    <div class="header-actions" id="admin-header-actions">
+      <button class="btn-action" onclick="openAddMaterialModal(); closeMobileActionsMenu();" style="background: #10b981;">+ Add Material</button>
+      <button class="btn-action" onclick="openAddEventModal(); closeMobileActionsMenu();">+ Add News Event</button>
       <button class="btn-action btn-secondary" onclick="handleLogout()">Log Out</button>
       <a href="index.html" class="btn-action btn-secondary" style="text-decoration: none;">View Site &rarr;</a>
     </div>
@@ -1144,15 +1421,47 @@
       }
     }
 
-    // UI Tab Switching
+    // Mobile action drawer helpers
+    function toggleMobileActionsMenu() {
+      const actions = document.getElementById('admin-header-actions');
+      const icon = document.getElementById('mobile-menu-icon');
+      if (!actions) return;
+      const isOpen = actions.classList.toggle('mobile-open');
+      if (icon) {
+        if (isOpen) {
+          icon.innerHTML = '<line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>';
+        } else {
+          icon.innerHTML = '<line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>';
+        }
+      }
+    }
+
+    function closeMobileActionsMenu() {
+      const actions = document.getElementById('admin-header-actions');
+      const icon = document.getElementById('mobile-menu-icon');
+      if (actions && actions.classList.contains('mobile-open')) {
+        actions.classList.remove('mobile-open');
+        if (icon) {
+          icon.innerHTML = '<line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>';
+        }
+      }
+    }
+
+    // UI Tab Switching with mobile scroll into view
     function switchTab(tabName) {
+      closeMobileActionsMenu();
       document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
       document.querySelectorAll('.dashboard-panel').forEach(panel => panel.classList.remove('active'));
 
       const activeBtn = document.querySelector(`.nav-btn[onclick="switchTab('${tabName}')"]`);
       const activePanel = document.getElementById(`panel-${tabName}`);
 
-      if (activeBtn) activeBtn.classList.add('active');
+      if (activeBtn) {
+        activeBtn.classList.add('active');
+        if (activeBtn.scrollIntoView) {
+          activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        }
+      }
       if (activePanel) activePanel.classList.add('active');
     }
 
@@ -1189,6 +1498,7 @@
       }
 
       container.innerHTML = `
+        <div class="table-scroll-hint">Swipe horizontally to view full table &rarr;</div>
         <table class="data-table">
           <thead>
             <tr>
@@ -1231,6 +1541,7 @@
       }
 
       container.innerHTML = `
+        <div class="table-scroll-hint">Swipe horizontally to view full table &rarr;</div>
         <table class="data-table">
           <thead>
             <tr>
@@ -1274,6 +1585,7 @@
       }
 
       container.innerHTML = `
+        <div class="table-scroll-hint">Swipe horizontally to view full table &rarr;</div>
         <table class="data-table">
           <thead>
             <tr>
@@ -1345,6 +1657,7 @@
         `;
       } else {
         tableHtml = `
+          <div class="table-scroll-hint">Swipe horizontally to view full table &rarr;</div>
           <table class="data-table">
             <thead>
               <tr>
