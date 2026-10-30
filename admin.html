@@ -430,19 +430,30 @@
       margin-top: 8px;
     }
 
+    /* Prevent background scrolling when any modal is open */
+    html.modal-open,
+    body.modal-open {
+      overflow: hidden !important;
+      touch-action: none;
+    }
+
     /* Modal Form Styling */
     .modal-overlay {
       position: fixed;
       inset: 0;
       z-index: 1000;
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(8px);
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 24px 16px;
       opacity: 0;
       visibility: hidden;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
       transition: opacity 0.25s ease, visibility 0.25s ease;
     }
 
@@ -458,9 +469,35 @@
       padding: 32px;
       max-width: 600px;
       width: 100%;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
       transform: translateY(20px);
       transition: transform 0.25s ease;
+      margin: auto;
+      max-height: calc(100vh - 48px);
+      max-height: calc(100dvh - 48px);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
+      box-sizing: border-box;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
+    }
+
+    .modal-card::-webkit-scrollbar {
+      width: 6px;
+    }
+    .modal-card::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .modal-card::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 9999px;
+    }
+    .modal-card::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.35);
     }
 
     .modal-overlay.active .modal-card {
@@ -768,16 +805,25 @@
 
       /* Modals on Mobile Devices */
       .modal-overlay {
-        padding: 12px;
-        align-items: flex-start;
-        padding-top: max(16px, env(safe-area-inset-top));
-        padding-bottom: max(16px, env(safe-area-inset-bottom));
+        padding: 12px 10px;
+        align-items: center;
+        justify-content: center;
+        padding-top: max(12px, env(safe-area-inset-top));
+        padding-bottom: max(12px, env(safe-area-inset-bottom));
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
       }
 
       .modal-card {
-        padding: 22px 16px;
+        padding: 20px 16px;
         border-radius: 20px;
-        max-height: calc(100vh - 32px);
+        max-height: calc(100vh - 24px);
+        max-height: calc(100dvh - 24px);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+        margin: auto;
       }
 
       .modal-title {
@@ -1178,7 +1224,10 @@
           </div>
         </div>
 
-        <button type="submit" class="btn-action" style="width: 100%; margin-top: 10px;">Publish Announcement</button>
+        <div style="display: flex; gap: 12px; margin-top: 14px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.08);">
+          <button type="button" class="btn-action btn-secondary" style="flex: 1; justify-content: center; min-height: 44px;" onclick="closeAddEventModal()">Cancel</button>
+          <button type="submit" class="btn-action" style="flex: 2; justify-content: center; min-height: 44px; font-weight: 700; background: var(--color-primary);">Publish Announcement</button>
+        </div>
       </form>
     </div>
   </div>
@@ -1289,7 +1338,10 @@
           <textarea id="material-description" class="form-textarea" placeholder="e.g., Clean corrugated cardboard with tape removed. Flattened." required></textarea>
         </div>
 
-        <button type="submit" class="btn-action" style="width: 100%; margin-top: 10px; background: #10b981;">Save Material</button>
+        <div style="display: flex; gap: 12px; margin-top: 14px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.08);">
+          <button type="button" class="btn-action btn-secondary" style="flex: 1; justify-content: center; min-height: 44px;" onclick="closeAddMaterialModal()">Cancel</button>
+          <button type="submit" class="btn-action" style="flex: 2; justify-content: center; min-height: 44px; background: #10b981; font-weight: 700;">Save Material</button>
+        </div>
       </form>
     </div>
   </div>
@@ -1923,9 +1975,22 @@
       showNotification(`Storage optimized! Current browser storage: ~${kbUsed} KB (limit ~5120 KB)`, 'success');
     }
 
+    // ─── Modal Scroll Lock & Dismissal Manager ───
+    function updateModalBodyLock() {
+      const hasActiveModal = !!document.querySelector('.modal-overlay.active');
+      if (hasActiveModal) {
+        document.body.classList.add('modal-open');
+        document.documentElement.classList.add('modal-open');
+      } else {
+        document.body.classList.remove('modal-open');
+        document.documentElement.classList.remove('modal-open');
+      }
+    }
+
     function openAddEventModal() {
       document.getElementById('event-id').value = '';
       document.getElementById('event-title').value = '';
+      document.getElementById('event-badge').value = 'REOPENING ROLLOUT';
       document.getElementById('event-date').value = '';
       document.getElementById('event-excerpt').value = '';
       document.getElementById('event-image').value = '';
@@ -1937,11 +2002,16 @@
       }
       updateImagePreview('');
       document.getElementById('modal-event-title').innerText = 'Add News Announcement';
-      document.getElementById('event-modal').classList.add('active');
+      const modal = document.getElementById('event-modal');
+      modal.classList.add('active');
+      const card = modal.querySelector('.modal-card');
+      if (card) card.scrollTop = 0;
+      updateModalBodyLock();
     }
 
     function closeAddEventModal() {
       document.getElementById('event-modal').classList.remove('active');
+      updateModalBodyLock();
     }
 
     // Materials Modal Controls & CRUD
@@ -2016,11 +2086,15 @@
       }
 
       modal.classList.add('active');
+      const card = modal.querySelector('.modal-card');
+      if (card) card.scrollTop = 0;
+      updateModalBodyLock();
     }
 
     function closeAdminMaterialDetailModal() {
       const modal = document.getElementById('admin-material-detail-modal');
       if (modal) modal.classList.remove('active');
+      updateModalBodyLock();
     }
 
     function openAddMaterialModal() {
@@ -2031,11 +2105,16 @@
       document.getElementById('material-icon').value = '📦';
       document.getElementById('material-description').value = '';
       document.getElementById('modal-material-title').innerText = 'Add Material';
-      document.getElementById('material-modal').classList.add('active');
+      const modal = document.getElementById('material-modal');
+      modal.classList.add('active');
+      const card = modal.querySelector('.modal-card');
+      if (card) card.scrollTop = 0;
+      updateModalBodyLock();
     }
 
     function closeAddMaterialModal() {
       document.getElementById('material-modal').classList.remove('active');
+      updateModalBodyLock();
     }
 
     function selectMaterialEmoji(emoji) {
@@ -2070,7 +2149,11 @@
       document.getElementById('material-icon').value = item.icon || '📦';
       document.getElementById('material-description').value = item.description || '';
       document.getElementById('modal-material-title').innerText = 'Edit Material';
-      document.getElementById('material-modal').classList.add('active');
+      const modal = document.getElementById('material-modal');
+      modal.classList.add('active');
+      const card = modal.querySelector('.modal-card');
+      if (card) card.scrollTop = 0;
+      updateModalBodyLock();
     }
 
     async function saveMaterial(e) {
@@ -2462,7 +2545,11 @@
       }
       updateImagePreview(item.image || '');
       document.getElementById('modal-event-title').innerText = 'Edit News Announcement';
-      document.getElementById('event-modal').classList.add('active');
+      const modal = document.getElementById('event-modal');
+      modal.classList.add('active');
+      const card = modal.querySelector('.modal-card');
+      if (card) card.scrollTop = 0;
+      updateModalBodyLock();
     }
 
     let pendingDeleteFn = null;
@@ -2518,12 +2605,17 @@
       document.getElementById('msg-view-date').innerText = msg.date;
       document.getElementById('msg-view-body').innerText = msg.message;
 
-      document.getElementById('message-view-modal').classList.add('active');
+      const modal = document.getElementById('message-view-modal');
+      modal.classList.add('active');
+      const card = modal.querySelector('.modal-card');
+      if (card) card.scrollTop = 0;
+      updateModalBodyLock();
       renderDashboard();
     }
 
     function closeMessageModal() {
       document.getElementById('message-view-modal').classList.remove('active');
+      updateModalBodyLock();
     }
 
     function deleteMessage(id) {
@@ -2552,6 +2644,7 @@
     function closeConfirmModal() {
       pendingDeleteFn = null;
       document.getElementById('confirm-modal').classList.remove('active');
+      updateModalBodyLock();
     }
 
     function executePendingDelete() {
@@ -2623,6 +2716,32 @@
       if (e.key === STORAGE_KEY_MESSAGES || e.key === STORAGE_KEY_NEWS || e.key === STORAGE_KEY_MATERIALS) {
         renderDashboard();
       }
+    });
+
+    // Global Backdrop Click & Escape Key Handlers for All Modals
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('modal-overlay') && e.target.classList.contains('active')) {
+        e.target.classList.remove('active');
+        updateModalBodyLock();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const activeModal = document.querySelector('.modal-overlay.active');
+        if (activeModal) {
+          activeModal.classList.remove('active');
+          updateModalBodyLock();
+        }
+      }
+    });
+
+    // Observer to keep body scroll lock always synchronized with any active modal
+    const modalObserver = new MutationObserver(() => {
+      updateModalBodyLock();
+    });
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+      modalObserver.observe(overlay, { attributes: true, attributeFilter: ['class'] });
     });
   </script>
 </body>
