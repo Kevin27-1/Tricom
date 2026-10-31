@@ -984,6 +984,11 @@
       line-height: 1.5;
       color: #64748b;
       flex: 1 1 auto;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .news-card-link {
@@ -4540,16 +4545,26 @@
               const posts = JSON.parse(stored);
               const found = posts.find(p => p.id === newsId);
               if (found) {
+                const shortSummary = (found.excerpt || '').trim();
+                const longSummary = (found.content && found.content.trim()) ? found.content.trim() : shortSummary;
+
+                // Format multi-paragraph long summary
+                const paragraphs = longSummary.split(/\n\s*\n/).map(p => p.trim()).filter(Boolean);
+                const formattedHtml = paragraphs.length > 0
+                  ? paragraphs.map(p => `<p style="font-size: 0.95rem; line-height: 1.65; margin: 0 0 12px 0; color: #f1f5f9;">${escapeHtml(p).replace(/\n/g, '<br/>')}</p>`).join('')
+                  : `<p style="font-size: 0.95rem; line-height: 1.65; margin: 0 0 12px 0; color: #f1f5f9;">${escapeHtml(longSummary)}</p>`;
+
                 item = {
                   badge: found.badge || 'ANNOUNCEMENT',
                   date: found.date || 'Notice',
                   title: found.title,
-                  excerpt: found.excerpt,
+                  excerpt: shortSummary,
+                  content: longSummary,
                   image: found.image || '',
                   html: `
-                    <h4>Announcement Summary</h4>
-                    <p style="font-size: 0.95rem; line-height: 1.6;">${escapeHtml(found.excerpt)}</p>
-                    <p style="font-size: 0.85rem; color: rgba(255,255,255,0.7); margin-top: 10px;">For additional operational questions or special intake requirements, please call our yard line directly or submit a message through the contact form below.</p>
+                    <h4>Announcement Details</h4>
+                    ${formattedHtml}
+                    <p style="font-size: 0.85rem; color: rgba(255,255,255,0.7); margin-top: 14px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.08);">For additional operational questions or special intake requirements, please call our yard line directly or submit a message through the contact form below.</p>
                   `
                 };
               }
@@ -4562,7 +4577,26 @@
         if (newsBadgeEl) newsBadgeEl.textContent = item.badge;
         if (newsDateEl) newsDateEl.textContent = item.date;
         if (newsTitleEl) newsTitleEl.textContent = item.title;
-        if (newsExcerptEl) newsExcerptEl.textContent = item.excerpt;
+
+        // Display short summary in highlight callout if distinct, avoid duplicate text
+        const summaryBox = newsExcerptEl ? newsExcerptEl.closest('.news-summary-box') : null;
+        if (summaryBox) {
+          if (item.excerpt && item.content && item.content.trim() !== item.excerpt.trim()) {
+            summaryBox.style.display = 'block';
+            if (newsExcerptEl) newsExcerptEl.textContent = item.excerpt;
+          } else if (item.excerpt && NEWS_DETAILS_DATA[newsId]) {
+            summaryBox.style.display = 'block';
+            if (newsExcerptEl) newsExcerptEl.textContent = item.excerpt;
+          } else if (item.excerpt && !item.content) {
+            summaryBox.style.display = 'block';
+            if (newsExcerptEl) newsExcerptEl.textContent = item.excerpt;
+          } else {
+            summaryBox.style.display = 'none';
+          }
+        } else if (newsExcerptEl) {
+          newsExcerptEl.textContent = item.excerpt || '';
+        }
+
         if (newsContentEl) newsContentEl.innerHTML = item.html;
 
         if (newsImgWrap && newsImgEl) {
@@ -4786,7 +4820,14 @@
 
           posts.forEach(post => {
             if (!post || !post.id || NEWS_DETAILS_DATA[post.id]) return;
-            if (newsFeedContainer.querySelector(`[data-news-id="${post.id}"]`)) return;
+            const existingCard = newsFeedContainer.querySelector(`[data-news-id="${post.id}"]`);
+            if (existingCard) {
+              const excerptEl = existingCard.querySelector('.news-card-excerpt');
+              if (excerptEl && post.excerpt) excerptEl.textContent = post.excerpt;
+              const titleEl = existingCard.querySelector('.news-card-title');
+              if (titleEl && post.title) titleEl.textContent = post.title;
+              return;
+            }
 
             const card = document.createElement('article');
             card.className = 'news-card reveal visible';

@@ -1208,8 +1208,15 @@
         </div>
 
         <div class="form-group">
-          <label class="form-label" for="event-excerpt">Short Excerpt</label>
-          <textarea id="event-excerpt" class="form-textarea" placeholder="Brief summary displayed on the News section..." required></textarea>
+          <label class="form-label" for="event-excerpt">Short Summary (Home Page Card &bull; Max 3 Sentences)</label>
+          <textarea id="event-excerpt" class="form-textarea" rows="2" style="min-height: 68px;" placeholder="Brief summary displayed on the home page card (at most 3 sentences)..." required></textarea>
+          <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 4px;">Displayed directly on the home page announcement card. Keep it concise (1 to 3 sentences).</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="event-content">Long Summary (Full Details in Read More Popup)</label>
+          <textarea id="event-content" class="form-textarea" rows="5" style="min-height: 120px;" placeholder="Detailed full story, schedule, guidelines, or visitor instructions shown when visitors click 'Read more'..." required></textarea>
+          <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 4px;">Full announcement text shown inside the popup modal. Separate paragraphs with a blank line for clean spacing.</div>
         </div>
 
         <div class="form-group">
@@ -1446,7 +1453,8 @@
           title: 'Phase 3 & 4 Reopening Rollout Notice',
           badge: 'REOPENING ROLLOUT',
           date: 'August 2026',
-          excerpt: 'Official notices regarding facility reopening milestones, schedule expansions, and service updates will be published here.'
+          excerpt: 'Tri-Com Recycling has begun Phase 3 and 4 operational rollouts. Processing lines and drop-off depots are operating under expanded schedules.',
+          content: 'Tri-Com Recycling is pleased to provide our updated operational roadmap as Phase 3 and Phase 4 reopenings proceed. Our regional drop-off facility and processing lines are operating under extended acceptance hours.\n\nPlease ensure materials are separated according to the guidelines before arriving at the yard. Staff members will be stationed to assist with bulk drop-offs, commercial hauling, and special collections.\n\nFor additional operational questions or special intake requirements, please call our yard line directly or submit a message through the contact form.'
         }
       ];
     }
@@ -1710,7 +1718,7 @@
               <th>Category</th>
               <th>Announcement Title</th>
               <th>Display Date</th>
-              <th>Excerpt</th>
+              <th>Short Summary (Card)</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -1721,7 +1729,10 @@
                 <td><span class="badge-status badge-category">${escapeHtml(n.badge || 'NOTICE')}</span></td>
                 <td><strong>${escapeHtml(n.title)}</strong></td>
                 <td>${escapeHtml(n.date)}</td>
-                <td>${escapeHtml(n.excerpt.length > 60 ? n.excerpt.substring(0, 60) + '...' : n.excerpt)}</td>
+                <td>
+                <div>${escapeHtml(n.excerpt && n.excerpt.length > 60 ? n.excerpt.substring(0, 60) + '...' : (n.excerpt || ''))}</div>
+                ${n.content ? `<div style="font-size:0.75rem; color:#94a3b8; margin-top:2px;">Full story: ${escapeHtml(n.content.substring(0, 45))}...</div>` : ''}
+              </td>
                 <td>
                   <button class="action-btn-sm" onclick="editNewsEvent('${n.id}')">Edit</button>
                   <button class="action-btn-sm action-btn-danger" onclick="deleteNewsEvent('${n.id}')">Delete</button>
@@ -1993,6 +2004,7 @@
       document.getElementById('event-badge').value = 'REOPENING ROLLOUT';
       document.getElementById('event-date').value = '';
       document.getElementById('event-excerpt').value = '';
+      document.getElementById('event-content').value = '';
       document.getElementById('event-image').value = '';
       document.getElementById('event-image-file').value = '';
       const statusEl = document.getElementById('image-upload-status');
@@ -2418,6 +2430,7 @@
                 badge: f.badge ? f.badge.stringValue : 'NOTICE',
                 date: f.date ? f.date.stringValue : '',
                 excerpt: f.excerpt ? f.excerpt.stringValue : '',
+                content: f.content ? f.content.stringValue : (f.excerpt ? f.excerpt.stringValue : ''),
                 image: f.image ? f.image.stringValue : ''
               };
             });
@@ -2470,9 +2483,10 @@
       const badge = document.getElementById('event-badge').value;
       const date = document.getElementById('event-date').value.trim();
       const excerpt = document.getElementById('event-excerpt').value.trim();
+      const content = document.getElementById('event-content').value.trim();
       const image = document.getElementById('event-image').value.trim();
 
-      const postData = { id, title, badge, date, excerpt, image };
+      const postData = { id, title, badge, date, excerpt, content, image };
 
       let cloudSynced = false;
 
@@ -2535,7 +2549,8 @@
       document.getElementById('event-title').value = item.title;
       document.getElementById('event-badge').value = item.badge || 'REOPENING ROLLOUT';
       document.getElementById('event-date').value = item.date;
-      document.getElementById('event-excerpt').value = item.excerpt;
+      document.getElementById('event-excerpt').value = item.excerpt || '';
+      document.getElementById('event-content').value = item.content || item.excerpt || '';
       document.getElementById('event-image').value = item.image || '';
       document.getElementById('event-image-file').value = '';
       const statusEl = document.getElementById('image-upload-status');
