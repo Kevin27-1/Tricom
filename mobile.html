@@ -63,15 +63,24 @@
     }
 
     /* ─── Background Photo (Full Bleed) ─── */
-    .hero-photo {
+    .hero-picture {
       position: absolute;
       z-index: 1;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .hero-photo {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-      object-position: 60% center;
+      object-position: center center;
       image-rendering: -webkit-optimize-contrast;
       image-rendering: high-quality;
       animation: photoReveal 1.4s var(--ease-smooth) 0.3s both;
@@ -2692,14 +2701,18 @@
   </header>
 
   <main class="home" id="home">
-    <!-- Background Photo (full bleed) -->
-    <img 
-      class="hero-photo" 
-      src="lovable_assets/tricom-hero-sorting.jpg" 
-      alt="Tri-Com Recycling staff sorting recyclable containers at the depot"
-      loading="eager"
-      fetchpriority="high"
-    >
+    <!-- Background Photo (Responsive 16:9 Desktop & 9:16 Mobile WebP) -->
+    <picture class="hero-picture">
+      <source media="(min-width: 768px)" srcset="lovable_assets/hero-desktop.webp" type="image/webp">
+      <source media="(max-width: 767px)" srcset="lovable_assets/hero-mobile.webp" type="image/webp">
+      <img 
+        class="hero-photo" 
+        src="lovable_assets/hero-mobile.webp" 
+        alt="Tri-Com Recycling staff sorting recyclable containers at the depot"
+        loading="eager"
+        fetchpriority="high"
+      >
+    </picture>
 
     <!-- SVG Diagonal Curve: Blue field + Black curved border -->
     <svg class="diagonal-curve-layer" viewBox="0 0 400 870" preserveAspectRatio="none" aria-hidden="true">
