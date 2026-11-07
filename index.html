@@ -1933,23 +1933,72 @@
       color: #ffffff;
     }
 
-    /* Dedicated Fixed Image Space: Fixed height, never collapses or scrolls away */
+    /* Dedicated Fixed Image Space: Boundary-contained and vertically scrollable */
     .news-modal-image-fixed-wrap {
       flex: 0 0 auto;
       flex-shrink: 0;
-      width: 100%;
-      height: clamp(140px, 28vh, 230px);
-      overflow: hidden;
+      width: calc(100% - 40px);
+      margin: 2px 20px 10px 20px;
+      height: clamp(150px, 28vh, 230px);
+      overflow-y: auto;
+      overflow-x: hidden;
       position: relative;
-      background: #0b0f17;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: #080d14;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35), inset 0 2px 6px rgba(0, 0, 0, 0.5);
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+    }
+
+    .news-modal-image-fixed-wrap::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .news-modal-image-fixed-wrap::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 9999px;
+    }
+
+    .news-modal-image-fixed-wrap::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.35);
+      border-radius: 9999px;
+    }
+
+    .news-modal-image-fixed-wrap::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.6);
+    }
+
+    .news-modal-img-scroll-hint {
+      position: sticky;
+      top: 8px;
+      float: right;
+      margin-right: 8px;
+      margin-top: 8px;
+      margin-bottom: -28px;
+      z-index: 3;
+      background: rgba(10, 15, 24, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 9999px;
+      padding: 3px 9px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      pointer-events: none;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+      user-select: none;
     }
 
     .news-modal-image-fixed {
       width: 100%;
-      height: 100%;
+      height: auto;
+      min-height: 100%;
       object-fit: cover;
-      object-position: center;
       display: block;
     }
 
@@ -2094,6 +2143,10 @@
       }
       .news-modal-heading {
         font-size: 1.4rem;
+      }
+      .news-modal-image-fixed-wrap {
+        width: calc(100% - 48px);
+        margin: 4px 24px 12px 24px;
       }
       .news-modal-body {
         padding: 22px 24px;
@@ -4020,8 +4073,12 @@
         </button>
       </div>
 
-      <!-- Dedicated Fixed Image Space (Fixed space for image, stays shown when popup height is reduced) -->
+      <!-- Dedicated Fixed Image Space with Boundary and Scrollable Image -->
       <div id="news-modal-image-wrap" class="news-modal-image-fixed-wrap" style="display: none;">
+        <div class="news-modal-img-scroll-hint" id="news-modal-img-hint" title="Scroll inside the frame to view full photo">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 15l5 5 5-5M7 9l5-5 5 5"/></svg>
+          <span>Scroll image</span>
+        </div>
         <img id="news-modal-image" src="" alt="Announcement media" class="news-modal-image-fixed" />
       </div>
 
@@ -4620,6 +4677,7 @@
             };
             newsImgEl.src = item.image;
             newsImgWrap.style.display = 'block';
+            newsImgWrap.scrollTop = 0;
           } else {
             newsImgWrap.style.display = 'none';
             newsImgEl.src = '';
