@@ -13,7 +13,7 @@ Tri-Com Recycling provides modern, sustainable waste management, recycling stewa
 - **Dynamic Interactive Experience**: Frame-by-frame interactive scroll and smooth animations powered by Lenis smooth scrolling.
 - **Unified Responsive Design**: Fully responsive interface for both mobile and desktop screens with fluid layouts, desktop navbar, and mobile navigation drawer.
 - **Material Acceptance Guide**: Comprehensive searchable directory of accepted and non-accepted materials with stewardship details.
-- **Stewardship Programs**: Registered take-back streams (EPRA electronics, Product Care paint/HHW, MMSM packaging) with official interactive receiving/intake forms.
+- **Stewardship Programs**: Registered take-back streams (EPRA electronics, Product Care paint/HHW, Recycle Manitoba packaging) with official interactive receiving/intake forms.
 - **Depot Schedule & Drop-off Tracker**: Live operating hours, interactive depot locations, and Google Maps directions.
 - **Direct Messaging Form**: Integrated message submission with Cloud Firestore REST and local storage fallback.
 - **Admin Dashboard**: Content management interface for notices, schedules, and depot news (`admin.html`).

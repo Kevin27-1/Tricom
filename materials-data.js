@@ -15,7 +15,7 @@
       ],
       examples: ['Daily newspapers', 'Weekly community papers', 'Grocery sale flyers and inserts', 'Comic and entertainment sections'],
       notAccepted: ['Paper towels, napkins, and facial tissues (belong in compost or trash)', 'Greasy or food-stained paper'],
-      destination: 'Baled at Tri-Com depot and shipped to a material recovery facility under the Multi-Material Stewardship Manitoba (MMSM) program to be re-pulped into new newsprint.'
+      destination: 'Baled at Tri-Com depot and shipped to a material recovery facility under the Recycle Manitoba program to be re-pulped into new newsprint.'
     },
     'mat-office-paper': {
       title: 'Office & Document Paper',
@@ -31,7 +31,7 @@
       ],
       examples: ['Copy and printer paper', 'Lined notebook paper', 'Standard mailing envelopes (with or without plastic windows)', 'Index cards, flyers, and receipts'],
       notAccepted: ['Carbon paper', 'Waxed or thermal sticker backing', 'Laminated sheets and plastic-coated binders'],
-      destination: 'Baled at Tri-Com depot and shipped to a material recovery facility under the Multi-Material Stewardship Manitoba (MMSM) program to be re-pulped into new newsprint.'
+      destination: 'Baled at Tri-Com depot and shipped to a material recovery facility under the Recycle Manitoba program to be re-pulped into new newsprint.'
     },
     'mat-flyers-mail': {
       title: 'Flyers & Direct Mail',
