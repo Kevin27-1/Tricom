@@ -92,7 +92,7 @@
       ],
       examples: ['Online delivery boxes (Amazon, parcel shipping)', 'Moving boxes and grocery cartons', 'Appliance shipping containers', 'Clean shoe and storage boxes'],
       notAccepted: ['Pizza boxes soaked with heavy grease/cheese oil (place in compost or trash)', 'Wax-coated vegetable cartons'],
-      destination: 'Compressed into heavy-duty 1,200 lb industrial bales at Tri-Com and shipped to Canadian containerboard mills.'
+      destination: 'Compressed into heavy-duty 1,000 lb industrial bales at Tri-Com and shipped to Canadian containerboard mills.'
     },
     'mat-boxboard': {
       title: 'Boxboard & Paper Packaging',
