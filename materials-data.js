@@ -170,7 +170,7 @@
       ],
       examples: ['Wine and spirits glass bottles', 'Non-deposit beverage and iced tea glass bottles', 'Vinegar and olive oil glass bottles'],
       notAccepted: ['Drinking glasses and crystal stemware', 'Ceramic mugs and plates', 'Window panes and mirror glass'],
-      destination: 'Sorted optically by colour, crushed into cullet, and melted into brand-new glass containers or eco-aggregate.'
+      destination: 'Most recycled glass in Manitoba is crushed and used as aggregate for road bases, road construction and repair at sites like Brady Landfill, and water and sewer installations.'
     },
     'mat-glass-jars': {
       title: 'Glass Food Jars',
@@ -185,7 +185,7 @@
       ],
       examples: ['Pasta sauce jars', 'Pickle, olive, and condiment jars', 'Baby food glass jars', 'Jam and jelly jars'],
       notAccepted: ['Pyrex, CorningWare, and oven-safe borosilicate bakeware', 'Lightbulbs'],
-      destination: 'Crushed into high-purity glass cullet and remelted into new food containers.'
+      destination: 'Most recycled glass in Manitoba is crushed and used as aggregate for road bases, road construction and repair at sites like Brady Landfill, and water and sewer installations.'
     },
     'mat-milk-cartons': {
       title: 'Milk & Beverage Cartons',
